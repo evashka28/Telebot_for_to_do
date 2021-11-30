@@ -10,8 +10,10 @@ public class ModeSettingsMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage()
                 .setChatId(update.getMessage().getChatId())
-                .setText("Выбирай ⬇️️");
-        Keyboards.setButtons4(message);
+                .setText("По такому расписанию я добавляю задачи в Todoist\n" +
+                        "День недели: \n" +
+                        "Время: ️️");
+        Keyboards.setButtons(message);
         return message;
     }
 

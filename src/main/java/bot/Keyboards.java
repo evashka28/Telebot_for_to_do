@@ -23,12 +23,12 @@ public class Keyboards {
         // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("Мой список"));
+        keyboardFirstRow.add(new KeyboardButton("Как работает бот?"));
 
         // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add(new KeyboardButton("Как работает бот?"));
+        keyboardSecondRow.add(new KeyboardButton("Список задач"));
 
         // Третья строчка клавиатуры
         KeyboardRow keyboardThirdRow = new KeyboardRow();
@@ -40,11 +40,17 @@ public class Keyboards {
         // Добавляем кнопки во вторую строчку клавиатуры
         keyboardSecondRow.add(new KeyboardButton("Настроить режим"));
 
+        // Пятая строчка клавиатуры
+        KeyboardRow keyboardFiveRow = new KeyboardRow();
+        // Добавляем кнопки во вторую строчку клавиатуры
+        keyboardSecondRow.add(new KeyboardButton("Сбросить режим"));
+
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);
         keyboard.add(keyboardThirdRow);
         keyboard.add(keyboardFourthRow);
+        keyboard.add(keyboardFiveRow);
         // и устанваливаем этот список нашей клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
@@ -189,31 +195,6 @@ public class Keyboards {
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);
-        // и устанваливаем этот список нашей клавиатуре
-        replyKeyboardMarkup.setKeyboard(keyboard);
-    }
-    public static synchronized void setButtons7(SendMessage sendMessage) {
-        // Создаем клавиуатуру
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
-
-        // Создаем список строк клавиатуры
-        List<KeyboardRow> keyboard = new ArrayList<>();
-
-        // Первая строчка клавиатуры
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("Утро 8:00-12:00\n"));
-        keyboardFirstRow.add(new KeyboardButton("День 12:00-18:00\n"));
-        keyboardFirstRow.add(new KeyboardButton("Вечер 18:00-23:00\n"));
-        keyboardFirstRow.add(new KeyboardButton("Назад \uD83D\uDD19\n"));
-
-
-        // Добавляем все строчки клавиатуры в список
-        keyboard.add(keyboardFirstRow);
         // и устанваливаем этот список нашей клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);
     }

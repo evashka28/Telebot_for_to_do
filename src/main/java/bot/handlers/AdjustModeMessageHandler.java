@@ -10,7 +10,7 @@ public class AdjustModeMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage()
                 .setChatId(update.getMessage().getChatId())
-                .setText("Для настройки удобного режима необходимо задать подходящее время в формате чч:мм ⏰ \nНапример: 12:30 \nИменно в это время у тебя будут появляться задачи в Todoist \n Удобные дни ты тоже выбираешь сам ⬇️ ️");
+                .setText("Для настройки удобного режима необходимо задать подходящее время ⏰ и день(дни) недели \n \nИменно в таком режиме будут  появляться задачи в Todoist \nДни и время ты выбираешь сам ⬇️ ️");
         Keyboards.setButtons5(message);
         return message;
     }
