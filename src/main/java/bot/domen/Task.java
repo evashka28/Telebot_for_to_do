@@ -1,4 +1,4 @@
-package bot;
+package bot.domen;
 
 import java.io.Serializable;
 
