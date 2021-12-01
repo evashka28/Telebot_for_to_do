@@ -20,6 +20,7 @@ public class LoginMessageHandler implements MessageHandler {
                         "3️⃣ Скопировать Токен API (можно нажать на Скопировать в буфер обмена)\n" +
                         "4️⃣ Вернутся в наш чатик и отправить токен мне (вставить)"
                 );
+        Keyboards.setButtons2(message);
         return message;
     }
 
