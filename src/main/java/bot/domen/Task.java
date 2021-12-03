@@ -57,5 +57,12 @@ public class Task implements Serializable {
         this.description = description;
     }
 
+    @Override
+    public String toString()
+    {
+        return String.format("{\"id\":%d, \"todoistId\":%d, \"description\":\"%s\", \"content\":\"%s\", \"favourite\":%s}",
+                id, todoistId, description, content, favourite);
+    }
+
 }
 
