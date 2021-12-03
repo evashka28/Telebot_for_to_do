@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletionException;
 
-public class TokenMessageHandler implements MessageHandler {
+public class    TokenMessageHandler implements MessageHandler {
     public static boolean canHandle = false;
 
     @Override

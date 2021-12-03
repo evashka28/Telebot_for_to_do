@@ -1,5 +1,6 @@
 package bot;
 
+import bot.domen.Task;
 import bot.handlers.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -60,5 +61,18 @@ public class Bot extends TelegramLongPollingBot {
 
     public String getBotToken() {
         return botToken;
+    }
+
+    public void sendTaskToUser(Task task, long userId){
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setChatId(userId);
+        sendMessage.enableMarkdown(true);
+        sendMessage.setText(task.toString());
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+
     }
 }
