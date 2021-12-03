@@ -52,8 +52,6 @@ public class LinkMessageHandler implements MessageHandler {
 
         return message;
     }
-
-
     public Map<String,String> postNewTask(URI uri, Map<String,String> map, String userId)
             throws IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();

@@ -35,6 +35,11 @@ public class Keyboards {
         // Добавляем кнопки во вторую строчку клавиатуры
         keyboardSecondRow.add(new KeyboardButton("Проекты"));
 
+        // Пятая строчка клавиатуры
+        KeyboardRow keyboardFiveRow = new KeyboardRow();
+        // Добавляем кнопки во вторую строчку клавиатуры
+        keyboardSecondRow.add(new KeyboardButton("Задачи"));
+
         // Четвертая строчка клавиатуры
         KeyboardRow keyboardFourthRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
@@ -45,6 +50,7 @@ public class Keyboards {
         keyboard.add(keyboardSecondRow);
         keyboard.add(keyboardThirdRow);
         keyboard.add(keyboardFourthRow);
+        keyboard.add(keyboardFiveRow);
         // и устанваливаем этот список нашей клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);
     }

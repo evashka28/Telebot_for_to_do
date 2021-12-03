@@ -24,9 +24,10 @@ public class TokenMessageHandler implements MessageHandler {
     public SendMessage getMessage(Update update) {
         SendMessage message;
         String userId = update.getMessage().getFrom().getId() + "";
-        String userName = update.getMessage().getFrom().getUserName();
+        String userName = update.getMessage().getFrom().getUserName() + "";
         String synkToken = "0";
-        String token = update.getMessage().getText();
+        String token = update.getMessage().getText() + "";
+
 
         Map<String, String> body = Map.of(
                 "id", userId,
@@ -35,7 +36,9 @@ public class TokenMessageHandler implements MessageHandler {
                 "sync_token", synkToken
         );
 
+
         //delete user
+        System.out.println("delete user");
         try {
             deleteUser(userId);
         } catch (IOException e) {
@@ -44,8 +47,11 @@ public class TokenMessageHandler implements MessageHandler {
             e.printStackTrace();
         } catch (URISyntaxException e) {
             e.printStackTrace();
+        } catch (Throwable e){
+            e.printStackTrace();
         }
         // create user
+        System.out.println("create user");
         try {
             Map<String, String> result = postJSON(new URI("http://localhost:8081/user"), body);
             System.out.println("result = " + result);
@@ -55,9 +61,12 @@ public class TokenMessageHandler implements MessageHandler {
             e.printStackTrace();
         } catch (URISyntaxException e) {
             e.printStackTrace();
+        }catch (Throwable e){
+            e.printStackTrace();
         }
 
         // get user projects
+        System.out.println("get user's projects");
         List<Project> resultProjects = null;
         try {
             resultProjects = getProjects(userId);
@@ -92,16 +101,10 @@ public class TokenMessageHandler implements MessageHandler {
             e.printStackTrace();
         }
 
-
-//        @GetMapping(value = "/projects")
-//        public List<Project> allProjects(@RequestHeader long userId) throws IOException, ParseException {
-//            return service.all(userId);
-//        }
-
         // if tasks are not empty -> show OK message
         // if tasks are empty or got error -> show token invalid message
 
-        canHandle = false;
+        canHandle = true;
         if (resultProjects == null) {
             message = new SendMessage()
                     .setChatId(update.getMessage().getChatId())
@@ -128,7 +131,9 @@ public class TokenMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        return canHandle;
+        boolean can =  update.getMessage().getText().length()==40;
+        System.out.println("Can:" + can);
+        return can;
     }
 
     public List<Project> getProjects(String userId) throws IOException, InterruptedException, URISyntaxException {
