@@ -1,14 +1,22 @@
 package bot;
 
+import bot.domen.Tag;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.bots.TelegramWebhookBot;
+import org.telegram.telegrambots.meta.ApiConstants;
+import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import org.telegram.telegrambots.meta.generics.BotSession;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Keyboards {
+
     public static synchronized void setButtons(SendMessage sendMessage) {
         // Создаем клавиуатуру
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
@@ -53,6 +61,7 @@ public class Keyboards {
         keyboard.add(keyboardFiveRow);
         // и устанваливаем этот список нашей клавиатуре
         replyKeyboardMarkup.setKeyboard(keyboard);
+
     }
 
     public static synchronized void setButtons1(SendMessage sendMessage) {
@@ -244,6 +253,37 @@ public class Keyboards {
         keyboardFirstRow.add(new KeyboardButton("Создать тег"));
         keyboardFirstRow.add(new KeyboardButton("Удалить тег"));
         keyboardFirstRow.add(new KeyboardButton("Назад \uD83D\uDD19"));
+
+        // Добавляем все строчки клавиатуры в список
+        keyboard.add(keyboardFirstRow);
+
+        // и устанваливаем этот список нашей клавиатуре
+        replyKeyboardMarkup.setKeyboard(keyboard);
+    }
+
+    public static synchronized void setButtonsTaskTagSelection(SendMessage sendMessage, List<Tag> tags) {
+        // Создаем клавиуатуру
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+
+        // Создаем список строк клавиатуры
+        List<KeyboardRow> keyboard = new ArrayList<>();
+
+        // Первая строчка клавиатуры
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        // Добавляем кнопки в первую строчку клавиатуры
+
+        for(Tag tag : tags){
+            keyboardFirstRow.add(new KeyboardButton(tag.getName()));
+        }
+
+        KeyboardButton button = new KeyboardButton();
+
+
+        keyboardFirstRow.add(new KeyboardButton("Закончить"));
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);

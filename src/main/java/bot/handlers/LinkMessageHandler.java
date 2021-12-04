@@ -1,7 +1,10 @@
 package bot.handlers;
 
+import bot.BackendConnector;
 import bot.Keyboards;
+import bot.domen.Tag;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -11,9 +14,17 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class LinkMessageHandler implements MessageHandler {
+    private final BackendConnector backendConnector;
+
+    public LinkMessageHandler() {
+        this.backendConnector = new BackendConnector();
+    }
+
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
@@ -24,7 +35,19 @@ public class LinkMessageHandler implements MessageHandler {
                 .setText("Сохраняю ссылку...\n" +
                         "\n" +
                         "Выбери подходящий тег для этой задачи");
-        Keyboards.setButtons(message);
+
+
+        List<Tag> tags = new ArrayList<Tag>();
+        try {
+            tags = backendConnector.getTags(userId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        Keyboards.setButtonsTaskTagSelection(message, tags);
 
         // create new task in ToDoist
         try {
