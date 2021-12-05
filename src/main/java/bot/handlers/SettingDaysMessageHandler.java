@@ -17,6 +17,9 @@ public class SettingDaysMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        return update.getMessage().getText().equals("Настроить дни");
+        if(update.getMessage() != null && update.getMessage().getText() != null) {
+            return update.getMessage().getText().equals("Настроить дни");
+        }
+        return false;
     }
 }

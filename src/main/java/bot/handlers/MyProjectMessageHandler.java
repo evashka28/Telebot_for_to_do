@@ -69,8 +69,11 @@ public class MyProjectMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        String text = update.getMessage().getText();
-        return text.equals("Мои проекты");
+        if(update.getMessage() != null && update.getMessage().getText() != null) {
+            String text = update.getMessage().getText();
+            return text.equals("Мои проекты");
+        }
+        return false;
     }
 }
 

@@ -28,8 +28,11 @@ public class ProjectMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        String text = update.getMessage().getText();
-        return text.equals("Проекты");
+        if(update.getMessage() != null && update.getMessage().getText() != null) {
+            String text = update.getMessage().getText();
+            return text.equals("Проекты");
+        }
+        return false;
     }
 }
 

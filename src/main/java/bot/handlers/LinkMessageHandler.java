@@ -7,6 +7,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 
 import java.io.IOException;
 import java.net.URI;
@@ -15,6 +18,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,25 +41,14 @@ public class LinkMessageHandler implements MessageHandler {
                         "Выбери подходящий тег для этой задачи");
 
 
-        List<Tag> tags = new ArrayList<Tag>();
-        try {
-            tags = backendConnector.getTags(userId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        Keyboards.setButtonsTaskTagSelection(message, tags);
-
         // create new task in ToDoist
+        Map<String, Object> result = null;
         try {
             String favorite = "false";
             String todoistId = 0 + "";
             String description = "";
             String id = 0 +"";
-            Map<String, String> taskBody = Map.of(
+            Map<String, Object> taskBody = Map.of(
                     "favorite", favorite,
                     "id", id,
                     "todoist_id", todoistId,
@@ -63,7 +56,7 @@ public class LinkMessageHandler implements MessageHandler {
                     "content", content
             );
 
-            Map<String, String> result = postNewTask(new URI("http://localhost:8081/task"), taskBody, userId);
+            result = postNewTask(new URI("http://localhost:8081/task"), taskBody, userId);
             System.out.println("resultTask = " + result);
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,10 +65,14 @@ public class LinkMessageHandler implements MessageHandler {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+        if(result != null) {
+            long id = Long.parseLong(result.get("id").toString());
+            setInlineTagKeyboard(message, userId, id);
+        }
 
         return message;
     }
-    public Map<String,String> postNewTask(URI uri, Map<String,String> map, String userId)
+    public Map<String,Object> postNewTask(URI uri, Map<String,Object> map, String userId)
             throws IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper
@@ -92,14 +89,47 @@ public class LinkMessageHandler implements MessageHandler {
                 .send(request, HttpResponse.BodyHandlers.ofString())
                 .body();
 
-        return (Map<String, String>) objectMapper.readValue(resultBody, Map.class);
+        return (Map<String, Object>) objectMapper.readValue(resultBody, Map.class);
     }
 
     @Override
     public boolean canHandle(Update update) {
-        String text = update.getMessage().getText();
-        String isLink = "https://";
-        return text.toLowerCase().contains(isLink.toLowerCase());
+        if(update.getMessage() != null && update.getMessage().getText() != null) {
+            String text = update.getMessage().getText();
+            String isLink = "https://";
+            return text.toLowerCase().contains(isLink.toLowerCase());
+        }
+        return false;
 
+    }
+
+    public void setInlineTagKeyboard(SendMessage message, String userId, long taskId){
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+
+        List<Tag> tags = new ArrayList<Tag>();
+        try {
+            tags = backendConnector.getTags(userId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        List<InlineKeyboardButton> keyboardRow = new ArrayList<>();
+
+        for(Tag tag : tags){
+            InlineKeyboardButton button = new InlineKeyboardButton();
+            button.setText(tag.getName());
+            button.setCallbackData(String.format("/addTtT%d.%s", tag.getId(), taskId));
+            keyboardRow.add(button);
+        }
+        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+        keyboard.add(keyboardRow);
+
+        keyboardMarkup.setKeyboard(keyboard);
+
+        message.setReplyMarkup(keyboardMarkup);
     }
 }

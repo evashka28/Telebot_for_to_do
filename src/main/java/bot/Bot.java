@@ -9,6 +9,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 // Аннотация @Component необходима, чтобы наш класс распознавался Spring, как полноправный Bean
@@ -27,7 +29,7 @@ public class Bot extends TelegramLongPollingBot {
             new ReturnToMainMessage(), new ThisismeMessageHandler(), new AboutBotMessageHandler(),
             new ModeSettingsMessageHandler(), new ResetModeMessageHandler(), new AdjustModeMessageHandler(),
             new SettingDaysMessageHandler(), new SelectionDayMessageHandler(), new AdjustTimeMessageHandler(), new TimingMessageHandler(), new TaskListMessageHandler(), new LinkMessageHandler(), new ProjectMessageHandler(), new MyProjectMessageHandler(), new TagSettingsMessageHandler(),
-            new TasksMessageHandler(), new TaskListMessageHandler(), new TagsMessageHandler()
+            new TasksMessageHandler(), new TaskListMessageHandler(), new TagsMessageHandler(), new AddTagToTaskHandler()
     );
 
     /* Перегружаем метод интерфейса LongPollingBot
@@ -38,9 +40,22 @@ public class Bot extends TelegramLongPollingBot {
             SendMessage message = null;
             handlers.stream()
                     .filter(handler -> handler.canHandle(update))
-                    .map(handler -> handler.getMessage(update))
+                    .map(handler -> {
+                        try {
+                            return handler.getMessage(update);
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    })
                     .forEach(this::sendMessageToUser);
-            execute(message);
+            if(message != null) {
+                execute(message);
+            }
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }

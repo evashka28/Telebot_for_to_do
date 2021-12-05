@@ -17,7 +17,10 @@ public class TimingMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        String text = update.getMessage().getText();
-        return text.equals("Утро 8:00-12:00") || text.equals("День 12:00-18:00") || text.equals("Вечер 18:00-23:00");
+        if(update.getMessage() != null && update.getMessage().getText() != null) {
+            String text = update.getMessage().getText();
+            return text.equals("Утро 8:00-12:00") || text.equals("День 12:00-18:00") || text.equals("Вечер 18:00-23:00");
+        }
+        return false;
     }
 }

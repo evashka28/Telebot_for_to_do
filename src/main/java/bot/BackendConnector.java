@@ -33,4 +33,23 @@ public class BackendConnector {
             return objectMapper.readValue(body, new TypeReference<>() {});
         }
     }
+
+    public String addTagToTask(String userId, long taskId, long tagId) throws URISyntaxException, IOException, InterruptedException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        URI uri = new URI(String.format("http://localhost:8081/task/%d/tag/%d", taskId, tagId));
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .PUT(HttpRequest.BodyPublishers.noBody())
+                .header("userId", userId)
+                .build();
+
+        HttpResponse<String> response = HttpClient.newHttpClient()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 410) {
+            return null;
+        } else {
+            String body = response.body();
+            return objectMapper.readValue(body, new TypeReference<>() {});
+        }
+    }
 }

@@ -20,6 +20,9 @@ public class TagsMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        return update.getMessage().getText().equals("Создать тег");
+        if(update.getMessage() != null && update.getMessage().getText() != null) {
+            return update.getMessage().getText().equals("Создать тег");
+        }
+        return false;
     }
 }

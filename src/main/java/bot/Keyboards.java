@@ -261,34 +261,4 @@ public class Keyboards {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
-    public static synchronized void setButtonsTaskTagSelection(SendMessage sendMessage, List<Tag> tags) {
-        // Создаем клавиуатуру
-        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        sendMessage.setReplyMarkup(replyKeyboardMarkup);
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
-
-        // Создаем список строк клавиатуры
-        List<KeyboardRow> keyboard = new ArrayList<>();
-
-        // Первая строчка клавиатуры
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        // Добавляем кнопки в первую строчку клавиатуры
-
-        for(Tag tag : tags){
-            keyboardFirstRow.add(new KeyboardButton(tag.getName()));
-        }
-
-        KeyboardButton button = new KeyboardButton();
-
-
-        keyboardFirstRow.add(new KeyboardButton("Закончить"));
-
-        // Добавляем все строчки клавиатуры в список
-        keyboard.add(keyboardFirstRow);
-
-        // и устанваливаем этот список нашей клавиатуре
-        replyKeyboardMarkup.setKeyboard(keyboard);
-    }
 }

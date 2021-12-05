@@ -131,9 +131,12 @@ public class    TokenMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        boolean can =  update.getMessage().getText().length()==40;
-        System.out.println("Can:" + can);
-        return can;
+        if(update.getMessage() != null && update.getMessage().getText() != null) {
+            boolean can =  update.getMessage().getText().length() == 40;
+            System.out.println("Can:" + can);
+            return can;
+        }
+        return false;
     }
 
     public List<Project> getProjects(String userId) throws IOException, InterruptedException, URISyntaxException {

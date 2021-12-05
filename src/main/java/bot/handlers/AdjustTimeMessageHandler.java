@@ -30,6 +30,9 @@ public class AdjustTimeMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        return update.getMessage().getText().equals("12:00");
+        if(update.getMessage() != null && update.getMessage().getText() != null) {
+            return update.getMessage().getText().equals("12:00");
+        }
+        return false;
     }
 }

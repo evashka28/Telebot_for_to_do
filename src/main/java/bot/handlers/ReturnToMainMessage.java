@@ -17,8 +17,10 @@ public class ReturnToMainMessage implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-
-        return update.getMessage().getText().equals("Назад \uD83D\uDD19");
+        if(update.getMessage() != null && update.getMessage().getText() != null) {
+            return update.getMessage().getText().equals("Назад \uD83D\uDD19");
+        }
+        return false;
     }
 
 
