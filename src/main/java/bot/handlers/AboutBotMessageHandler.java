@@ -8,9 +8,9 @@ public class AboutBotMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Хей! Механика моей работы простая\uD83D\uDE09\n " +
+        message = new SendMessage();
+        message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
+        message.setText("Хей! Механика моей работы простая\uD83D\uDE09\n " +
                         "Ты отправляешь мне ссылки и выбираешь режим чтения\n " +
                         "Я - завожу задачи в Todoist, контролирую их выполнение\n " +
                         "\n"+

@@ -8,9 +8,9 @@ public class SelectionDayMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Отлично!\n" +
+        message = new SendMessage();
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));
+                message.setText("Отлично!\n" +
                         "День выбран. Не забудь выбрать Время ⏰");
         Keyboards.setButtons5(message);
         return message;

@@ -106,16 +106,16 @@ public class    TokenMessageHandler implements MessageHandler {
 
         canHandle = true;
         if (resultProjects == null) {
-            message = new SendMessage()
-                    .setChatId(update.getMessage().getChatId())
-                    .setText("Введенный токен не верный, попробуй еще раз");
+            message = new SendMessage();
+            message.setChatId(String.valueOf(update.getMessage().getChatId()));
+            message.setText("Введенный токен не верный, попробуй еще раз");
             Keyboards.setButtons2(message);
             return message;
         }
         else {
-            message = new SendMessage()
-                    .setChatId(update.getMessage().getChatId())
-                    .setText("Отлично\uD83D\uDC4D пользователь с таким токеном существует!" +
+            message = new SendMessage();
+                    message.setChatId(String.valueOf(update.getMessage().getChatId()));
+                    message.setText("Отлично\uD83D\uDC4D пользователь с таким токеном существует!" +
                             "В твоем профиле Todoist  я специально создам проект с названием fromToDoBot и туда буду добавлять задачи\uD83D\uDE42\n" +
                             "\n" +
                             "\n" +

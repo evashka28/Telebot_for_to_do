@@ -8,9 +8,9 @@ public class TagsMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Для того чтобы создать новый тег, введи:" +
+        message = new SendMessage();
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));
+        message.setText("Для того чтобы создать новый тег, введи:" +
                         "#название_тега\n " +
                         "Например: #читать\n" +
                         "Задачи, которые ты поме");

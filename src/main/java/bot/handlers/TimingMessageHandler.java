@@ -8,9 +8,9 @@ public class TimingMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("В таком режиме я буду заводить тебе задачи в Todoist.\n Если решишь изменить его, нажимай Сбросить режим");
+        message = new SendMessage();
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));
+                message.setText("В таком режиме я буду заводить тебе задачи в Todoist.\n Если решишь изменить его, нажимай Сбросить режим");
         Keyboards.setButtons5(message);
         return message;
     }

@@ -10,9 +10,9 @@ public class AdjustTimeMessageHandler implements MessageHandler {
         SendMessage message;
         String time = update.getMessage().getText()+ "";
         System.out.println("бот месседж:"+time);
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Отлично!Каждый день в это время у тебя будут появляться задачи в Todoist\n" +
+        message = new SendMessage();
+        message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
+        message.setText("Отлично!Каждый день в это время у тебя будут появляться задачи в Todoist\n" +
                         "\n" +
                         "Теперь можешь выбрать удобные дни \uD83D\uDC47️");
         //сменить клаву

@@ -8,9 +8,9 @@ public class TagSettingsMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Добавляя тег к задаче, ты условно делишь свои задачи на категории.\n\n" +
+        message = new SendMessage();
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));
+        message.setText("Добавляя тег к задаче, ты условно делишь свои задачи на категории.\n\n" +
                         "Благодаря этому можно быстро получать список задач или конкретную задачу\n" +
                         "Это удобно, я проверял\uD83D\uDE09\n\n" +
                         "Ты можешь\n" +

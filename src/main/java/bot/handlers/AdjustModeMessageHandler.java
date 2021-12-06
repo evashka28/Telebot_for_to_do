@@ -7,10 +7,9 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class AdjustModeMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
-        SendMessage message;
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Для настройки удобного режима необходимо задать подходящее время ⏰ и день(дни) недели \n \nИменно в таком режиме будут  появляться задачи в Todoist \nДни и время ты выбираешь сам ⬇️ ️");
+        SendMessage message = new SendMessage();
+        message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
+        message.setText("Для настройки удобного режима необходимо задать подходящее время ⏰ и день(дни) недели \n \nИменно в таком режиме будут  появляться задачи в Todoist \nДни и время ты выбираешь сам ⬇️ ️");
         Keyboards.setButtons5(message);
         return message;
     }

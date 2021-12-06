@@ -8,9 +8,9 @@ public class ModeSettingsMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("По такому расписанию я добавляю задачи в Todoist\n" +
+        message = new SendMessage();
+        message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
+        message.setText("По такому расписанию я добавляю задачи в Todoist\n" +
                         "День недели: \n" +
                         "Время: ️️");
         Keyboards.setButtons(message);

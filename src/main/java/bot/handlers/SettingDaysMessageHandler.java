@@ -8,9 +8,9 @@ public class SettingDaysMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Необходимо выбрать удобные дни для тебя \uD83D\uDDD3");
+        message = new SendMessage();
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));
+        message.setText("Необходимо выбрать удобные дни для тебя \uD83D\uDDD3");
         Keyboards.setButtons6(message);
         return message;
     }

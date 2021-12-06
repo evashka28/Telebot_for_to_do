@@ -80,7 +80,7 @@ public class Bot extends TelegramLongPollingBot {
 
     public void sendTaskToUser(Task task, long userId){
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(userId);
+        sendMessage.setChatId(String.valueOf(userId));
         sendMessage.enableMarkdown(true);
         sendMessage.setText(task.toString());
         try {

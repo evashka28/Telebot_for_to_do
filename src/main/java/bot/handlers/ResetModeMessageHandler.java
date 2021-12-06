@@ -8,9 +8,9 @@ public class ResetModeMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Режим обнулен\uD83D\uDC4C\n"+
+        message = new SendMessage();
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));;
+        message.setText("Режим обнулен\uD83D\uDC4C\n"+
                         "Не забудь его настроить заново!");
         Keyboards.setButtons4(message);
         return message;

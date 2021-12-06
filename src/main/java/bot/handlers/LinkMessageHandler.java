@@ -34,9 +34,9 @@ public class LinkMessageHandler implements MessageHandler {
         SendMessage message;
         String userId = update.getMessage().getFrom().getId() + "";
         String content = update.getMessage().getText() + "";
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Сохраняю ссылку...\n" +
+        message = new SendMessage();
+        message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
+        message.setText("Сохраняю ссылку...\n" +
                         "\n" +
                         "Выбери подходящий тег для этой задачи");
 
@@ -72,6 +72,7 @@ public class LinkMessageHandler implements MessageHandler {
 
         return message;
     }
+
     public Map<String,Object> postNewTask(URI uri, Map<String,Object> map, String userId)
             throws IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();

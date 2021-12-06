@@ -18,7 +18,8 @@ public class AddTagToTaskHandler implements MessageHandler{
 
     @Override
     public SendMessage getMessage(Update update) {
-        SendMessage message = new SendMessage().setChatId(update.getCallbackQuery().getMessage().getChatId());
+        SendMessage message = new SendMessage();
+        message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
 
         String query = update.getCallbackQuery().getData().replace("/addTtT", "");
         System.out.println(query);

@@ -17,9 +17,9 @@ public class ProjectMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Ты можешь\n" +
+        message = new SendMessage();
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));;
+        message.setText("Ты можешь\n" +
                         "➡️ Создать новый проект\n" +
                         "➡️ Посмотреть список всех проектов");
         Keyboards.setButtonsProject(message);

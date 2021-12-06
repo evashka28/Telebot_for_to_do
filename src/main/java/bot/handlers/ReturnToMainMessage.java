@@ -8,9 +8,9 @@ public class ReturnToMainMessage implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Ты мне ссылку, я тебе задачу (как и договаривались\uD83D\uDE09)");
+        message = new SendMessage();
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));;
+        message.setText("Ты мне ссылку, я тебе задачу (как и договаривались\uD83D\uDE09)");
         Keyboards.setButtons(message);
         return message;
     }

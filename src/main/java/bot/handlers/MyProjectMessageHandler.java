@@ -41,9 +41,9 @@ public class MyProjectMessageHandler implements MessageHandler {
                 .map(Project::getName)
                 .collect(Collectors.joining(", "));
 
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Список твоих проектов: " + returnProjectsName);
+        message = new SendMessage();
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));;
+        message.setText("Список твоих проектов: " + returnProjectsName);
         Keyboards.setButtonsProject(message);
         return message;
 

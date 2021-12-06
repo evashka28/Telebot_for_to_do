@@ -8,9 +8,9 @@ public class ThisismeMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Если ты пользователь Todoist, то смело нажимай залогиниться✅\n" +
+        message = new SendMessage();
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));
+        message.setText("Если ты пользователь Todoist, то смело нажимай залогиниться✅\n" +
                         "\n" +
                         "А если у тебя еще нет профиля, то ссылка внизу\uD83D\uDE09\n" +
                         "Скорее регистрируйся и возвращайся ко мне\uD83E\uDD17 \n" +
