@@ -39,9 +39,9 @@ public class ReturnTagMessageHandler implements MessageHandler {
                 .map(Tag::getName)
                 .collect(Collectors.joining(", "));
 
-        message = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText("Список твоих тегов: " + returnTags);
+        message = new SendMessage();
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));
+        message.setText("Список твоих тегов: " + returnTags);
         Keyboards.setButtons(message);
 
         return message;
