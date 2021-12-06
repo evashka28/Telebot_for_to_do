@@ -192,14 +192,14 @@ public class Keyboards {
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("Каждый день \uD83D\uDE48"));
         keyboardFirstRow.add(new KeyboardButton("Понедельник"));
         keyboardFirstRow.add(new KeyboardButton("Вторник"));
         keyboardFirstRow.add(new KeyboardButton("Среда"));
-        keyboardSecondRow.add(new KeyboardButton("Четверг"));
+        keyboardFirstRow.add(new KeyboardButton("Четверг"));
         keyboardSecondRow.add(new KeyboardButton("Пятница"));
         keyboardSecondRow.add(new KeyboardButton("Суббота"));
         keyboardSecondRow.add(new KeyboardButton("Воскресенье"));
+        keyboardSecondRow.add(new KeyboardButton("Время"));
         keyboardSecondRow.add(new KeyboardButton("Назад \uD83D\uDD19"));
 
         // Добавляем все строчки клавиатуры в список

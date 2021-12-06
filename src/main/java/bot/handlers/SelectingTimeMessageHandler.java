@@ -4,7 +4,7 @@ import bot.Keyboards;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-public class AdjustTimeMessageHandler implements MessageHandler {
+public class SelectingTimeMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
@@ -12,26 +12,20 @@ public class AdjustTimeMessageHandler implements MessageHandler {
         System.out.println("бот месседж:"+time);
         message = new SendMessage();
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
-        message.setText("Отлично!Каждый день в это время у тебя будут появляться задачи в Todoist\n" +
+        message.setText("Введите время в которое вы хотите получать уведомления в формате: часы:минуты\n" +
                         "\n" +
-                        "Теперь можешь выбрать удобные дни \uD83D\uDC47️");
+                        "Пример: 18:45 \uD83D\uDC47️");
         //сменить клаву
         Keyboards.setButtons6(message);
         return message;
     }
 
-//    public SendMessage getMessages(Update update) {
-//        SendMessage message;
-//        String time = update.getMessage().getFrom().getId() + "";
-//        System.out.println(time);
-//        return null;
-//    }
 
 
     @Override
     public boolean canHandle(Update update) {
         if(update.getMessage() != null && update.getMessage().getText() != null) {
-            return update.getMessage().getText().equals("12:00");
+            return update.getMessage().getText().equals("Время");
         }
         return false;
     }

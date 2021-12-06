@@ -4,7 +4,9 @@ import bot.Keyboards;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+//его удалить
 public class TimingMessageHandler implements MessageHandler {
+
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
