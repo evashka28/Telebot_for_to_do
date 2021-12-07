@@ -108,7 +108,7 @@ public class BackendConnector {
         if (response.statusCode() == 410) {
             return null;
         } else {
-            String body = response.body();
+            String body = response.toString();
             return body;
         }
     }
@@ -127,7 +127,7 @@ public class BackendConnector {
         if (response.statusCode() == 410) {
             return null;
         } else {
-            String body = response.body();
+            String body = response.toString();
             return body;
         }
     }

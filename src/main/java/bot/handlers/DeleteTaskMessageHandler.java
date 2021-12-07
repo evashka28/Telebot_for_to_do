@@ -21,7 +21,7 @@ public class DeleteTaskMessageHandler implements MessageHandler {
         message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
 
         String query = update.getCallbackQuery().getData().replace("/taskdel", "");
-        backendConnector.deleteTask(userId, Long.parseLong(query));
+        System.out.println("delete " + backendConnector.deleteTask(userId, Long.parseLong(query)));
         message.setText("Задание удалено!");
         return message;
     }
