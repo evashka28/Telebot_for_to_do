@@ -51,8 +51,29 @@ public class BackendConnector {
             String body = response.body();
             return objectMapper.readValue(body, new TypeReference<>() {});
         }
-
     }
+
+    public List<Task> getTasksByTag(String userId, long tagId) { return null; }
+
+    public Task getTask(String userId, long taskId) throws URISyntaxException, IOException, InterruptedException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        URI uri = new URI(String.format("http://localhost:8081/task/%d", taskId));
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .header("userId", userId)
+                .build();
+
+        HttpResponse<String> response = HttpClient.newHttpClient()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 410) {
+            return null;
+        } else {
+            String body = response.body();
+            return objectMapper.readValue(body, new TypeReference<>() {});
+        }
+    }
+
+    public Task getTaskByTag(String userId, long tagId) { return null; }
 
     public String addTagToTask(String userId, long taskId, long tagId) throws URISyntaxException, IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -70,6 +91,44 @@ public class BackendConnector {
         } else {
             String body = response.body();
             return objectMapper.readValue(body, new TypeReference<>() {});
+        }
+    }
+
+    public String deleteTask(String userId, long taskId) throws URISyntaxException, IOException, InterruptedException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        URI uri = new URI(String.format("http://localhost:8081/task/%d", taskId));
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .DELETE()
+                .header("userId", userId)
+                .build();
+
+        HttpResponse<String> response = HttpClient.newHttpClient()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 410) {
+            return null;
+        } else {
+            String body = response.toString();
+            return body;
+        }
+    }
+
+    public String completeTask(String userId, long taskId) throws URISyntaxException, IOException, InterruptedException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        URI uri = new URI(String.format("http://localhost:8081/task/%d/complete", taskId));
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .PUT(HttpRequest.BodyPublishers.noBody())
+                .header("userId", userId)
+                .build();
+
+        HttpResponse<String> response = HttpClient.newHttpClient()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 410) {
+            return null;
+        } else {
+            String body = response.toString();
+            return body;
         }
     }
 }
