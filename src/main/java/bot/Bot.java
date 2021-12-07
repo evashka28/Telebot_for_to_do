@@ -28,7 +28,7 @@ public class Bot extends TelegramLongPollingBot {
             new StartMessageHandler(), new TokenMessageHandler(), new LoginMessageHandler(),
             new ReturnToMainMessage(), new ThisismeMessageHandler(), new AboutBotMessageHandler(),
             new ModeSettingsMessageHandler(), new ResetModeMessageHandler(), new AdjustModeMessageHandler(),
-            new SettingDaysMessageHandler(), new SelectionDayMessageHandler(), new AdjustTimeMessageHandler(),
+            new SettingDaysMessageHandler(), new SelectionDayMessageHandler(), new SelectingTimeMessageHandler(),
             new TimingMessageHandler(), new LinkMessageHandler(), new ProjectMessageHandler(),
             new MyProjectMessageHandler(), new TagSettingsMessageHandler(),
             new TasksMessageHandler(), new TaskListMessageHandler(), new TagsMessageHandler(), new AddTagToTaskHandler(),

@@ -27,13 +27,15 @@ public class    TokenMessageHandler implements MessageHandler {
         String userName = update.getMessage().getFrom().getUserName() + "";
         String synkToken = "0";
         String token = update.getMessage().getText() + "";
+        String zone = "Europe/Moscow";
 
 
         Map<String, String> body = Map.of(
                 "id", userId,
                 "name", userName,
                 "token", token,
-                "sync_token", synkToken
+                "sync_token", synkToken,
+                "zone", zone
         );
 
 

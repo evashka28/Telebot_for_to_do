@@ -13,6 +13,7 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.LocalTime;
 import java.util.List;
 
 @Component
@@ -131,4 +132,5 @@ public class BackendConnector {
             return body;
         }
     }
+
 }

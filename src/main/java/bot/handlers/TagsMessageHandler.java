@@ -12,8 +12,7 @@ public class TagsMessageHandler implements MessageHandler {
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
         message.setText("Для того чтобы создать новый тег, введи:" +
                         "#название_тега\n " +
-                        "Например: #читать\n" +
-                        "Задачи, которые ты поме");
+                        "Например: #читать\n" );
         Keyboards.setButtonsTag(message);
         return message;
     }
