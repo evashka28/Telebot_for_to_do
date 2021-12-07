@@ -15,9 +15,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +76,7 @@ public class TasksMessageHandler implements MessageHandler {
         for(Task task: tasks){
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(task.getContent());
-            button.setCallbackData(String.format("/task%d", task.getId()));
+            button.setCallbackData(String.format("/taskget%d", task.getId()));
             List<InlineKeyboardButton> row = new ArrayList<>();
             row.add(button);
             keyboard.add(row);
