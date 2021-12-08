@@ -1,7 +1,8 @@
 bot:
-  name: Test_our_telebot_bot
-  token: 5017785493:AAFdbmmVx0b4mVquSgMnt-7dnorPcuVAj64
+  name: todo_testbot
+  token: 2048980594:AAESZyjpR6YqJoFfQCc2NZuia7XP8sfN3K4
 server.port: 8082
+
 
   #name: bot_todo_testt_bot
   #token: 5026774867:AAHcTjLZWT7rp3IeKiGYIJpeQuu-RLNnF_E

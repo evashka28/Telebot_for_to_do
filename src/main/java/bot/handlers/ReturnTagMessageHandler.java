@@ -42,7 +42,7 @@ public class ReturnTagMessageHandler implements MessageHandler {
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
         message.setText("Список твоих тегов: " + returnTags);
-        Keyboards.setButtons(message);
+        Keyboards.setButtonsTag(message);
 
         return message;
     }
