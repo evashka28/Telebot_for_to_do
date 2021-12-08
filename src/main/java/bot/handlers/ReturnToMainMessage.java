@@ -10,7 +10,8 @@ public class ReturnToMainMessage implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));;
-        message.setText("Ты мне ссылку, я тебе задачу (как и договаривались\uD83D\uDE09)");
+        message.setText("Ты мне ссылку, я тебе задачу \n" +
+                "Как и договаривались\uD83D\uDE09)");
         Keyboards.setButtons(message);
         return message;
     }

@@ -31,7 +31,9 @@ public class SelectionDayMessageHandler implements MessageHandler {
             tagId = update.getCallbackQuery().getData().replace("/tagget","") ;
             System.out.println(tagId);
             message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
-            message.setText("Выбери расписания для тега в формате: sh 15:45:00 1,2,3 где 1 -вс, 2-пн и т п ");
+            message.setText("Выбери расписания для тега в формате:\n" +
+                    "sh 15:45:00 1,2,3 \n" +
+                    "где 1 -вс, 2-пн и так далее");
         }
         else {
             String userId = update.getMessage().getFrom().getId() + "";

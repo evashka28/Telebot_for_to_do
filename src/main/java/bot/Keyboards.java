@@ -123,7 +123,7 @@ public class Keyboards {
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
 
-        keyboardSecondRow.add(new KeyboardButton("Время"));
+//        keyboardSecondRow.add(new KeyboardButton("Время"));
         keyboardSecondRow.add(new KeyboardButton("Назад \uD83D\uDD19"));
 
         // Добавляем все строчки клавиатуры в список
