@@ -32,11 +32,6 @@ public class TasksMessageHandler implements MessageHandler {
     public SendMessage getMessage(Update update) {
         String userId = update.getMessage().getFrom().getId() + "";
         SendMessage message;
-
-
-
-
-
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
         message.setText("Список твоих задач на данный момент: ");
@@ -45,9 +40,6 @@ public class TasksMessageHandler implements MessageHandler {
 
         return message;
     }
-
-
-
 
     @Override
     public boolean canHandle(Update update) {

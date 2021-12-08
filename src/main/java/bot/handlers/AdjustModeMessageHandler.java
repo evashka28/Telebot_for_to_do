@@ -26,7 +26,7 @@ public class AdjustModeMessageHandler implements MessageHandler {
         SendMessage message = new SendMessage();
         String userId = update.getMessage().getFrom().getId() + "";
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
-        message.setText("Выбери тег для которого хочешь настроить режим \n \nИменно в таком режиме будут  появляться задачи в Todoist \nДни и время ты выбираешь сам ⬇️ ️");
+        message.setText("Выбери тег для которого хочешь настроить режим \n ⬇️ ️");
         //Keyboards.setButtons5(message);
         setInlineTagKeyboard(message, userId);
         return message;

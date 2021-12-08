@@ -13,7 +13,7 @@ public class TimingMessageHandler implements MessageHandler {
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
                 message.setText("В таком режиме я буду заводить тебе задачи в Todoist.\n Если решишь изменить его, нажимай Сбросить режим");
-        Keyboards.setButtons5(message);
+        Keyboards.setButtons(message);
         return message;
     }
 
