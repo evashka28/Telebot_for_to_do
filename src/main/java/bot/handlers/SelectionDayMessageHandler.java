@@ -40,11 +40,12 @@ public class SelectionDayMessageHandler implements MessageHandler {
             String[] words = sch.split(" ");
 
 
-            if (!words[0].equals("sh") || words.length != 3 || words[1].split(":").length !=3 || words[2].split(",").length >7 || words[1].split(":")[0].length() !=2
-            || words[1].split(":")[1].length() !=2 || words[1].split(":")[2].length() !=2) {
+            if (!words[0].equals("sh") || words.length != 3 ) {
                 message.setText("Неправильное выражение, попробуй еще раз.");
             }
-            //else if (words[1].split(":").length !=3){}
+            else if (sameday(words)|| wrongday(words) || words[2].split(",").length >7){message.setText("Неправильно введены дни недели, попробуй еще раз.");}
+            else if (timeiswrong(words)|| words[1].split(":").length !=3  || words[1].split(":")[0].length() !=2
+                    || words[1].split(":")[1].length() !=2 || words[1].split(":")[2].length() !=2 ) {message.setText("Неправильно введено время, попробуй еще раз.");}
             else {
                 message.setText("Вы ввели ...");
 
@@ -76,6 +77,37 @@ public class SelectionDayMessageHandler implements MessageHandler {
         Keyboards.setButtons6(message);
         return message;
     }
+    public boolean sameday(String[] words) {
+        for (int i = 0; i < words[2].split(",").length - 1; i++) {
+            for (int j = i + 1; j < words[2].split(",").length; j++) {
+                if (words[2].split(",")[i].equals(words[2].split(",")[j])) {
+                    return true;
+
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean wrongday(String[] words) {
+        for (int i = 0; i < words[2].split(",").length; i++) {
+            if (Integer.parseInt(words[2].split(",")[i])>7){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean timeiswrong(String[] words) {
+        if ((words[1].split(":")[0].charAt(0)!='0'&& Integer.parseInt(words[1].split(":")[0])>23)||
+                (words[1].split(":")[1].charAt(0)!='0'&& Integer.parseInt(words[1].split(":")[1])>59 ) ||
+                (words[1].split(":")[2].charAt(0)!='0'&& Integer.parseInt(words[1].split(":")[2])>59 )){
+            return true;
+        }
+        else  {return false;}
+    }
+
+
 
 
     public Map<String,Object> postNewSch(URI uri, Map<String,Object> map)
