@@ -30,13 +30,24 @@ public class TasksMessageHandler implements MessageHandler {
 
     @Override
     public SendMessage getMessage(Update update) {
-        String userId = update.getMessage().getFrom().getId() + "";
+
         SendMessage message;
         message = new SendMessage();
-        message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Список твоих задач на данный момент: ");
-        setInlineTaskKeyboard(message, userId);
-        //Keyboards.setButtons(message);
+        message.setText("Список твоих задач: ");
+
+        if(update.hasMessage()) {
+            message.setChatId(String.valueOf(update.getMessage().getChatId()));
+            String userId = update.getMessage().getFrom().getId() + "";
+            setInlineTaskKeyboard(message, userId, getTasks(userId));
+        }
+        if(update.hasCallbackQuery()) {
+            message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
+            String query = update.getCallbackQuery().getData().replace("/getTaskByTag", "");
+            long tagId = Long.parseLong(query);
+            String userId = update.getCallbackQuery().getFrom().getId() + "";
+            setInlineTaskKeyboard(message, userId, getTasks(userId, tagId));
+        }
+
 
         return message;
     }
@@ -46,22 +57,16 @@ public class TasksMessageHandler implements MessageHandler {
         if(update.getMessage() != null && update.getMessage().getText() != null) {
             return update.getMessage().getText().equals("Задачи");
         }
+        if(update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getData().contains("/getTaskByTag");
+        }
         return false;
     }
 
-    public void setInlineTaskKeyboard(SendMessage message, String userId){
+    public void setInlineTaskKeyboard(SendMessage message, String userId, List<Task> tasks){
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
-        List<Task> tasks = null;
-        try {
-            tasks = backendConnector.getTasks(userId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+
 
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
@@ -78,5 +83,33 @@ public class TasksMessageHandler implements MessageHandler {
         keyboardMarkup.setKeyboard(keyboard);
 
         message.setReplyMarkup(keyboardMarkup);
+    }
+
+    private List<Task> getTasks(String userId){
+        List<Task> tasks = null;
+        try {
+            tasks = backendConnector.getTasks(userId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return tasks;
+    }
+
+    private List<Task> getTasks(String userId, long tagId){
+        List<Task> tasks = null;
+        try {
+            tasks = backendConnector.getTasksByTag(userId, tagId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return tasks;
     }
 }
