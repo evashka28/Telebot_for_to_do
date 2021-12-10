@@ -1,5 +1,6 @@
 package bot;
 
+import bot.domen.Tag;
 import bot.domen.Task;
 import bot.handlers.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 // Аннотация @Component необходима, чтобы наш класс распознавался Spring, как полноправный Bean
@@ -24,6 +26,8 @@ public class Bot extends TelegramLongPollingBot {
     @Value("${bot.token}")
     private String botToken;
 
+    final private BackendConnector backendConnector;
+
     List<MessageHandler> handlers = List.of(
             new StartMessageHandler(), new TokenMessageHandler(), new LoginMessageHandler(),
             new ReturnToMainMessage(), new ThisismeMessageHandler(), new AboutBotMessageHandler(),
@@ -36,6 +40,10 @@ public class Bot extends TelegramLongPollingBot {
             new CompleteTaskMessageHandler(), new CreateTagsMessageHandler(), new TasksByTagHandler(),
             new TagSelectionHandler()
     );
+
+    public Bot() {
+        backendConnector = new BackendConnector();
+    }
 
     /* Перегружаем метод интерфейса LongPollingBot
      */
@@ -87,7 +95,10 @@ public class Bot extends TelegramLongPollingBot {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(userId));
         sendMessage.enableMarkdown(true);
-        sendMessage.setText(task.toString());
+        sendMessage.setText(task.getContent());
+
+        InlineKeyboards.setInlineTaskKeyboard(sendMessage, String.valueOf(userId), task.getId());
+
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {

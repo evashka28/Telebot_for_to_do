@@ -31,4 +31,31 @@ public class InlineKeyboards {
 
         message.setReplyMarkup(keyboardMarkup);
     }
+
+    public static void setInlineTaskKeyboard(SendMessage message, String userId, long taskId){
+        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
+
+        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        InlineKeyboardButton deleteButton = new InlineKeyboardButton();
+        deleteButton.setCallbackData(String.format("/taskdel%d", taskId));
+        deleteButton.setText("Удалить❌");
+        row.add(deleteButton);
+
+        InlineKeyboardButton completeButton = new InlineKeyboardButton();
+        completeButton.setCallbackData(String.format("/taskcom%d", taskId));
+        completeButton.setText("Выполнить✅");
+        row.add(completeButton);
+
+        InlineKeyboardButton tagSelectionButton = new InlineKeyboardButton();
+        tagSelectionButton.setCallbackData(String.format("/tasktagsel%d", taskId));
+        tagSelectionButton.setText("Выбрать тег");
+        row.add(tagSelectionButton);
+
+        keyboard.add(row);
+
+        keyboardMarkup.setKeyboard(keyboard);
+
+        message.setReplyMarkup(keyboardMarkup);
+    }
 }

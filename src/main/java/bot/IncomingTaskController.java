@@ -1,12 +1,14 @@
 package bot;
 
 import bot.domen.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class IncomingTaskController {
     private final Bot bot;
 
+    @Autowired
     public IncomingTaskController(Bot bot) {
         this.bot = bot;
     }

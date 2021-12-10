@@ -1,6 +1,7 @@
 package bot.handlers;
 
 import bot.BackendConnector;
+import bot.InlineKeyboards;
 import bot.domen.Task;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -31,7 +32,7 @@ public class TaskMessageHandler implements MessageHandler{
         Task task = backendConnector.getTask(userId, Long.parseLong(query));
 
         message.setText(task.getContent());
-        setInlineTaskKeyboard(message, userId, task.getId());
+        InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
 
         return message;
     }
@@ -43,30 +44,5 @@ public class TaskMessageHandler implements MessageHandler{
         return false;
     }
 
-    public void setInlineTaskKeyboard(SendMessage message, String userId, long taskId){
-        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        List<InlineKeyboardButton> row = new ArrayList<>();
-        InlineKeyboardButton deleteButton = new InlineKeyboardButton();
-        deleteButton.setCallbackData(String.format("/taskdel%d", taskId));
-        deleteButton.setText("Удалить❌");
-        row.add(deleteButton);
-
-        InlineKeyboardButton completeButton = new InlineKeyboardButton();
-        completeButton.setCallbackData(String.format("/taskcom%d", taskId));
-        completeButton.setText("Выполнить✅");
-        row.add(completeButton);
-
-        InlineKeyboardButton tagSelectionButton = new InlineKeyboardButton();
-        tagSelectionButton.setCallbackData(String.format("/tasktagsel%d", taskId));
-        tagSelectionButton.setText("Выбрать тег");
-        row.add(tagSelectionButton);
-
-        keyboard.add(row);
-
-        keyboardMarkup.setKeyboard(keyboard);
-
-        message.setReplyMarkup(keyboardMarkup);
-    }
 }
