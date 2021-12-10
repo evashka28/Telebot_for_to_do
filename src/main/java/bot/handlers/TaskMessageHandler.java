@@ -58,6 +58,11 @@ public class TaskMessageHandler implements MessageHandler{
         completeButton.setText("Выполнить✅");
         row.add(completeButton);
 
+        InlineKeyboardButton tagSelectionButton = new InlineKeyboardButton();
+        tagSelectionButton.setCallbackData(String.format("/tasktagsel%d", taskId));
+        tagSelectionButton.setText("Выбрать тег");
+        row.add(tagSelectionButton);
+
         keyboard.add(row);
 
         keyboardMarkup.setKeyboard(keyboard);

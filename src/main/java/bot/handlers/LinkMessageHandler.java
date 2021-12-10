@@ -1,6 +1,7 @@
 package bot.handlers;
 
 import bot.BackendConnector;
+import bot.InlineKeyboards;
 import bot.Keyboards;
 import bot.domen.Tag;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +39,7 @@ public class LinkMessageHandler implements MessageHandler {
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
         message.setText("Сохраняю ссылку...\n" +
                         "\n" +
-                        "Выбери подходящий тег для этой задачи");
+                        "Выберите подходящий тег для этой задачи");
 
 
         // create new task in ToDoist
@@ -67,7 +68,7 @@ public class LinkMessageHandler implements MessageHandler {
         }
         if(result != null) {
             long id = Long.parseLong(result.get("id").toString());
-            setInlineTagKeyboard(message, userId, id);
+            InlineKeyboards.setInlineTagKeyboard(message, getTags(userId), id);
         }
 
         return message;
@@ -104,9 +105,7 @@ public class LinkMessageHandler implements MessageHandler {
 
     }
 
-    public void setInlineTagKeyboard(SendMessage message, String userId, long taskId){
-        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
-
+    private List<Tag> getTags(String userId) {
         List<Tag> tags = new ArrayList<Tag>();
         try {
             tags = backendConnector.getTags(userId);
@@ -117,20 +116,8 @@ public class LinkMessageHandler implements MessageHandler {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-
-        List<InlineKeyboardButton> keyboardRow = new ArrayList<>();
-
-        for(Tag tag : tags){
-            InlineKeyboardButton button = new InlineKeyboardButton();
-            button.setText(tag.getName());
-            button.setCallbackData(String.format("/addTtT%d.%s", tag.getId(), taskId));
-            keyboardRow.add(button);
-        }
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        keyboard.add(keyboardRow);
-
-        keyboardMarkup.setKeyboard(keyboard);
-
-        message.setReplyMarkup(keyboardMarkup);
+        return tags;
     }
+
+
 }

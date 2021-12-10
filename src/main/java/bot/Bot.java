@@ -33,7 +33,8 @@ public class Bot extends TelegramLongPollingBot {
             new TasksMessageHandler(), new TagsMessageHandler(),
             new AddTagToTaskHandler(),
             new ReturnTagMessageHandler(), new TaskMessageHandler(), new DeleteTaskMessageHandler(),
-            new CompleteTaskMessageHandler(), new CreateTagsMessageHandler(), new TasksByTagHandler()
+            new CompleteTaskMessageHandler(), new CreateTagsMessageHandler(), new TasksByTagHandler(),
+            new TagSelectionHandler()
     );
 
     /* Перегружаем метод интерфейса LongPollingBot

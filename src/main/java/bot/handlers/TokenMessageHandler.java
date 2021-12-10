@@ -158,7 +158,6 @@ public class    TokenMessageHandler implements MessageHandler {
     public boolean canHandle(Update update) {
         if(update.getMessage() != null && update.getMessage().getText() != null) {
             boolean can =  update.getMessage().getText().length() == 40;
-            System.out.println("Can:" + can);
             return can;
         }
         return false;
