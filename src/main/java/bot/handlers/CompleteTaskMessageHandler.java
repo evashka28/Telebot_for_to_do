@@ -1,12 +1,14 @@
 package bot.handlers;
 
 import bot.BackendConnector;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
+@Component
 public class CompleteTaskMessageHandler implements MessageHandler{
     private final BackendConnector backendConnector;
 

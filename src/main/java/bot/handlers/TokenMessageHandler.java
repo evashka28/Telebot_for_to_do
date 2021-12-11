@@ -4,6 +4,7 @@ import bot.Keyboards;
 import bot.domen.Project;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -17,7 +18,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletionException;
 
-public class    TokenMessageHandler implements MessageHandler {
+@Component
+public class TokenMessageHandler implements MessageHandler {
     public static boolean canHandle = false;
 
     @Override
@@ -49,7 +51,7 @@ public class    TokenMessageHandler implements MessageHandler {
             e.printStackTrace();
         } catch (URISyntaxException e) {
             e.printStackTrace();
-        } catch (Throwable e){
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         // create user
@@ -63,7 +65,7 @@ public class    TokenMessageHandler implements MessageHandler {
             e.printStackTrace();
         } catch (URISyntaxException e) {
             e.printStackTrace();
-        }catch (Throwable e){
+        } catch (Throwable e) {
             e.printStackTrace();
         }
 
@@ -85,7 +87,7 @@ public class    TokenMessageHandler implements MessageHandler {
         try {
             String favorite = "false";
             String name = "fromToDoBot";
-            String todoId = 0 +"";
+            String todoId = 0 + "";
             Map<String, String> projectBody = Map.of(
                     "favorite", favorite,
                     "id", userId,
@@ -113,41 +115,40 @@ public class    TokenMessageHandler implements MessageHandler {
             message.setText("Введенный токен не верный, попробуй еще раз");
             Keyboards.setButtons2(message);
             return message;
-        }
-        else {
+        } else {
             message = new SendMessage();
-                    message.setChatId(String.valueOf(update.getMessage().getChatId()));
-                    message.setText("Отлично\uD83E\uDD17 пользователь с таким токеном существует!\n" +
-                            "\n" +
-                            "В твоём профиле Todoist я специально создал проект с названием fromToDoBot.\n" +
-                            "Именно туда я буду добавлять все ссылки, которые ты мне пришлёшь \uD83D\uDE09\n" +
-                            "\n" +
-                            "Немного о моих кнопках:\n" +
-                            "\n" +
-                            "➡️Теги\n" +
-                            "\n" +
-                            "Рекомендую тебе сразу создать пару тегов. Когда ты будешь отправлять мне ссылки, будет полезно их разносить в разные категории\n" +
-                            "например: \n" +
-                            "скинул видос ➡️пометил #смотреть \n" +
-                            "скинул статью ➡️пометил #читать \n" +
-                            "\n" +
-                            "Таким образом, ты быстро найдёшь необходимую ссылку, если захочешь вновь ее посмотреть. \n" +
-                            "Так же можно: посмотреть какие теги уже созданы или удалить если уже не актуальны \n" +
-                            "\n" +
-                            "➡️Режим чтения \n" +
-                            "\n" +
-                            "Очень удобная штука\uD83D\uDE42\n" +
-                            "Задаёшь расписание — получаешь напоминание. \n" +
-                            "Если предварительно ко всем ссылкам добавлять теги, то можно настроить напоминание ссылок с тегом #смотреть в пятницу вечером, а с тегом #читать по понедельникам и вторникам в обед \uD83D\uDE09\n" +
-                            "Тогда я вечерком в пятницу накидаю тебе ссылок с видосами\uD83C\uDFA5\uD83C\uDFA5\uD83C\uDFA5 \n" +
-                            "А получать статейки ты будешь в понедельник и вторник \uD83D\uDCD6\uD83D\uDCD6\uD83D\uDCD6\n" +
-                            "Настраиваешь расписание так, как тебе удобно(время, дни)\n" +
-                            "И жизнь хоРРРоша и жить хоРРРошо \uD83D\uDE0A\n" +
-                            "\n" +
-                            "➡️Что умеет бот?\n" +
-                            "\n" +
-                            "Тут я рассказываю о своих возможностях \uD83E\uDD16\n" +
-                            "Проект перспективный, время от времени разработчики меня улучшают \uD83E\uDDD1\u200D\uD83D\uDCBB\uD83D\uDC69\u200D\uD83D\uDCBB\uD83D\uDC69\u200D\uD83D\uDCBB");
+            message.setChatId(String.valueOf(update.getMessage().getChatId()));
+            message.setText("Отлично\uD83E\uDD17 пользователь с таким токеном существует!\n" +
+                    "\n" +
+                    "В твоём профиле Todoist я специально создал проект с названием fromToDoBot.\n" +
+                    "Именно туда я буду добавлять все ссылки, которые ты мне пришлёшь \uD83D\uDE09\n" +
+                    "\n" +
+                    "Немного о моих кнопках:\n" +
+                    "\n" +
+                    "➡️Теги\n" +
+                    "\n" +
+                    "Рекомендую тебе сразу создать пару тегов. Когда ты будешь отправлять мне ссылки, будет полезно их разносить в разные категории\n" +
+                    "например: \n" +
+                    "скинул видос ➡️пометил #смотреть \n" +
+                    "скинул статью ➡️пометил #читать \n" +
+                    "\n" +
+                    "Таким образом, ты быстро найдёшь необходимую ссылку, если захочешь вновь ее посмотреть. \n" +
+                    "Так же можно: посмотреть какие теги уже созданы или удалить если уже не актуальны \n" +
+                    "\n" +
+                    "➡️Режим чтения \n" +
+                    "\n" +
+                    "Очень удобная штука\uD83D\uDE42\n" +
+                    "Задаёшь расписание — получаешь напоминание. \n" +
+                    "Если предварительно ко всем ссылкам добавлять теги, то можно настроить напоминание ссылок с тегом #смотреть в пятницу вечером, а с тегом #читать по понедельникам и вторникам в обед \uD83D\uDE09\n" +
+                    "Тогда я вечерком в пятницу накидаю тебе ссылок с видосами\uD83C\uDFA5\uD83C\uDFA5\uD83C\uDFA5 \n" +
+                    "А получать статейки ты будешь в понедельник и вторник \uD83D\uDCD6\uD83D\uDCD6\uD83D\uDCD6\n" +
+                    "Настраиваешь расписание так, как тебе удобно(время, дни)\n" +
+                    "И жизнь хоРРРоша и жить хоРРРошо \uD83D\uDE0A\n" +
+                    "\n" +
+                    "➡️Что умеет бот?\n" +
+                    "\n" +
+                    "Тут я рассказываю о своих возможностях \uD83E\uDD16\n" +
+                    "Проект перспективный, время от времени разработчики меня улучшают \uD83E\uDDD1\u200D\uD83D\uDCBB\uD83D\uDC69\u200D\uD83D\uDCBB\uD83D\uDC69\u200D\uD83D\uDCBB");
             Keyboards.setButtons(message);
             return message;
 
@@ -156,8 +157,8 @@ public class    TokenMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.getMessage() != null && update.getMessage().getText() != null) {
-            boolean can =  update.getMessage().getText().length() == 40;
+        if (update.getMessage() != null && update.getMessage().getText() != null) {
+            boolean can = update.getMessage().getText().length() == 40;
             return can;
         }
         return false;
@@ -177,26 +178,13 @@ public class    TokenMessageHandler implements MessageHandler {
             return null;
         } else {
             String body = response.body();
-            return objectMapper.readValue(body, new TypeReference<>() {});
+            return objectMapper.readValue(body, new TypeReference<>() {
+            });
         }
 
     }
 
-    class UncheckedObjectMapper extends com.fasterxml.jackson.databind.ObjectMapper {
-        /**
-         * Parses the given JSON string into a Map.
-         */
-        Map<String, String> readValue(String content) {
-            try {
-                return this.readValue(content, new TypeReference<>() {
-                });
-            } catch (IOException ioe) {
-                throw new CompletionException(ioe);
-            }
-        }
-    }
-
-    public Map<String,String> postJSON(URI uri, Map<String,String> map)
+    public Map<String, String> postJSON(URI uri, Map<String, String> map)
             throws IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper
@@ -216,7 +204,7 @@ public class    TokenMessageHandler implements MessageHandler {
     }
 
     public void deleteUser(String userId) throws IOException, InterruptedException, URISyntaxException {
-        URI uri = new URI("http://localhost:8081/user/"+ userId);
+        URI uri = new URI("http://localhost:8081/user/" + userId);
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .DELETE()
                 .build();
@@ -225,7 +213,7 @@ public class    TokenMessageHandler implements MessageHandler {
                 .send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    public Map<String,String> postNewProject(URI uri, Map<String,String> map, String userId)
+    public Map<String, String> postNewProject(URI uri, Map<String, String> map, String userId)
             throws IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper
@@ -243,5 +231,19 @@ public class    TokenMessageHandler implements MessageHandler {
                 .body();
 
         return (Map<String, String>) objectMapper.readValue(resultBody, Map.class);
+    }
+
+    class UncheckedObjectMapper extends com.fasterxml.jackson.databind.ObjectMapper {
+        /**
+         * Parses the given JSON string into a Map.
+         */
+        Map<String, String> readValue(String content) {
+            try {
+                return this.readValue(content, new TypeReference<>() {
+                });
+            } catch (IOException ioe) {
+                throw new CompletionException(ioe);
+            }
+        }
     }
 }

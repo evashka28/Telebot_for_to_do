@@ -3,6 +3,7 @@ package bot.handlers;
 import bot.Keyboards;
 import bot.domen.Schedule;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class SelectionDayMessageHandler implements MessageHandler {
     enum Week { Воскресенье, Понедельник, Вторник, Среда, Четверг, Пятница, Суббота}
     Schedule schedule = new Schedule();

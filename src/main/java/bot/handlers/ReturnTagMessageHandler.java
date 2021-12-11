@@ -5,6 +5,7 @@ import bot.domen.Tag;
 import bot.domen.Task;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -17,6 +18,7 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class ReturnTagMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {

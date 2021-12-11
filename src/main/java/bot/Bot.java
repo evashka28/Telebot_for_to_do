@@ -1,8 +1,8 @@
 package bot;
 
-import bot.domen.Tag;
 import bot.domen.Task;
 import bot.handlers.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -12,34 +12,20 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
 // Аннотация @Component необходима, чтобы наш класс распознавался Spring, как полноправный Bean
 @Component
 // Наследуемся от TelegramLongPollingBot - абстрактного класса Telegram API
 public class Bot extends TelegramLongPollingBot {
+    final private BackendConnector backendConnector;
+    @Autowired
+    List<MessageHandler> handlers;
     // Аннотация @Value позволяет задавать значение полю путем считывания из application.yaml
     @Value("${bot.name}")
     private String botUsername;
-
     @Value("${bot.token}")
     private String botToken;
-
-    final private BackendConnector backendConnector;
-
-    List<MessageHandler> handlers = List.of(
-            new StartMessageHandler(), new TokenMessageHandler(), new LoginMessageHandler(),
-            new ReturnToMainMessage(), new ThisismeMessageHandler(), new AboutBotMessageHandler(),
-            new AdjustModeMessageHandler(),
-            new SelectionDayMessageHandler(), new LinkMessageHandler(), new ProjectMessageHandler(),
-            new MyProjectMessageHandler(), new TagSettingsMessageHandler(),
-            new TasksMessageHandler(), new TagsMessageHandler(),
-            new AddTagToTaskHandler(),
-            new ReturnTagMessageHandler(), new TaskMessageHandler(), new DeleteTaskMessageHandler(),
-            new CompleteTaskMessageHandler(), new CreateTagsMessageHandler(), new TasksByTagHandler(),
-            new TagSelectionHandler()
-    );
 
     public Bot() {
         backendConnector = new BackendConnector();
@@ -49,34 +35,27 @@ public class Bot extends TelegramLongPollingBot {
      */
     @Override
     public void onUpdateReceived(Update update) {
+        SendMessage message = null;
+        handlers.stream()
+                .filter(handler -> handler.canHandle(update))
+                .map(handler -> getMessage(update, handler))
+                .forEach(this::sendMessageToUser);
+    }
+
+    private SendMessage getMessage(Update update, MessageHandler handler) {
         try {
-            SendMessage message = null;
-            handlers.stream()
-                    .filter(handler -> handler.canHandle(update))
-                    .map(handler -> {
-                        try {
-                            return handler.getMessage(update);
-                        } catch (URISyntaxException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        return null;
-                    })
-                    .forEach(this::sendMessageToUser);
-            if(message != null) {
-                execute(message);
-            }
-        } catch (TelegramApiException e) {
+            return handler.getMessage(update);
+        } catch (URISyntaxException | IOException | InterruptedException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     private void sendMessageToUser(SendMessage msg) {
         try {
-            execute(msg);
+            if (msg != null) {
+                execute(msg);
+            }
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -91,7 +70,7 @@ public class Bot extends TelegramLongPollingBot {
         return botToken;
     }
 
-    public void sendTaskToUser(Task task, long userId){
+    public void sendTaskToUser(Task task, long userId) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.setChatId(String.valueOf(userId));
         sendMessage.enableMarkdown(true);

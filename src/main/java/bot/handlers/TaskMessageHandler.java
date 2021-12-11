@@ -3,6 +3,7 @@ package bot.handlers;
 import bot.BackendConnector;
 import bot.InlineKeyboards;
 import bot.domen.Task;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -13,6 +14,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class TaskMessageHandler implements MessageHandler{
     private final BackendConnector backendConnector;
 

@@ -4,6 +4,7 @@ import bot.Keyboards;
 import bot.domen.Project;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -19,6 +20,7 @@ import java.util.concurrent.CompletionException;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+@Component
 public class MyProjectMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
