@@ -1,7 +1,10 @@
 package bot.handlers;
 
 import bot.Keyboards;
+import bot.state.StateManager;
+import bot.state.UserState;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -16,6 +19,9 @@ import java.util.Map;
 
 @Component
 public class CreateTagsMessageHandler implements MessageHandler {
+    @Autowired
+    private StateManager stateManager;
+
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
@@ -25,7 +31,7 @@ public class CreateTagsMessageHandler implements MessageHandler {
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
         message.setText("Тег создан!");
         Keyboards.setButtonsTag(message);
-        TagsMessageHandler.createTag = false;
+        stateManager.setState(UserState.NORMAL, update.getMessage().getFrom().getId());
 
 
     // create new task in ToDoist
@@ -70,7 +76,9 @@ public class CreateTagsMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.getMessage() != null && update.getMessage().getText() != null && TagsMessageHandler.createTag) {
+        UserState userState = stateManager.getState(update.getMessage().getFrom().getId());
+        if(update.getMessage() != null && update.getMessage().getText() != null &&
+                userState == UserState.CREATING_TAG) {
             return update.getMessage().getText().startsWith("#");
         }
         return false;

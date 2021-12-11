@@ -1,16 +1,21 @@
 package bot.handlers;
 
 import bot.Keyboards;
+import bot.state.StateManager;
+import bot.state.UserState;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
 public class TagsMessageHandler implements MessageHandler {
-    public static boolean createTag = false;
+    @Autowired
+    private StateManager stateManager;
+
     @Override
     public SendMessage getMessage(Update update) {
-        createTag = true;
+        stateManager.setState(UserState.CREATING_TAG, update.getMessage().getFrom().getId());
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
