@@ -1,8 +1,6 @@
 package bot.handlers;
 
 import bot.BackendConnector;
-import bot.Keyboards;
-import bot.domen.Task;
 import bot.domen.Tag;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -10,8 +8,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,29 +32,20 @@ public class AdjustModeMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.getMessage() != null && update.getMessage().getText() != null) {
+        if (update.getMessage() != null && update.getMessage().getText() != null) {
             return update.getMessage().getText().equals("Режим чтения");
         }
         return false;
     }
 
-    public void setInlineTagKeyboard(SendMessage message, String userId){
+    public void setInlineTagKeyboard(SendMessage message, String userId) {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
-        List<Tag> tags = null;
-        try {
-            tags = backendConnector.getTags(userId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        List<Tag> tags = backendConnector.getTags(userId);
 
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
-        for(Tag tag: tags){
+        for (Tag tag : tags) {
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(tag.getName());
             button.setCallbackData(String.format("/tagget%d", tag.getId()));
@@ -66,7 +53,6 @@ public class AdjustModeMessageHandler implements MessageHandler {
             row.add(button);
             keyboard.add(row);
         }
-
 
         keyboardMarkup.setKeyboard(keyboard);
 

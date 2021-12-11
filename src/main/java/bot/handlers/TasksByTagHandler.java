@@ -46,17 +46,7 @@ public class TasksByTagHandler implements MessageHandler {
     public void setInlineTagKeyboard(SendMessage message, String userId){
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
-        List<Tag> tags = new ArrayList<Tag>();
-        try {
-            tags = backendConnector.getTags(userId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-
+        List<Tag> tags = backendConnector.getTags(userId);
         List<InlineKeyboardButton> keyboardRow = new ArrayList<>();
 
         for(Tag tag : tags){

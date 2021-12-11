@@ -42,17 +42,7 @@ public class TagSelectionHandler implements MessageHandler{
     }
 
     private List<Tag> getTags(String userId) {
-        List<Tag> tags = new ArrayList<Tag>();
-        try {
-            tags = backendConnector.getTags(userId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return tags;
+        return backendConnector.getTags(userId);
     }
 
 

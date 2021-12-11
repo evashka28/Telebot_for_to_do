@@ -88,30 +88,10 @@ public class TasksMessageHandler implements MessageHandler {
     }
 
     private List<Task> getTasks(String userId){
-        List<Task> tasks = null;
-        try {
-            tasks = backendConnector.getTasks(userId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return tasks;
+        return backendConnector.getTasks(userId);
     }
 
     private List<Task> getTasks(String userId, long tagId){
-        List<Task> tasks = null;
-        try {
-            tasks = backendConnector.getTasksByTag(userId, tagId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        return tasks;
+        return backendConnector.getTasksByTag(userId, tagId);
     }
 }

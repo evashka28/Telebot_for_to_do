@@ -39,9 +39,7 @@ public class CreateTagsMessageHandler implements MessageHandler {
 
         result = postNewTag(new URI("http://localhost:8081/tag"), tagBody, userId);
         System.out.println("resultTag = " + result);
-    } catch (IOException e) {
-        e.printStackTrace();
-    } catch (InterruptedException e) {
+    } catch (IOException | InterruptedException e) {
         e.printStackTrace();
     } catch (URISyntaxException e) {
         e.printStackTrace();
