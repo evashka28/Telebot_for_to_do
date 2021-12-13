@@ -249,4 +249,33 @@ public class BackendConnector {
             return body;
         }
     }
+
+    public String deleteTag(String userId, long tagId) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        URI uri = null;
+        try {
+            uri = new URI(String.format("http://localhost:8081/tag/%d", tagId));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .DELETE()
+                .header("userId", userId)
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (response.statusCode() == 410) {
+            return null;
+        } else {
+            String body = response.toString();
+            return body;
+        }
+    }
 }
