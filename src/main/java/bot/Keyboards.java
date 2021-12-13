@@ -176,7 +176,7 @@ public class Keyboards {
         // Добавляем кнопки в первую строчку клавиатуры
         keyboardFirstRow.add(new KeyboardButton("Мои теги"));
         keyboardFirstRow.add(new KeyboardButton("Создать тег"));
-//        keyboardFirstRow.add(new KeyboardButton("Удалить тег"));
+        keyboardFirstRow.add(new KeyboardButton("Удалить тег"));
         keyboardFirstRow.add(new KeyboardButton("Назад \uD83D\uDD19"));
 
         // Добавляем все строчки клавиатуры в список

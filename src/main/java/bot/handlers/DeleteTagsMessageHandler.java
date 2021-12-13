@@ -4,89 +4,71 @@ import bot.BackendConnector;
 import bot.Keyboards;
 import bot.domen.Tag;
 import bot.domen.Task;
-import bot.domen.Project;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
-public class TasksMessageHandler implements MessageHandler {
+public class DeleteTagsMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
-    public TasksMessageHandler() {
-        this.backendConnector = new BackendConnector();
-    }
-
-
+    public DeleteTagsMessageHandler() { this.backendConnector = new BackendConnector();}
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
         message = new SendMessage();
-        message.setText("Список твоих задач: ");
-
         if(update.hasMessage()) {
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
+            message.setText("Выбери тег, который ты хочешь удалить:");
+            message.setChatId(String.valueOf(update.getMessage().getChatId()));
             String userId = update.getMessage().getFrom().getId() + "";
-            setInlineTaskKeyboard(message, userId, getTasks(userId));
+            setInlineTagKeyboard(message, userId, getTag(userId));
         }
         if(update.hasCallbackQuery()) {
             message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
-            String query = update.getCallbackQuery().getData().replace("/getTaskByTag", "");
+            String query = update.getCallbackQuery().getData().replace("/deleteTag", "");
             long tagId = Long.parseLong(query);
             String userId = update.getCallbackQuery().getFrom().getId() + "";
-            setInlineTaskKeyboard(message, userId, getTasks(userId, tagId));
+            System.out.println("delete " + backendConnector.deleteTag(userId, Long.parseLong(query)));
+            message.setText("Тег удален!");
         }
-
-
         return message;
     }
 
-    @Override
-    public boolean canHandle(Update update) {
-        if(update.getMessage() != null && update.getMessage().getText() != null) {
-            return update.getMessage().getText().equals("Задачи");
-        }
-        if(update.hasCallbackQuery()) {
-            return update.getCallbackQuery().getData().contains("/getTaskByTag");
-        }
-        return false;
-    }
-
-    public void setInlineTaskKeyboard(SendMessage message, String userId, List<Task> tasks){
+    public void setInlineTagKeyboard(SendMessage message, String userId, List<Tag> tags){
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
-        for(Task task: tasks){
+        for(Tag tag: tags){
             InlineKeyboardButton button = new InlineKeyboardButton();
-            button.setText(task.getContent());
-            button.setCallbackData(String.format("/taskget%d", task.getId()));
+            button.setText(tag.getName());
+            button.setCallbackData(String.format("/deleteTag%d", tag.getId()));
             List<InlineKeyboardButton> row = new ArrayList<>();
             row.add(button);
             keyboard.add(row);
         }
-
         keyboardMarkup.setKeyboard(keyboard);
+
         message.setReplyMarkup(keyboardMarkup);
     }
 
-    private List<Task> getTasks(String userId){
-        return backendConnector.getTasks(userId);
+    @Override
+    public boolean canHandle(Update update) {
+        if(update.getMessage() != null && update.getMessage().getText() != null)
+            return update.getMessage().getText().equals("Удалить тег");
+        if(update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getData().contains("/deleteTag");
+        }
+        return false;
     }
 
-    private List<Task> getTasks(String userId, long tagId){
-        return backendConnector.getTasksByTag(userId, tagId);
+    private List<Tag> getTag(String userId){
+        return backendConnector.getTags(userId);
     }
 }

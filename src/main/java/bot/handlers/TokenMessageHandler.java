@@ -42,18 +42,18 @@ public class TokenMessageHandler implements MessageHandler {
 
 
         //delete user
-        System.out.println("delete user");
-        try {
-            deleteUser(userId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+//        System.out.println("delete user");
+//        try {
+//            deleteUser(userId);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        } catch (Throwable e) {
+//            e.printStackTrace();
+//        }
         // create user
         System.out.println("create user");
         try {
@@ -203,15 +203,15 @@ public class TokenMessageHandler implements MessageHandler {
         return (Map<String, String>) objectMapper.readValue(resultBody, Map.class);
     }
 
-    public void deleteUser(String userId) throws IOException, InterruptedException, URISyntaxException {
-        URI uri = new URI("http://localhost:8081/user/" + userId);
-        HttpRequest request = HttpRequest.newBuilder(uri)
-                .DELETE()
-                .build();
-
-        HttpClient.newHttpClient()
-                .send(request, HttpResponse.BodyHandlers.ofString());
-    }
+//    public void deleteUser(String userId) throws IOException, InterruptedException, URISyntaxException {
+//        URI uri = new URI("http://localhost:8081/user/" + userId);
+//        HttpRequest request = HttpRequest.newBuilder(uri)
+//                .DELETE()
+//                .build();
+//
+//        HttpClient.newHttpClient()
+//                .send(request, HttpResponse.BodyHandlers.ofString());
+//    }
 
     public Map<String, String> postNewProject(URI uri, Map<String, String> map, String userId)
             throws IOException, InterruptedException {
