@@ -76,10 +76,20 @@ public class CreateTagsMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        UserState userState = stateManager.getState(update.getMessage().getFrom().getId());
-        if(update.getMessage() != null && update.getMessage().getText() != null &&
-                userState == UserState.CREATING_TAG) {
-            return update.getMessage().getText().startsWith("#");
+        if(update.getMessage() != null) {
+            UserState userState = stateManager.getState(update.getMessage().getFrom().getId());
+            if (update.getMessage() != null && update.getMessage().getText() != null &&
+                    userState == UserState.CREATING_TAG) {
+                return update.getMessage().getText().startsWith("#");
+            }
+        }
+        else{
+            UserState userState = stateManager.getState(update.getCallbackQuery().getFrom().getId());
+            if (update.getMessage() != null && update.getMessage().getText() != null &&
+                    userState == UserState.CREATING_TAG) {
+                return update.getMessage().getText().startsWith("#");
+            }
+
         }
         return false;
     }
