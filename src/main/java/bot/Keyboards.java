@@ -47,6 +47,8 @@ public class Keyboards {
         // Добавляем кнопки во вторую строчку клавиатуры
         keyboardSecondRow.add(new KeyboardButton("Задачи"));
 
+        keyboardSecondRow.add(new KeyboardButton("Задачи по тегу"));
+
         // Четвертая строчка клавиатуры
         KeyboardRow keyboardFourthRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
