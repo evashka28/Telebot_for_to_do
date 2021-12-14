@@ -2,11 +2,13 @@ package bot.handlers;
 
 import bot.BackendConnector;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
+@Order(value = 1)
 public class AddTagToTaskHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 

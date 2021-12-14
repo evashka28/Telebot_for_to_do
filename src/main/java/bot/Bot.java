@@ -36,10 +36,13 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         SendMessage message = null;
-        handlers.stream()
-                .filter(handler -> handler.canHandle(update))
-                .map(handler -> getMessage(update, handler))
-                .forEach(this::sendMessageToUser);
+        for (MessageHandler handler : handlers) {
+            if (handler.canHandle(update)) {
+                SendMessage sendMessage = getMessage(update, handler);
+                sendMessageToUser(sendMessage);
+                break;
+            }
+        }
     }
 
     private SendMessage getMessage(Update update, MessageHandler handler) {
@@ -78,11 +81,7 @@ public class Bot extends TelegramLongPollingBot {
 
         InlineKeyboards.setInlineTaskKeyboard(sendMessage, String.valueOf(userId), task.getId());
 
-        try {
-            execute(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+        sendMessageToUser(sendMessage);
 
     }
 }

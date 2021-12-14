@@ -7,6 +7,7 @@ import bot.domen.Tag;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.net.URLCodec;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Order(value = 1)
 public class LinkMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 

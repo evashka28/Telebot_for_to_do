@@ -4,11 +4,13 @@ import bot.Keyboards;
 import bot.state.StateManager;
 import bot.state.UserState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
+@Order(value = 1)
 public class TagsMessageHandler implements MessageHandler {
     @Autowired
     private StateManager stateManager;
