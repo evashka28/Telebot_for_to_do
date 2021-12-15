@@ -32,6 +32,11 @@ public class Keyboards {
         // Добавляем кнопки в первую строчку клавиатуры
         keyboardFirstRow.add(new KeyboardButton("Режим чтения"));
 
+        KeyboardButton locationButton = new KeyboardButton("Задать текущий часовой пояс");
+        locationButton.setRequestLocation(true);
+
+        keyboardFirstRow.add(locationButton);
+
         // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
