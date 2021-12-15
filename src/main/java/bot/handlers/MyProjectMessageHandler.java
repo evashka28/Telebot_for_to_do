@@ -75,7 +75,7 @@ public class MyProjectMessageHandler implements MessageHandler {
     public boolean canHandle(Update update) {
         if(update.getMessage() != null && update.getMessage().getText() != null) {
             String text = update.getMessage().getText();
-            return text.equals("Мои проекты");
+            return text.equalsIgnoreCase("Мои проекты");
         }
         return false;
     }

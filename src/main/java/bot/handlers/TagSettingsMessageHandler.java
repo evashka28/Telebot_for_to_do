@@ -28,7 +28,7 @@ public class TagSettingsMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if(update.getMessage() != null && update.getMessage().getText() != null) {
-            return update.getMessage().getText().equals("Теги");
+            return update.getMessage().getText().equalsIgnoreCase("Теги");
         }
         return false;
     }

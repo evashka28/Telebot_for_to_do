@@ -63,7 +63,7 @@ public class DeleteTagsMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if(update.getMessage() != null && update.getMessage().getText() != null)
-            return update.getMessage().getText().equals("Удалить тег");
+            return update.getMessage().getText().equalsIgnoreCase("Удалить тег");
         if(update.hasCallbackQuery()) {
             return update.getCallbackQuery().getData().contains("/deleteTag");
         }

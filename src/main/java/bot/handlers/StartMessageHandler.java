@@ -23,7 +23,7 @@ public class StartMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if(update.getMessage() != null && update.getMessage().getText() != null)
-            return update.getMessage().getText().equals("/start");
+            return update.getMessage().getText().equalsIgnoreCase("/start");
         return false;
     }
 }

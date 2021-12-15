@@ -40,7 +40,7 @@ public class TasksByTagHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if(update.getMessage() != null && update.getMessage().getText() != null) {
-            return update.getMessage().getText().equals("Задачи по тегу");
+            return update.getMessage().getText().equalsIgnoreCase("Задачи по тегу");
         }
         return false;
     }

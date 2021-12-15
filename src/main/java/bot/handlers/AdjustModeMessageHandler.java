@@ -35,7 +35,7 @@ public class AdjustModeMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.getMessage() != null && update.getMessage().getText() != null) {
-            return update.getMessage().getText().equals("Режим чтения");
+            return update.getMessage().getText().equalsIgnoreCase("Режим чтения");
         }
         return false;
     }

@@ -26,7 +26,7 @@ public class AboutBotMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if(update.getMessage() != null && update.getMessage().getText() != null) {
-            return update.getMessage().getText().equals("Как работает бот?");
+            return update.getMessage().getText().equalsIgnoreCase("Как работает бот?");
         }
         return false;
     }
