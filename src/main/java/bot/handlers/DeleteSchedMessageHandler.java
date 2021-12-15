@@ -21,19 +21,20 @@ public class DeleteSchedMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) throws URISyntaxException, IOException, InterruptedException {
         SendMessage message = new SendMessage();
-        String userId = update.getCallbackQuery().getFrom().getId() + "";
+        String[] words = update.getCallbackQuery().getData().split("/");
+        String tagId = words[1].replace("schtagid", "");
         message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
 
-        String query = update.getCallbackQuery().getData().replace("/taskdel", "");
-        System.out.println("delete " + backendConnector.deleteTask(userId, Long.parseLong(query)));
-        message.setText("Задание удалено!");
+        String query = words[0].replace("schdel", "");
+        System.out.println("delete " + backendConnector.deleteSch(tagId, query));
+        message.setText("Расписание удалено!");
         return message;
     }
 
     @Override
     public boolean canHandle(Update update) {
         if(update.hasCallbackQuery())
-            return update.getCallbackQuery().getData().contains("/taskdel");
+            return update.getCallbackQuery().getData().contains("/schdel");
         return false;
     }
 }

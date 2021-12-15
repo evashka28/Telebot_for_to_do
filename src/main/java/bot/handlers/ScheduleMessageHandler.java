@@ -37,11 +37,10 @@ public class ScheduleMessageHandler implements MessageHandler {
     public SendMessage getMessage(Update update) {
         SendMessage message;
         message = new SendMessage();
-        message.setText("Список твоих задач: ");
+        message.setText("Список твоих расписаний (для удаления нажмите на него):");
 
         if(update.hasCallbackQuery()) {
-            message.setChatId(String.valueOf(update.getMessage().getChatId()));
-            String userId = update.getMessage().getFrom().getId() + "";
+            message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
             String tagId = update.getCallbackQuery().getData().replace("/taggetsh","") ;
             setInlineTaskKeyboard(message, tagId, getSchs(tagId));
         }
@@ -67,7 +66,7 @@ public class ScheduleMessageHandler implements MessageHandler {
         for(TagRequest sch: sches){
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(sch.getDateTime() + sch.getDaysOfWeek());
-            button.setCallbackData(String.format("/taskget%s", sch.getId()));
+            button.setCallbackData(String.format("/shgdel%s/shtagid%s", sch.getId(), tagId));
             List<InlineKeyboardButton> row = new ArrayList<>();
             row.add(button);
             keyboard.add(row);

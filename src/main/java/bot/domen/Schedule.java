@@ -11,6 +11,8 @@ import java.util.List;
 @Setter
 public class Schedule {
 
+    String id;
+
     List<Integer> daysOfWeek;
     private LocalTime dateTime;
 

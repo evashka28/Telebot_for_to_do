@@ -15,9 +15,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.time.LocalTime;
 
 @Component
 public class BackendConnector {
+
     public List<Tag> getTags(String userId) {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
@@ -349,4 +351,32 @@ public class BackendConnector {
         }
     }
 
+    public String deleteSch(String tagId, String Id) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        URI uri = null;
+        try {
+            uri = new URI(String.format("http://localhost:8081/schedule/%s", Id));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .DELETE()
+                .header("tagId", tagId)
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (response.statusCode() == 410) {
+            return null;
+        } else {
+            String body = response.toString();
+            return body;
+        }
+    }
 }
