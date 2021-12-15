@@ -14,10 +14,10 @@ import java.util.List;
 
 @Component
 @Order(value = 1)
-public class AdjustModeMessageHandler implements MessageHandler {
+public class ScheduleviewHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
-    public AdjustModeMessageHandler() {
+    public ScheduleviewHandler() {
         this.backendConnector = new BackendConnector();
     }
 
@@ -26,7 +26,7 @@ public class AdjustModeMessageHandler implements MessageHandler {
         SendMessage message = new SendMessage();
         String userId = update.getMessage().getFrom().getId() + "";
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
-        message.setText("Выбери тег для которого хочешь настроить режим \n ⬇️ ️");
+        message.setText("Выбери тег для которого хочешь посмотрееть расписание \n ⬇️ ️");
         //Keyboards.setButtons5(message);
         setInlineTagKeyboard(message, userId);
         return message;
@@ -35,7 +35,7 @@ public class AdjustModeMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.getMessage() != null && update.getMessage().getText() != null) {
-            return update.getMessage().getText().equalsIgnoreCase("Создать расписание");
+            return update.getMessage().getText().equals("Моё расписание");
         }
         return false;
     }
@@ -50,7 +50,7 @@ public class AdjustModeMessageHandler implements MessageHandler {
         for (Tag tag : tags) {
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(tag.getName());
-            button.setCallbackData(String.format("/tagget%d", tag.getId()));
+            button.setCallbackData(String.format("/taggetsh%d", tag.getId()));
             List<InlineKeyboardButton> row = new ArrayList<>();
             row.add(button);
             keyboard.add(row);

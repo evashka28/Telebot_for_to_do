@@ -1,6 +1,7 @@
 package bot;
 
 import bot.domen.Tag;
+import bot.domen.TagRequest;
 import bot.domen.Task;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -278,4 +279,74 @@ public class BackendConnector {
             return body;
         }
     }
+
+
+    public List<TagRequest> getSchs(String tagId) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        URI uri = null;
+        try {
+            uri = new URI("http://localhost:8081/schedules");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .header("tagId", tagId)
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (response.statusCode() == 410) {
+            return null;
+        } else {
+            String body = response.body();
+            try {
+                return objectMapper.readValue(body, new TypeReference<>() {
+                });
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
+    public TagRequest getSh(String userId, long taskId) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        URI uri = null;
+        try {
+            uri = new URI(String.format("http://localhost:8081/task/%d", taskId));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .header("userId", userId)
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (response.statusCode() == 410) {
+            return null;
+        } else {
+            String body = response.body();
+            try {
+                return objectMapper.readValue(body, new TypeReference<>() {
+                });
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
 }
