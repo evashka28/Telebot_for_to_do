@@ -30,7 +30,7 @@ public class LoginMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.getMessage() != null && update.getMessage().getText() != null) {
+        if(update.hasMessage() && update.getMessage().hasText()) {
             return update.getMessage().getText().equalsIgnoreCase("Залогиниться✅");
         }
         return false;

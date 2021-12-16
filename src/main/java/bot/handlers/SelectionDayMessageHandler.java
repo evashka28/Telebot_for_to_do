@@ -53,7 +53,8 @@ public class SelectionDayMessageHandler implements MessageHandler {
             else if (timeiswrong(words)|| words[1].split(":").length !=3  || words[1].split(":")[0].length() !=2
                     || words[1].split(":")[1].length() !=2 || words[1].split(":")[2].length() !=2 ) {message.setText("Неправильно введено время, попробуй еще раз.");}
             else {
-                message.setText("Вы ввели ...");
+                message.setText("Спасибо, задача с тегом  будет выведена в  в" );
+                //message.setText("Спасибо, задача с тегом %s будет выведена в %s в %s", tagId, words[1], weeks[Integer.parseInt(words[2].split(",")[1])]  );
 
 
                 Map<String, Object> result = null;
@@ -62,11 +63,10 @@ public class SelectionDayMessageHandler implements MessageHandler {
                     Map<String, Object> tagBody = Map.of(
                             "dateTime", words[1],
                             "daysOfWeek", words[2],
-                            "tagId", tagId,
-                            "userId", userId
+                            "id", "hi"
                     );
 
-                    result = postNewSch(new URI("http://localhost:8081/schedule/tag"), tagBody);
+                    result = postNewSch(new URI("http://localhost:8081/schedule/tag"), tagBody, tagId, userId);
                     System.out.println(tagBody);
                     System.out.println("resultTask = " + result);
                 } catch (IOException e) {
@@ -116,7 +116,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
 
 
 
-    public Map<String,Object> postNewSch(URI uri, Map<String,Object> map)
+    public Map<String,Object> postNewSch(URI uri, Map<String,Object> map, String tagId, String userId)
             throws IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper
@@ -125,6 +125,8 @@ public class SelectionDayMessageHandler implements MessageHandler {
 
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("Content-Type", "application/json")
+                .header("tagId", tagId)
+                .header("userId", userId)
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
@@ -139,7 +141,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
     public boolean canHandle(Update update) {
         //if(update.hasCallbackQuery())
        //     return update.getCallbackQuery().getData().contains("/tagget");
-        if((update.getMessage() != null && update.getMessage().getText() != null) ) {
+        if((update.hasMessage() && update.getMessage().hasText()) ) {
             String text = update.getMessage().getText();
             return  text.contains("sh") ;}
         else if (update.hasCallbackQuery()){

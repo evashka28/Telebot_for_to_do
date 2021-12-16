@@ -161,7 +161,7 @@ public class TokenMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        if (update.getMessage() != null && update.getMessage().getText() != null) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             boolean can = update.getMessage().getText().length() == 40;
             return can;
         }

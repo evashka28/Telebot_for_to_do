@@ -32,7 +32,7 @@ public class ProjectMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.getMessage() != null && update.getMessage().getText() != null) {
+        if(update.hasMessage() && update.getMessage().hasText()) {
             String text = update.getMessage().getText();
             return text.equalsIgnoreCase("Проекты");
         }
