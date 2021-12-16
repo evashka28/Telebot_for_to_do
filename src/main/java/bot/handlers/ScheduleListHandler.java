@@ -42,7 +42,7 @@ public class ScheduleListHandler implements MessageHandler {
     public boolean canHandle(Update update) {
 
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equals("Моё расписание");
+            return update.getMessage().getText().equalsIgnoreCase("Моё расписание");
         }
         return false;
     }
@@ -54,8 +54,8 @@ public class ScheduleListHandler implements MessageHandler {
 
         for(TagRequest schedule: schedules){
             InlineKeyboardButton button = new InlineKeyboardButton();
-            button.setText(schedule.getDateTime() + schedule.getDaysOfWeek());
-            button.setCallbackData(String.format("/schdel%s/", schedule.getId()));
+            button.setText(String.format("Время: %s, Дни: %s", schedule.getDateTime(), schedule.getDaysOfWeek()));
+            button.setCallbackData(String.format("/schdel%s", schedule.getId()));
             List<InlineKeyboardButton> row = new ArrayList<>();
             row.add(button);
             keyboard.add(row);

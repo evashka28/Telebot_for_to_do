@@ -26,7 +26,7 @@ public class ReadingModeHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if(update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equals("Режим чтения");
+            return update.getMessage().getText().equals("Расписание");
         }
         return false;
     }

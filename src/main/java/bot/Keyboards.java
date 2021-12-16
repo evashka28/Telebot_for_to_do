@@ -30,10 +30,10 @@ public class Keyboards {
         // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("Режим чтения"));
+        keyboardFirstRow.add(new KeyboardButton("Расписание"));
         keyboardFirstRow.add(new KeyboardButton("Дай Задачу"));
 
-        KeyboardButton locationButton = new KeyboardButton("Задать текущий часовой пояс");
+        KeyboardButton locationButton = new KeyboardButton("Задать часовой пояс");
         locationButton.setRequestLocation(true);
 
         keyboardFirstRow.add(locationButton);
