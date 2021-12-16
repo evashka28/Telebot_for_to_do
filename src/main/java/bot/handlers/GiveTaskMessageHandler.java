@@ -1,6 +1,7 @@
 package bot.handlers;
 
 import bot.BackendConnector;
+import bot.InlineKeyboards;
 import bot.domen.Project;
 import bot.domen.Task;
 import org.springframework.core.annotation.Order;
@@ -28,9 +29,11 @@ public class GiveTaskMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         String userId = update.getMessage().getFrom().getId() + "";
-        String returnTask = getTask(userId).getContent() + "";
+        Task task = getTask(userId);
+        String taskContent = task.getContent() + "";
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
-        message.setText("Отличное время, чтобы изучить что-то новое. Например  это:" + returnTask);
+        message.setText("Отличное время, чтобы изучить что-то новое. Например  это:" + taskContent);
+        InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
 
         return message;
     }
