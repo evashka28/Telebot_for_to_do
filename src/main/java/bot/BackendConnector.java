@@ -358,7 +358,8 @@ public class BackendConnector {
             e.printStackTrace();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
-                .PUT(HttpRequest.BodyPublishers.ofString(String.format("timezone:%s", timezone)))
+                .header("Content-Type", "application/json")
+                .PUT(HttpRequest.BodyPublishers.ofString(String.format(timezone)))
                 .header("userId", userId)
                 .build();
 
@@ -374,13 +375,7 @@ public class BackendConnector {
             return null;
         } else {
             String body = response.body();
-            try {
-                return objectMapper.readValue(body, new TypeReference<>() {
-                });
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return null;
-            }
+            return body;
         }
     }
 
