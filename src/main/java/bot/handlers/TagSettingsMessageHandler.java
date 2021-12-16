@@ -20,7 +20,8 @@ public class TagSettingsMessageHandler implements MessageHandler {
                         "Это удобно, я проверял\uD83D\uDE09\n\n" +
                         "Ты можешь\n" +
                         "➡️Посмотреть все свои теги \n" +
-                        "➡️Создать новый тег  \n");
+                        "➡️Создать новый тег  \n"+
+                        "➡️Удалить тег \n" );
         Keyboards.setButtonsTag(message);
         return message;
     }

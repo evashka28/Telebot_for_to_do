@@ -26,7 +26,6 @@ public class SelectionDayMessageHandler implements MessageHandler {
     Schedule schedule = new Schedule();
     List<Integer> daysOfWeek = new ArrayList<Integer>();
     String tagId="";
-    String[] weeks= { "Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"};
 
     @Override
     public SendMessage getMessage(Update update) {
@@ -54,8 +53,8 @@ public class SelectionDayMessageHandler implements MessageHandler {
             else if (timeiswrong(words)|| words[1].split(":").length !=3  || words[1].split(":")[0].length() !=2
                     || words[1].split(":")[1].length() !=2 || words[1].split(":")[2].length() !=2 ) {message.setText("Неправильно введено время, попробуй еще раз.");}
             else {
-                message.setText("Спасибо, задача с тегом  будет выведена в  в" );
-                //message.setText("Спасибо, задача с тегом %s будет выведена в %s в %s", tagId, words[1], weeks[Integer.parseInt(words[2].split(",")[1])]  );
+                message.setText("Вы ввели ...");
+
 
                 Map<String, Object> result = null;
                 try {
@@ -63,13 +62,11 @@ public class SelectionDayMessageHandler implements MessageHandler {
                     Map<String, Object> tagBody = Map.of(
                             "dateTime", words[1],
                             "daysOfWeek", words[2],
-                            "id", "hi"
-
-
+                            "tagId", tagId,
+                            "userId", userId
                     );
 
-                    result = postNewSch(new URI("http://localhost:8081/schedule/tag"), tagBody, tagId, userId);
-
+                    result = postNewSch(new URI("http://localhost:8081/schedule/tag"), tagBody);
                     System.out.println(tagBody);
                     System.out.println("resultTask = " + result);
                 } catch (IOException e) {
@@ -98,15 +95,6 @@ public class SelectionDayMessageHandler implements MessageHandler {
         return false;
     }
 
-    /* public String days(String[] words) {
-        String day="";
-        for (int i = 0; i < words[2].split(",").length - 1; i++) {
-            day= day+ weeks(Integer.parseInt(words[2].split(",")[i]));
-        }
-        return day;
-    }*/
-
-
     public boolean wrongday(String[] words) {
         for (int i = 0; i < words[2].split(",").length; i++) {
             if (Integer.parseInt(words[2].split(",")[i])>7){
@@ -128,7 +116,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
 
 
 
-    public Map<String,Object> postNewSch(URI uri, Map<String,Object> map, String tagId, String userId)
+    public Map<String,Object> postNewSch(URI uri, Map<String,Object> map)
             throws IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper
@@ -137,8 +125,6 @@ public class SelectionDayMessageHandler implements MessageHandler {
 
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("Content-Type", "application/json")
-                .header("tagId", tagId)
-                .header("userId", userId)
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 

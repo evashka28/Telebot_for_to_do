@@ -105,10 +105,8 @@ public class LinkMessageHandler implements MessageHandler {
     public boolean canHandle(Update update) {
         if(update.getMessage() != null && update.getMessage().getText() != null) {
             String text = update.getMessage().getText();
-            String isSafeLink = "https://";
-            String isLink = "http://";
-            return (text.toLowerCase().contains(isLink.toLowerCase()) ||
-                    text.toLowerCase().contains(isSafeLink.toLowerCase()));
+            String isLink = "https://";
+            return text.toLowerCase().contains(isLink.toLowerCase());
         }
         return false;
 
