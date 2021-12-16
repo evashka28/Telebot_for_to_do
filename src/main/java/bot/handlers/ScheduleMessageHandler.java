@@ -57,7 +57,7 @@ public class ScheduleMessageHandler implements MessageHandler {
         for(TagRequest sch: sches){
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(sch.getDateTime() + sch.getDaysOfWeek());
-            button.setCallbackData(String.format("/shgdel%s/shtagid%s", sch.getId(), tagId));
+            button.setCallbackData(String.format("/schdel%s/schtagid%s", sch.getId(), tagId));
             List<InlineKeyboardButton> row = new ArrayList<>();
             row.add(button);
             keyboard.add(row);

@@ -1,4 +1,4 @@
-package bot.handlers;
+package bot;
 
 import org.springframework.stereotype.Component;
 import us.dustinj.timezonemap.TimeZoneMap;

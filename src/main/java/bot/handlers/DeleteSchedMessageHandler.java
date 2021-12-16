@@ -24,11 +24,13 @@ public class DeleteSchedMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) throws URISyntaxException, IOException, InterruptedException {
         SendMessage message = new SendMessage();
-        String[] words = update.getCallbackQuery().getData().split("/");
-        String tagId = words[1].replace("schtagid", "");
         message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
 
-        String query = words[0].replace("schdel", "");
+        String[] words = update.getCallbackQuery().getData().split("/");
+        String tagId = words[2].replace("schtagid", "");
+        System.out.println(tagId);
+        String query = words[1].replace("schdel", "");
+        System.out.println(query);
         System.out.println("delete " + backendConnector.deleteSch(tagId, query));
         message.setText("Расписание удалено!");
         return message;
