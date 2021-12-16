@@ -30,18 +30,29 @@ public class DeleteTagsMessageHandler implements MessageHandler {
         message = new SendMessage();
         if(update.hasMessage()) {
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
-            message.setText("Выбери тег, который ты хочешь удалить:");
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
             String userId = update.getMessage().getFrom().getId() + "";
-            setInlineTagKeyboard(message, userId, getTag(userId));
+            try {
+                message.setText("Выбери тег, который ты хочешь удалить:");
+                setInlineTagKeyboard(message, userId, getTag(userId));
+            } catch (Exception e) {
+                message.setText("Ошибка!");
+                e.printStackTrace();
+            }
         }
         if(update.hasCallbackQuery()) {
             message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
             String query = update.getCallbackQuery().getData().replace("/deleteTag", "");
             long tagId = Long.parseLong(query);
             String userId = update.getCallbackQuery().getFrom().getId() + "";
-            System.out.println("delete " + backendConnector.deleteTag(userId, Long.parseLong(query)));
-            message.setText("Тег удален!");
+            try {
+                System.out.println("delete " + backendConnector.deleteTag(userId, Long.parseLong(query)));
+                message.setText("Тег удален!");
+            } catch (Exception e) {
+                message.setText("Ошибка!");
+                e.printStackTrace();
+            }
+
         }
         return message;
     }
@@ -74,7 +85,7 @@ public class DeleteTagsMessageHandler implements MessageHandler {
         return false;
     }
 
-    private List<Tag> getTag(String userId){
+    private List<Tag> getTag(String userId) throws Exception {
         return backendConnector.getTags(userId);
     }
 }

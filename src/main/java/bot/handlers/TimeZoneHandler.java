@@ -33,8 +33,13 @@ public class TimeZoneHandler implements MessageHandler{
         Location location = update.getMessage().getLocation();
         System.out.println(location.getLatitude() + " " + location.getLongitude());
         String timezone = timeZoneMapBean.getTimeZone(location.getLatitude(), location.getLongitude());
-        backendConnector.setTimezone(userId, timezone);
-        message.setText("Ваш часовой пояс - " + timezone);
+        try {
+            backendConnector.setTimezone(userId, timezone);
+        } catch (Exception e) {
+            message.setText("Ваш часовой пояс - " + timezone);
+            e.printStackTrace();
+        }
+        message.setText("Ошибка!");
         return message;
     }
 

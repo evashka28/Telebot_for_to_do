@@ -30,9 +30,15 @@ public class ScheduleListHandler implements MessageHandler {
         message = new SendMessage();
         String userId = update.getMessage().getFrom().getId() + "";
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Список твоих расписаний (для удаления нажмите на него):");
 
-        setInlineTaskKeyboard(message, getSchedules(userId));
+
+        try {
+            message.setText("Список твоих расписаний (для удаления нажмите на него):");
+            setInlineTaskKeyboard(message, getSchedules(userId));
+        } catch (Exception e) {
+            message.setText("Ошибка!");
+            e.printStackTrace();
+        }
 
 
         return message;
@@ -65,7 +71,7 @@ public class ScheduleListHandler implements MessageHandler {
         message.setReplyMarkup(keyboardMarkup);
     }
 
-    private List<TagRequest> getSchedules(String tagId){
+    private List<TagRequest> getSchedules(String tagId) throws Exception {
         return backendConnector.getSchedules(tagId);
     }
 

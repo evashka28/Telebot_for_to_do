@@ -24,17 +24,22 @@ public class TaskMessageHandler implements MessageHandler{
 
 
     @Override
-    public SendMessage getMessage(Update update) throws URISyntaxException, IOException, InterruptedException {
+    public SendMessage getMessage(Update update) {
         SendMessage message = new SendMessage();
         String userId = update.getCallbackQuery().getFrom().getId() + "";
         message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
 
         String query = update.getCallbackQuery().getData().replace("/taskget", "");
 
-        Task task = backendConnector.getTask(userId, Long.parseLong(query));
-
-        message.setText(task.getContent());
-        InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
+        Task task = null;
+        try {
+            task = backendConnector.getTask(userId, Long.parseLong(query));
+            message.setText(task.getContent());
+            InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
+        } catch (Exception e) {
+            message.setText("Ошибка!");
+            e.printStackTrace();
+        }
 
         return message;
     }

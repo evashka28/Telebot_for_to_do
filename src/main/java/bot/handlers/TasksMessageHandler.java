@@ -32,14 +32,24 @@ public class TasksMessageHandler implements MessageHandler {
         if(update.hasMessage()) {
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
             String userId = update.getMessage().getFrom().getId() + "";
-            setInlineTaskKeyboard(message, userId, getTasks(userId));
+            try {
+                setInlineTaskKeyboard(message, userId, getTasks(userId));
+            } catch (Exception e) {
+                message.setText("Ошибка!");
+                e.printStackTrace();
+            }
         }
         if(update.hasCallbackQuery()) {
             message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
             String query = update.getCallbackQuery().getData().replace("/getTaskByTag", "");
             long tagId = Long.parseLong(query);
             String userId = update.getCallbackQuery().getFrom().getId() + "";
-            setInlineTaskKeyboard(message, userId, getTasks(userId, tagId));
+            try {
+                setInlineTaskKeyboard(message, userId, getTasks(userId, tagId));
+            } catch (Exception e) {
+                message.setText("Ошибка!");
+                e.printStackTrace();
+            }
         }
 
 
@@ -75,11 +85,11 @@ public class TasksMessageHandler implements MessageHandler {
         message.setReplyMarkup(keyboardMarkup);
     }
 
-    private List<Task> getTasks(String userId){
+    private List<Task> getTasks(String userId) throws Exception {
         return backendConnector.getTasks(userId);
     }
 
-    private List<Task> getTasks(String userId, long tagId){
+    private List<Task> getTasks(String userId, long tagId) throws Exception {
         return backendConnector.getTasksByTag(userId, tagId);
     }
 }

@@ -28,13 +28,19 @@ public class TasksByTagHandler implements MessageHandler {
 
 
     @Override
-    public SendMessage getMessage(Update update) throws URISyntaxException, IOException, InterruptedException {
+    public SendMessage getMessage(Update update) {
         String userId = update.getMessage().getFrom().getId() + "";
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Выберите тег: ");
-        setInlineTagKeyboard(message, userId);
+
+        try {
+            message.setText("Выберите тег: ");
+            setInlineTagKeyboard(message, userId);
+        } catch (Exception e) {
+            message.setText("Ошибка!");
+            e.printStackTrace();
+        }
 
 
         return message;
@@ -48,7 +54,7 @@ public class TasksByTagHandler implements MessageHandler {
         return false;
     }
 
-    public void setInlineTagKeyboard(SendMessage message, String userId){
+    public void setInlineTagKeyboard(SendMessage message, String userId) throws Exception {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
         List<Tag> tags = backendConnector.getTags(userId);

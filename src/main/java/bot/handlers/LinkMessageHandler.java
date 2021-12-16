@@ -61,16 +61,14 @@ public class LinkMessageHandler implements MessageHandler {
 
             result = postNewTask(new URI("http://localhost:8081/task"), taskBody, userId);
             System.out.println("resultTask = " + result);
-        } catch (IOException e) {
+
+            if(result != null) {
+                long taskId = Long.parseLong(result.get("id").toString());
+                InlineKeyboards.setInlineTagKeyboard(message, getTags(userId), taskId);
+            }
+        } catch (Exception e) {
+            message.setText("Ошибка!");
             e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        if(result != null) {
-            long id = Long.parseLong(result.get("id").toString());
-            InlineKeyboards.setInlineTagKeyboard(message, getTags(userId), id);
         }
 
         return message;
@@ -109,7 +107,7 @@ public class LinkMessageHandler implements MessageHandler {
 
     }
 
-    private List<Tag> getTags(String userId) {
+    private List<Tag> getTags(String userId) throws Exception {
         return backendConnector.getTags(userId);
     }
 }

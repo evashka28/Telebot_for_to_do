@@ -28,8 +28,14 @@ public class DeleteScheduleMessageHandler implements MessageHandler {
 
         String query = update.getCallbackQuery().getData().replace("/schdel", "");
         System.out.println(query);
-        System.out.println("delete " + backendConnector.deleteSchedule(query));
-        message.setText("Расписание удалено!");
+        try {
+            System.out.println("delete " + backendConnector.deleteSchedule(query));
+            message.setText("Расписание удалено!");
+        } catch (Exception e) {
+            message.setText("Ошибка!");
+            e.printStackTrace();
+        }
+
         return message;
     }
 

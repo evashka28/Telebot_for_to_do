@@ -21,13 +21,14 @@ import java.time.LocalTime;
 @Component
 public class BackendConnector {
 
-    public List<Tag> getTags(String userId) {
+    public List<Tag> getTags(String userId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
             uri = new URI("http://localhost:8081/tags");
         } catch (URISyntaxException e) {
             e.printStackTrace();
+            throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("userId", userId)
@@ -39,6 +40,7 @@ public class BackendConnector {
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            throw new Exception();
         }
 
         if (response.statusCode() == 410) {
@@ -50,18 +52,19 @@ public class BackendConnector {
                 });
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
-                return null;
+                throw new Exception();
             }
         }
     }
 
-    public List<Task> getTasks(String userId) {
+    public List<Task> getTasks(String userId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
             uri = new URI("http://localhost:8081/tasks");
         } catch (URISyntaxException e) {
             e.printStackTrace();
+            throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("userId", userId)
@@ -73,6 +76,7 @@ public class BackendConnector {
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            throw new Exception();
         }
 
         if (response.statusCode() == 410) {
@@ -84,18 +88,19 @@ public class BackendConnector {
                 });
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
-                return null;
+                throw new Exception();
             }
         }
     }
 
-    public List<Task> getTasksByTag(String userId, long tagId) {
+    public List<Task> getTasksByTag(String userId, long tagId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
             uri = new URI(String.format("http://localhost:8081/tasks/tag/%d", tagId));
         } catch (URISyntaxException e) {
             e.printStackTrace();
+            throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("userId", userId)
@@ -107,6 +112,7 @@ public class BackendConnector {
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            throw new Exception();
         }
 
         if (response.statusCode() == 410) {
@@ -118,18 +124,19 @@ public class BackendConnector {
                 });
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
-                return null;
+                throw new Exception();
             }
         }
     }
 
-    public Task getTask(String userId, long taskId) {
+    public Task getTask(String userId, long taskId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
             uri = new URI(String.format("http://localhost:8081/task/%d", taskId));
         } catch (URISyntaxException e) {
             e.printStackTrace();
+            throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("userId", userId)
@@ -141,6 +148,7 @@ public class BackendConnector {
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            throw new Exception();
         }
 
         if (response.statusCode() == 410) {
@@ -152,12 +160,12 @@ public class BackendConnector {
                 });
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
-                return null;
+                throw new Exception();
             }
         }
     }
 
-    public Task getOneTask(String userId) {
+    public Task getOneTask(String userId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
@@ -186,12 +194,12 @@ public class BackendConnector {
                 });
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
-                return null;
+                throw new Exception();
             }
         }
     }
 
-    public String addTagToTask(String userId, long taskId, long tagId) {
+    public String addTagToTask(String userId, long taskId, long tagId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
@@ -221,12 +229,12 @@ public class BackendConnector {
                 });
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
-                return null;
+                throw new Exception();
             }
         }
     }
 
-    public String deleteTask(String userId, long taskId) {
+    public String deleteTask(String userId, long taskId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
@@ -245,6 +253,7 @@ public class BackendConnector {
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            throw new Exception();
         }
 
         if (response.statusCode() == 410) {
@@ -255,13 +264,14 @@ public class BackendConnector {
         }
     }
 
-    public String completeTask(String userId, long taskId) {
+    public String completeTask(String userId, long taskId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
             uri = new URI(String.format("http://localhost:8081/task/%d/complete", taskId));
         } catch (URISyntaxException e) {
             e.printStackTrace();
+            throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .PUT(HttpRequest.BodyPublishers.noBody())
@@ -274,6 +284,7 @@ public class BackendConnector {
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            throw new Exception();
         }
 
         if (response.statusCode() == 410) {
@@ -284,7 +295,7 @@ public class BackendConnector {
         }
     }
 
-    public String deleteTag(String userId, long tagId) {
+    public String deleteTag(String userId, long tagId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
@@ -303,6 +314,7 @@ public class BackendConnector {
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            throw new Exception();
         }
 
         if (response.statusCode() == 410) {
@@ -314,7 +326,7 @@ public class BackendConnector {
     }
 
 
-    public List<TagRequest> getSchedules(String userId) {
+    public List<TagRequest> getSchedules(String userId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.findAndRegisterModules();
         URI uri = null;
@@ -344,12 +356,12 @@ public class BackendConnector {
                 });
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
-                return null;
+                throw new Exception();
             }
         }
     }
 
-    public TagRequest getSchedule(String userId, long taskId) {
+    public TagRequest getSchedule(String userId, long taskId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
@@ -367,6 +379,7 @@ public class BackendConnector {
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            throw new Exception();
         }
 
         if (response.statusCode() == 410) {
@@ -383,7 +396,7 @@ public class BackendConnector {
         }
     }
 
-    public String setTimezone(String userId, String timezone) {
+    public String setTimezone(String userId, String timezone) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
@@ -403,6 +416,7 @@ public class BackendConnector {
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            throw new Exception();
         }
 
         if (response.statusCode() == 410) {
@@ -413,7 +427,7 @@ public class BackendConnector {
         }
     }
 
-    public String deleteSchedule(String id) {
+    public String deleteSchedule(String id) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
@@ -431,6 +445,7 @@ public class BackendConnector {
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            throw new Exception();
         }
 
         if (response.statusCode() == 410) {

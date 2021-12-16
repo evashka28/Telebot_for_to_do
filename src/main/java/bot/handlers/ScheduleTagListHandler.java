@@ -29,9 +29,14 @@ public class ScheduleTagListHandler implements MessageHandler {
         SendMessage message = new SendMessage();
         String userId = update.getMessage().getFrom().getId() + "";
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
-        message.setText("Выбери тег для которого хочешь посмотрееть расписание \n ⬇️ ️");
-        //Keyboards.setButtons5(message);
-        setInlineTagKeyboard(message, userId);
+
+        try {
+            message.setText("Выбери тег для которого хочешь посмотрееть расписание \n ⬇️ ️");
+            setInlineTagKeyboard(message, userId);
+        } catch (Exception e) {
+            message.setText("Ошибка!");
+            e.printStackTrace();
+        }
         return message;
     }
 
@@ -43,7 +48,7 @@ public class ScheduleTagListHandler implements MessageHandler {
         return false;
     }
 
-    public void setInlineTagKeyboard(SendMessage message, String userId) {
+    public void setInlineTagKeyboard(SendMessage message, String userId) throws Exception {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
         List<Tag> tags = backendConnector.getTags(userId);

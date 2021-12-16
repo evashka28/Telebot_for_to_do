@@ -28,8 +28,14 @@ public class CompleteTaskMessageHandler implements MessageHandler{
         message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
 
         String query = update.getCallbackQuery().getData().replace("/taskcom", "");
-        System.out.println("complete " + backendConnector.completeTask(userId, Long.parseLong(query)));
         message.setText("Задание выполнено!");
+        try {
+            System.out.println("complete " + backendConnector.completeTask(userId, Long.parseLong(query)));
+        } catch (Exception e) {
+            message.setText("Ошибка!");
+            e.printStackTrace();
+        }
+
         return message;
     }
 

@@ -29,10 +29,17 @@ public class GiveTaskMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         String userId = update.getMessage().getFrom().getId() + "";
-        Task task = getTask(userId);
-        String taskContent = task.getContent() + "";
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
-        message.setText("Отличное время, чтобы изучить что-то новое. Например  это:" + taskContent);
+        Task task = null;
+        try {
+            task = getTask(userId);
+            String taskContent = task.getContent() + "";
+            message.setText("Отличное время, чтобы изучить что-то новое. Например  это:" + taskContent);
+        } catch (Exception e) {
+            message.setText("Ошибка!");
+            e.printStackTrace();
+        }
+
         InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
 
         return message;
@@ -46,7 +53,7 @@ public class GiveTaskMessageHandler implements MessageHandler {
         return false;
     }
 
-    private Task getTask(String userId){
+    private Task getTask(String userId) throws Exception {
         return backendConnector.getOneTask(userId);
     }
 

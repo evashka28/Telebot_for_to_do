@@ -29,11 +29,17 @@ public class TagSelectionHandler implements MessageHandler{
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
         String userId = update.getCallbackQuery().getFrom().getId().toString();
-        message.setText("Выберите тег:");
+
 
         String query = update.getCallbackQuery().getData().replace("/tasktagsel", "");
         long taskId = Long.parseLong(query);
-        InlineKeyboards.setInlineTagKeyboard(message, getTags(userId), taskId);
+        try {
+            message.setText("Выберите тег:");
+            InlineKeyboards.setInlineTagKeyboard(message, getTags(userId), taskId);
+        } catch (Exception e) {
+            message.setText("Ошибка!");
+            e.printStackTrace();
+        }
 
         return message;
     }
@@ -45,7 +51,7 @@ public class TagSelectionHandler implements MessageHandler{
         return false;
     }
 
-    private List<Tag> getTags(String userId) {
+    private List<Tag> getTags(String userId) throws Exception {
         return backendConnector.getTags(userId);
     }
 

@@ -40,7 +40,7 @@ public class CreateTagsMessageHandler implements MessageHandler {
         stateManager.setState(UserState.NORMAL, update.getMessage().getFrom().getId());
 
 
-    // create new task in ToDoist
+    // create new tag in ToDoist
     Map<String, Object> result = null;
         try {
         String id = 0 +"";
@@ -51,10 +51,9 @@ public class CreateTagsMessageHandler implements MessageHandler {
 
         result = postNewTag(new URI("http://localhost:8081/tag"), tagBody, userId);
         System.out.println("resultTag = " + result);
-    } catch (IOException | InterruptedException e) {
+    } catch (IOException | InterruptedException | URISyntaxException e) {
         e.printStackTrace();
-    } catch (URISyntaxException e) {
-        e.printStackTrace();
+        message.setText("Ошибка");
     }
         return message;
 }
