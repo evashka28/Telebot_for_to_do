@@ -31,6 +31,7 @@ public class Keyboards {
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
         keyboardFirstRow.add(new KeyboardButton("Режим чтения"));
+        keyboardFirstRow.add(new KeyboardButton("Дай Задачу"));
 
         KeyboardButton locationButton = new KeyboardButton("Задать текущий часовой пояс");
         locationButton.setRequestLocation(true);
@@ -98,7 +99,7 @@ public class Keyboards {
         sendMessage.setReplyMarkup(replyKeyboardMarkup);
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(false);
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
 
         // Создаем список строк клавиатуры
         List<KeyboardRow> keyboard = new ArrayList<>();
@@ -155,9 +156,9 @@ public class Keyboards {
         // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("Мои проекты"));
+        keyboardFirstRow.add(new KeyboardButton());
         //keyboardFirstRow.add(new KeyboardButton("Создать проект"));
-        keyboardFirstRow.add(new KeyboardButton("Назад \uD83D\uDD19"));
+        keyboardFirstRow.add(new KeyboardButton());
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);

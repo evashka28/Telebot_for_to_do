@@ -74,7 +74,7 @@ public class ReturnTagMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if(update.getMessage() != null && update.getMessage().getText() != null) {
-            return update.getMessage().getText().equals("Мои теги");
+            return update.getMessage().getText().equalsIgnoreCase("Мои теги");
         }
         return false;
     }
