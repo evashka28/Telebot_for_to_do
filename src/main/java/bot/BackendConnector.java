@@ -157,6 +157,40 @@ public class BackendConnector {
         }
     }
 
+    public Task getOneTask(String userId) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        URI uri = null;
+        try {
+            uri = new URI(String.format("http://localhost:8081/task"));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .header("userId", userId)
+                .build();
+
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (response.statusCode() == 410) {
+            return null;
+        } else {
+            String body = response.body();
+            try {
+                return objectMapper.readValue(body, new TypeReference<>() {
+                });
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
     public String addTagToTask(String userId, long taskId, long tagId) {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
