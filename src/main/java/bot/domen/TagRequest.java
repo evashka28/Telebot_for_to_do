@@ -7,7 +7,9 @@ import java.time.LocalTime;
 public class TagRequest implements Serializable {
     private String id;
 
-    String daysOfWeek;
+    private String daysOfWeek;
+
+    private Tag tag;
 
     private LocalTime dateTime;
 
@@ -39,5 +41,11 @@ public class TagRequest implements Serializable {
         this.dateTime = dateTime;
     }
 
+    public Tag getTag() {
+        return tag;
+    }
 
+    public void setTag(Tag tag) {
+        this.tag = tag;
+    }
 }
