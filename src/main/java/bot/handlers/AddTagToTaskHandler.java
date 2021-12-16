@@ -13,9 +13,10 @@ public class AddTagToTaskHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
     @Autowired
-    public AddTagToTaskHandler() {
-        this.backendConnector = new BackendConnector();
+    public AddTagToTaskHandler(BackendConnector backendConnector) {
+        this.backendConnector = backendConnector;
     }
+
 
     @Override
     public SendMessage getMessage(Update update) {

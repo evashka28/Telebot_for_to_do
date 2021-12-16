@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
 @Order(value = 1)
-public class ThisismeMessageHandler implements MessageHandler {
+public class ThisIsMeMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;

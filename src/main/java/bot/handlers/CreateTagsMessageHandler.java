@@ -21,8 +21,12 @@ import java.util.Map;
 @Component
 @Order(value = 1)
 public class CreateTagsMessageHandler implements MessageHandler {
+    private final StateManager stateManager;
+
     @Autowired
-    private StateManager stateManager;
+    public CreateTagsMessageHandler(StateManager stateManager) {
+        this.stateManager = stateManager;
+    }
 
     @Override
     public SendMessage getMessage(Update update) {

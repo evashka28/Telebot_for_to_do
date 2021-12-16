@@ -1,13 +1,8 @@
 package bot.handlers;
 
 import bot.BackendConnector;
-import bot.Keyboards;
-import bot.domen.Tag;
 import bot.domen.TagRequest;
-import bot.domen.Task;
-import bot.domen.Project;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,21 +10,17 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 @Order(value = 1)
 public class ScheduleMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
-    public ScheduleMessageHandler() {
-        this.backendConnector = new BackendConnector();
+    @Autowired
+    public ScheduleMessageHandler(BackendConnector backendConnector) {
+        this.backendConnector = backendConnector;
     }
 
 

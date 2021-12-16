@@ -2,6 +2,7 @@ package bot.handlers;
 
 import bot.BackendConnector;
 import bot.domen.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -17,9 +18,11 @@ import java.util.List;
 public class AdjustModeMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
-    public AdjustModeMessageHandler() {
-        this.backendConnector = new BackendConnector();
+    @Autowired
+    public AdjustModeMessageHandler(BackendConnector backendConnector) {
+        this.backendConnector = backendConnector;
     }
+
 
     @Override
     public SendMessage getMessage(Update update) {

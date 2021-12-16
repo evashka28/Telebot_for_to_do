@@ -1,9 +1,8 @@
 package bot.handlers;
 
 import bot.BackendConnector;
-import bot.Keyboards;
 import bot.domen.Tag;
-import bot.domen.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -19,7 +18,12 @@ import java.util.List;
 public class DeleteTagsMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
-    public DeleteTagsMessageHandler() { this.backendConnector = new BackendConnector();}
+    @Autowired
+    public DeleteTagsMessageHandler(BackendConnector backendConnector) {
+        this.backendConnector = backendConnector;
+    }
+
+
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;

@@ -12,6 +12,7 @@ import java.net.URISyntaxException;
 @Component
 @Order(value = 2)
 public class CannotUnderstandHandler implements MessageHandler{
+
     @Override
     public SendMessage getMessage(Update update) throws URISyntaxException, IOException, InterruptedException {
         SendMessage message = new SendMessage();

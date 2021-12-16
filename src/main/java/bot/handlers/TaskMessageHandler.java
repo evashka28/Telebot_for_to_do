@@ -3,25 +3,23 @@ package bot.handlers;
 import bot.BackendConnector;
 import bot.InlineKeyboards;
 import bot.domen.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @Order(value = 1)
 public class TaskMessageHandler implements MessageHandler{
     private final BackendConnector backendConnector;
 
-    public TaskMessageHandler() {
-        backendConnector = new BackendConnector();
+    @Autowired
+    public TaskMessageHandler(BackendConnector backendConnector) {
+        this.backendConnector = backendConnector;
     }
 
 

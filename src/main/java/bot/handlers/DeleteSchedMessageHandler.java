@@ -1,6 +1,7 @@
 package bot.handlers;
 
 import bot.BackendConnector;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -14,9 +15,11 @@ import java.net.URISyntaxException;
 public class DeleteSchedMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
-    public DeleteSchedMessageHandler() {
-        backendConnector = new BackendConnector();
+    @Autowired
+    public DeleteSchedMessageHandler(BackendConnector backendConnector) {
+        this.backendConnector = backendConnector;
     }
+
 
     @Override
     public SendMessage getMessage(Update update) throws URISyntaxException, IOException, InterruptedException {

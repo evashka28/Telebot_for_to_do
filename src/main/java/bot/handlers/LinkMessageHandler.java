@@ -2,18 +2,13 @@ package bot.handlers;
 
 import bot.BackendConnector;
 import bot.InlineKeyboards;
-import bot.Keyboards;
 import bot.domen.Tag;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.codec.net.URLCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 
 import java.io.IOException;
 import java.net.URI;
@@ -23,8 +18,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,9 +26,11 @@ import java.util.Map;
 public class LinkMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
-    public LinkMessageHandler() {
-        this.backendConnector = new BackendConnector();
+    @Autowired
+    public LinkMessageHandler(BackendConnector backendConnector) {
+        this.backendConnector = backendConnector;
     }
+
 
     @Override
     public SendMessage getMessage(Update update) {
