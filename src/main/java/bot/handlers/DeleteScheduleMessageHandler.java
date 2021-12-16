@@ -12,11 +12,11 @@ import java.net.URISyntaxException;
 
 @Component
 @Order(value = 1)
-public class DeleteSchedMessageHandler implements MessageHandler {
+public class DeleteScheduleMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
     @Autowired
-    public DeleteSchedMessageHandler(BackendConnector backendConnector) {
+    public DeleteScheduleMessageHandler(BackendConnector backendConnector) {
         this.backendConnector = backendConnector;
     }
 
@@ -26,12 +26,9 @@ public class DeleteSchedMessageHandler implements MessageHandler {
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
 
-        String[] words = update.getCallbackQuery().getData().split("/");
-        String tagId = words[2].replace("schtagid", "");
-        System.out.println(tagId);
-        String query = words[1].replace("schdel", "");
+        String query = update.getCallbackQuery().getData().replace("/schdel", "");
         System.out.println(query);
-        System.out.println("delete " + backendConnector.deleteSch(tagId, query));
+        System.out.println("delete " + backendConnector.deleteSchedule(query));
         message.setText("Расписание удалено!");
         return message;
     }

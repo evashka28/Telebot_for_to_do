@@ -12,7 +12,6 @@ public class LoginMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
-        TokenMessageHandler.canHandle = true;
         message = new SendMessage();
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
         message.setText("Для того чтобы залогиниться тебе необходимо отправить мне свой токен точно как в Todoist\n" +

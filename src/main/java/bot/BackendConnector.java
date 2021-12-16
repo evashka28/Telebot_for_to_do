@@ -314,7 +314,7 @@ public class BackendConnector {
     }
 
 
-    public List<TagRequest> getSchs(String tagId) {
+    public List<TagRequest> getSchedules(String userId) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.findAndRegisterModules();
         URI uri = null;
@@ -324,7 +324,7 @@ public class BackendConnector {
             e.printStackTrace();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
-                .header("tagId", tagId)
+                .header("userId", userId)
                 .build();
 
         HttpResponse<String> response = null;
@@ -349,7 +349,7 @@ public class BackendConnector {
         }
     }
 
-    public TagRequest getSh(String userId, long taskId) {
+    public TagRequest getSchedule(String userId, long taskId) {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
@@ -413,7 +413,7 @@ public class BackendConnector {
         }
     }
 
-    public String deleteSch(String tagId, String id) {
+    public String deleteSchedule(String id) {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
@@ -423,7 +423,6 @@ public class BackendConnector {
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .DELETE()
-                .header("tagId", tagId)
                 .build();
 
         HttpResponse<String> response = null;

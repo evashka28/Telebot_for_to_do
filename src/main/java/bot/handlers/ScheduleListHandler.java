@@ -1,7 +1,7 @@
 package bot.handlers;
 
 import bot.BackendConnector;
-import bot.domen.Tag;
+import bot.domen.TagRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -15,52 +15,59 @@ import java.util.List;
 
 @Component
 @Order(value = 1)
-public class ScheduleviewHandler implements MessageHandler {
+public class ScheduleListHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
     @Autowired
-    public ScheduleviewHandler(BackendConnector backendConnector) {
+    public ScheduleListHandler(BackendConnector backendConnector) {
         this.backendConnector = backendConnector;
     }
 
 
     @Override
     public SendMessage getMessage(Update update) {
-        SendMessage message = new SendMessage();
+        SendMessage message;
+        message = new SendMessage();
         String userId = update.getMessage().getFrom().getId() + "";
-        message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
-        message.setText("Выбери тег для которого хочешь посмотрееть расписание \n ⬇️ ️");
-        //Keyboards.setButtons5(message);
-        setInlineTagKeyboard(message, userId);
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));
+        message.setText("Список твоих расписаний (для удаления нажмите на него):");
+
+        setInlineTaskKeyboard(message, getSchedules(userId));
+
+
         return message;
     }
 
     @Override
     public boolean canHandle(Update update) {
+
         if (update.hasMessage() && update.getMessage().hasText()) {
             return update.getMessage().getText().equals("Моё расписание");
         }
         return false;
     }
 
-    public void setInlineTagKeyboard(SendMessage message, String userId) {
+    public void setInlineTaskKeyboard(SendMessage message, List<TagRequest> schedules){
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
-
-        List<Tag> tags = backendConnector.getTags(userId);
 
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
-        for (Tag tag : tags) {
+        for(TagRequest schedule: schedules){
             InlineKeyboardButton button = new InlineKeyboardButton();
-            button.setText(tag.getName());
-            button.setCallbackData(String.format("/taggetsh%d", tag.getId()));
+            button.setText(schedule.getDateTime() + schedule.getDaysOfWeek());
+            button.setCallbackData(String.format("/schdel%s/", schedule.getId()));
             List<InlineKeyboardButton> row = new ArrayList<>();
             row.add(button);
             keyboard.add(row);
         }
 
         keyboardMarkup.setKeyboard(keyboard);
-
         message.setReplyMarkup(keyboardMarkup);
     }
+
+    private List<TagRequest> getSchedules(String tagId){
+        return backendConnector.getSchedules(tagId);
+    }
+
+
 }

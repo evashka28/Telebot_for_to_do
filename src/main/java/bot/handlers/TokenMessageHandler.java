@@ -22,7 +22,6 @@ import java.util.concurrent.CompletionException;
 @Component
 @Order(value = 1)
 public class TokenMessageHandler implements MessageHandler {
-    public static boolean canHandle = false;
 
     @Override
     public SendMessage getMessage(Update update) {
@@ -112,7 +111,6 @@ public class TokenMessageHandler implements MessageHandler {
         // if tasks are not empty -> show OK message
         // if tasks are empty or got error -> show token invalid message
 
-        canHandle = true;
         if (resultProjects == null) {
             message = new SendMessage();
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
