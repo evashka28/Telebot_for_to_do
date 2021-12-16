@@ -17,9 +17,12 @@ import java.net.URISyntaxException;
 public class TimeZoneHandler implements MessageHandler{
     private final BackendConnector backendConnector;
 
+    private final TimeZoneMapBean timeZoneMapBean;
+
     @Autowired
-    public TimeZoneHandler(BackendConnector backendConnector) {
+    public TimeZoneHandler(BackendConnector backendConnector, TimeZoneMapBean timeZoneMapBean) {
         this.backendConnector = backendConnector;
+        this.timeZoneMapBean = timeZoneMapBean;
     }
 
     @Override
@@ -29,8 +32,7 @@ public class TimeZoneHandler implements MessageHandler{
         String userId = update.getMessage().getFrom().getId() + "";
         Location location = update.getMessage().getLocation();
         System.out.println(location.getLatitude() + " " + location.getLongitude());
-        TimeZoneMap map = TimeZoneMap.forEverywhere();
-        String timezone = map.getOverlappingTimeZone(location.getLatitude(), location.getLongitude()).getZoneId();
+        String timezone = timeZoneMapBean.getTimeZone(location.getLatitude(), location.getLongitude());
         backendConnector.setTimezone(userId, timezone);
         message.setText("Ваш часовой пояс - " + timezone);
         return message;
