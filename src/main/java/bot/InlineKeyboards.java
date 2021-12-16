@@ -17,14 +17,23 @@ public class InlineKeyboards {
 
 
         List<InlineKeyboardButton> keyboardRow = new ArrayList<>();
+        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+
+        int counter = 0;
 
         for(Tag tag : tags){
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(tag.getName());
             button.setCallbackData(String.format("/addTtT%d.%s", tag.getId(), taskId));
             keyboardRow.add(button);
+            counter++;
+            if(counter == 3) {
+                keyboard.add(keyboardRow);
+                keyboardRow = new ArrayList<>();
+                counter = 0;
+            }
         }
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+
         keyboard.add(keyboardRow);
 
         keyboardMarkup.setKeyboard(keyboard);
