@@ -51,8 +51,6 @@ public class TasksMessageHandler implements MessageHandler {
                 e.printStackTrace();
             }
         }
-
-
         return message;
     }
 
