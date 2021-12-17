@@ -36,7 +36,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
             System.out.println(tagId);
             message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
             message.setText("Выбери расписания для тега в формате:\n" +
-                    "sh 15:45:00 1,2,3 \n" +
+                    "sh 15:45 1,2,3 \n" +
                     "где 1 -вс, 2-пн и так далее");
         }
         else {
@@ -50,10 +50,11 @@ public class SelectionDayMessageHandler implements MessageHandler {
                 message.setText("Неправильное выражение, попробуй еще раз.");
             }
             else if (sameday(words)|| wrongday(words) || words[2].split(",").length >7){message.setText("Неправильно введены дни недели, попробуй еще раз.");}
-            else if (timeiswrong(words)|| words[1].split(":").length !=3  || words[1].split(":")[0].length() !=2
-                    || words[1].split(":")[1].length() !=2 || words[1].split(":")[2].length() !=2 ) {message.setText("Неправильно введено время, попробуй еще раз.");}
+            else if (timeiswrong(words)|| words[1].split(":").length !=2  || words[1].split(":")[0].length() !=2
+                    || words[1].split(":")[1].length() !=2  ) {message.setText("Неправильно введено время, попробуй еще раз.");}
             else {
-                message.setText("Отлично, пришлю ссылку в указанное время!" );
+                message.setText("Спасибо, расписание сохранено" );
+                String dateTime= words[1]+":00";
                 //message.setText("Спасибо, задача с тегом %s будет выведена в %s в %s", tagId, words[1], weeks[Integer.parseInt(words[2].split(",")[1])]  );
 
 
@@ -61,7 +62,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
                 try {
 
                     Map<String, Object> tagBody = Map.of(
-                            "dateTime", words[1],
+                            "dateTime", dateTime,
                             "daysOfWeek", words[2],
                             "id", "hi"
                     );
@@ -106,8 +107,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
 
     public boolean timeiswrong(String[] words) {
         if ((words[1].split(":")[0].charAt(0)!='0'&& Integer.parseInt(words[1].split(":")[0])>23)||
-                (words[1].split(":")[1].charAt(0)!='0'&& Integer.parseInt(words[1].split(":")[1])>59 ) ||
-                (words[1].split(":")[2].charAt(0)!='0'&& Integer.parseInt(words[1].split(":")[2])>59 )){
+                (words[1].split(":")[1].charAt(0)!='0'&& Integer.parseInt(words[1].split(":")[1])>59  )){
             return true;
         }
         else  {return false;}
