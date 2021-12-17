@@ -23,7 +23,7 @@ import java.util.Map;
 @Order(value = 1)
 public class SelectionDayMessageHandler implements MessageHandler {
     enum Week { Воскресенье, Понедельник, Вторник, Среда, Четверг, Пятница, Суббота}
-    String rightSchedule="sh "+"\\d{2}"+":"+"\\d{2}"+" ([1-7]{1})"+"(,[1-7])*";
+    String rightSchedule="sh "+"\\d{2}"+":"+"\\d{2}"+" ([1-7]{1})"+"(,[1-7]){0,6}";
     List<Integer> daysOfWeek = new ArrayList<Integer>();
     String tagId="";
 
@@ -65,11 +65,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
                     result = postNewSch(new URI("http://localhost:8081/schedule/tag"), tagBody, tagId, userId);
                     System.out.println(tagBody);
                     System.out.println("resultTask = " + result);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (URISyntaxException e) {
+                } catch (IOException | InterruptedException | URISyntaxException e) {
                     e.printStackTrace();
                 }
             }
@@ -79,16 +75,11 @@ public class SelectionDayMessageHandler implements MessageHandler {
         Keyboards.setButtons6(message);
         return message;
     }
-    public boolean sameday(String[] words) {
-            for (int i = 0; i < words[2].split(",").length - 1; i++) {
-                for (int j = i + 1; j < words[2].split(",").length; j++) {
-                    if (words[2].split(",")[i].equals(words[2].split(",")[j])) {
-                        return true;
 
-                    }
-                }
-            }
-        return false;
+    public boolean sameday(String[] words) {
+        String str=words[2];
+        for (int i = 1; i < 8; i++) str=str.replace(Integer.toString(i),"");
+        return words[2].length() != str.length();
     }
 
 
