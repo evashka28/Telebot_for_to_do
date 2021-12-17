@@ -33,7 +33,7 @@ public class ScheduleListHandler implements MessageHandler {
 
 
         try {
-            message.setText("Список твоих расписаний (для удаления нажмите на него):");
+            message.setText("Список твоих расписаний (для удаления нажми на него):");
             setInlineTaskKeyboard(message, getSchedules(userId));
         } catch (Exception e) {
             message.setText("Ошибка!");

@@ -36,7 +36,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
             System.out.println(tagId);
             message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
             message.setText("Выбери расписания для тега в формате:\n" +
-                    "sh 15:45 1,2,3 \n" +
+                    "sh 15:45:00 1,2,3 \n" +
                     "где 1 -вс, 2-пн и так далее");
         }
         else {
@@ -53,7 +53,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
             else if (timeiswrong(words)|| words[1].split(":").length !=3  || words[1].split(":")[0].length() !=2
                     || words[1].split(":")[1].length() !=2 || words[1].split(":")[2].length() !=2 ) {message.setText("Неправильно введено время, попробуй еще раз.");}
             else {
-                message.setText("Спасибо, задача с тегом  будет выведена в  в" );
+                message.setText("Отлично, пришлю ссылку в указанное время!" );
                 //message.setText("Спасибо, задача с тегом %s будет выведена в %s в %s", tagId, words[1], weeks[Integer.parseInt(words[2].split(",")[1])]  );
 
 

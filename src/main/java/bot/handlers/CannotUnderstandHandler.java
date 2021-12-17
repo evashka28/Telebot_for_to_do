@@ -17,7 +17,7 @@ public class CannotUnderstandHandler implements MessageHandler{
     public SendMessage getMessage(Update update) throws URISyntaxException, IOException, InterruptedException {
         SendMessage message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Не понимаю - о чём вы...");
+        message.setText("Не понимаю - о чём ты...");
         Keyboards.setButtons(message);
         return message;
     }
