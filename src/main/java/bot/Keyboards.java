@@ -29,6 +29,7 @@ public class Keyboards {
 
         // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
+        KeyboardRow keyboardThirdRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
         keyboardFirstRow.add(new KeyboardButton("Расписание"));
         keyboardFirstRow.add(new KeyboardButton("Дай Задачу"));
@@ -37,17 +38,13 @@ public class Keyboards {
         KeyboardButton locationButton = new KeyboardButton("Задать часовой пояс");
         locationButton.setRequestLocation(true);
 
-        keyboardFirstRow.add(locationButton);
+        keyboardThirdRow.add(locationButton);
 
         // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
         keyboardSecondRow.add(new KeyboardButton("Теги"));
 
-        // Третья строчка клавиатуры
-//        KeyboardRow keyboardThirdRow = new KeyboardRow();
-//        // Добавляем кнопки во вторую строчку клавиатуры
-//        keyboardSecondRow.add(new KeyboardButton("Проекты"));
 
         // Пятая строчка клавиатуры
         KeyboardRow keyboardFiveRow = new KeyboardRow();
@@ -59,12 +56,12 @@ public class Keyboards {
         // Четвертая строчка клавиатуры
         KeyboardRow keyboardFourthRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add(new KeyboardButton("Как работает бот?"));
+        keyboardThirdRow.add(new KeyboardButton("Как работает бот?"));
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);
-//        keyboard.add(keyboardThirdRow);
+        keyboard.add(keyboardThirdRow);
         keyboard.add(keyboardFourthRow);
         keyboard.add(keyboardFiveRow);
         // и устанваливаем этот список нашей клавиатуре
