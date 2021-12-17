@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 @Component
-@Order(value = 2)
+@Order(value = 3)
 public class CannotUnderstandHandler implements MessageHandler{
 
     @Override

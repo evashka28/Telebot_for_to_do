@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.concurrent.CompletionException;
 
 @Component
-@Order(value = 1)
+@Order(value = 2)
 public class TokenMessageHandler implements MessageHandler {
 
     @Override
