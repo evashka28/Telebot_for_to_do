@@ -15,7 +15,7 @@ public class ReturnToMainMessage implements MessageHandler {
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));;
         message.setText("Ты мне ссылку, я тебе задачу \n" +
-                "Как и договаривались\uD83D\uDE09)");
+                "Как и договаривались\uD83D\uDE09");
         Keyboards.setButtons(message);
         return message;
     }
