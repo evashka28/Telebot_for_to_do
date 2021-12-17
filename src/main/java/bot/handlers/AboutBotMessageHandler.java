@@ -23,10 +23,24 @@ public class AboutBotMessageHandler implements MessageHandler {
         return message;
     }
 
+
+//    @Override
+//    public boolean canHandle(Update update) {
+//        if(update.hasMessage() && update.getMessage().hasText()) {
+//            String text = update.getMessage().getText();
+//            String isSafeLink = "https://";
+//            String isLink = "http://";
+//            return (text.toLowerCase().contains(isLink.toLowerCase()) ||
+//                    text.toLowerCase().contains(isSafeLink.toLowerCase()));
+//        }
+//        return false;
+//
+//    }
     @Override
     public boolean canHandle(Update update) {
         if(update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase("Как работает бот?");
+            return (update.getMessage().getText().equalsIgnoreCase("Как работает бот?") ||
+                    update.getMessage().getText().equalsIgnoreCase("/help"));
         }
         return false;
     }
