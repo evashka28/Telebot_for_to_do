@@ -23,7 +23,7 @@ import java.util.Map;
 @Order(value = 1)
 public class SelectionDayMessageHandler implements MessageHandler {
     enum Week { Воскресенье, Понедельник, Вторник, Среда, Четверг, Пятница, Суббота}
-    Schedule schedule = new Schedule();
+    String rightSchedule="sh "+"\\d{2}"+":"+"\\d{2}"+" ([1-7]{1})"+"(,[1-7])*";
     List<Integer> daysOfWeek = new ArrayList<Integer>();
     String tagId="";
 
@@ -42,17 +42,12 @@ public class SelectionDayMessageHandler implements MessageHandler {
         else {
             String userId = update.getMessage().getFrom().getId() + "";
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
-            String sch = update.getMessage().getText();
-            String[] words = sch.split(" ");
+            String schedule = update.getMessage().getText();
+            String[] words = schedule.split(" ");
 
-
-            if (!words[0].equals("sh") || words.length != 3 ) {
-                message.setText("Неправильное выражение, попробуй еще раз.");
-            }
-            else if (sameday(words)|| wrongday(words) || words[2].split(",").length >7){message.setText("Неправильно введены дни недели, попробуй еще раз.");}
-            else if (timeiswrong(words)|| words[1].split(":").length !=2  || words[1].split(":")[0].length() !=2
-                    || words[1].split(":")[1].length() !=2  ) {message.setText("Неправильно введено время, попробуй еще раз.");}
+            if (!schedule.matches(rightSchedule)||timeiswrong(words)||sameday(words))message.setText("Неправильное выражение, попробуй еще раз.");
             else {
+
                 message.setText("Спасибо, расписание сохранено" );
                 String dateTime= words[1]+":00";
                 //message.setText("Спасибо, задача с тегом %s будет выведена в %s в %s", tagId, words[1], weeks[Integer.parseInt(words[2].split(",")[1])]  );
@@ -85,7 +80,6 @@ public class SelectionDayMessageHandler implements MessageHandler {
         return message;
     }
     public boolean sameday(String[] words) {
-        try {
             for (int i = 0; i < words[2].split(",").length - 1; i++) {
                 for (int j = i + 1; j < words[2].split(",").length; j++) {
                     if (words[2].split(",")[i].equals(words[2].split(",")[j])) {
@@ -94,29 +88,14 @@ public class SelectionDayMessageHandler implements MessageHandler {
                     }
                 }
             }
-        }
-        catch (NumberFormatException e){ return true; }
         return false;
     }
 
-    public boolean wrongday(String[] words) {
-        try {
-            for (int i = 0; i < words[2].split(",").length; i++) {
-                if (Integer.parseInt(words[2].split(",")[i]) > 7) {
-                    return true;
-                }
-            }
-        }
-        catch (NumberFormatException e){ return true; }
-        return false;
-    }
 
     public boolean timeiswrong(String[] words) {
-        try {
             return (words[1].split(":")[0].charAt(0) != '0' && Integer.parseInt(words[1].split(":")[0]) > 23) ||
                     (words[1].split(":")[1].charAt(0) != '0' && Integer.parseInt(words[1].split(":")[1]) > 59);
-        }
-        catch (NumberFormatException e){ return true; }
+
     }
 
 
