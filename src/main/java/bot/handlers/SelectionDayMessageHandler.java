@@ -85,32 +85,38 @@ public class SelectionDayMessageHandler implements MessageHandler {
         return message;
     }
     public boolean sameday(String[] words) {
-        for (int i = 0; i < words[2].split(",").length - 1; i++) {
-            for (int j = i + 1; j < words[2].split(",").length; j++) {
-                if (words[2].split(",")[i].equals(words[2].split(",")[j])) {
-                    return true;
+        try {
+            for (int i = 0; i < words[2].split(",").length - 1; i++) {
+                for (int j = i + 1; j < words[2].split(",").length; j++) {
+                    if (words[2].split(",")[i].equals(words[2].split(",")[j])) {
+                        return true;
 
+                    }
                 }
             }
         }
+        catch (NumberFormatException e){ return true; }
         return false;
     }
 
     public boolean wrongday(String[] words) {
-        for (int i = 0; i < words[2].split(",").length; i++) {
-            if (Integer.parseInt(words[2].split(",")[i])>7){
-                return true;
+        try {
+            for (int i = 0; i < words[2].split(",").length; i++) {
+                if (Integer.parseInt(words[2].split(",")[i]) > 7) {
+                    return true;
+                }
             }
         }
+        catch (NumberFormatException e){ return true; }
         return false;
     }
 
     public boolean timeiswrong(String[] words) {
-        if ((words[1].split(":")[0].charAt(0)!='0'&& Integer.parseInt(words[1].split(":")[0])>23)||
-                (words[1].split(":")[1].charAt(0)!='0'&& Integer.parseInt(words[1].split(":")[1])>59  )){
-            return true;
+        try {
+            return (words[1].split(":")[0].charAt(0) != '0' && Integer.parseInt(words[1].split(":")[0]) > 23) ||
+                    (words[1].split(":")[1].charAt(0) != '0' && Integer.parseInt(words[1].split(":")[1]) > 59);
         }
-        else  {return false;}
+        catch (NumberFormatException e){ return true; }
     }
 
 
