@@ -4,6 +4,8 @@ import bot.Keyboards;
 import bot.state.StateManager;
 import bot.state.UserState;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,7 @@ import java.util.Map;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class CreateTagsMessageHandler implements MessageHandler {
     private final StateManager stateManager;
 
@@ -50,9 +53,9 @@ public class CreateTagsMessageHandler implements MessageHandler {
             );
 
             result = postNewTag(new URI("http://localhost:8081/tag"), tagBody, userId);
-            System.out.println("resultTag = " + result);
+            log.info("resultTag = " + result);
         } catch (IOException | InterruptedException | URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             message.setText("Ошибка");
         }
         return message;

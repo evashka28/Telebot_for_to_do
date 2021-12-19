@@ -4,6 +4,8 @@ import bot.Keyboards;
 import bot.domen.Project;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class MyProjectMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
@@ -33,9 +36,9 @@ public class MyProjectMessageHandler implements MessageHandler {
         List<Project> resultProjects = null;
         try {
             resultProjects = getProjects(userId);
-            System.out.println("result = " + resultProjects);
+            log.info("result = " + resultProjects);
         } catch (IOException | InterruptedException | URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         String returnProjectsName = resultProjects.stream()
                 .map(Project::getName)

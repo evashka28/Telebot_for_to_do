@@ -4,6 +4,8 @@ import bot.Keyboards;
 import bot.domen.Project;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -21,6 +23,7 @@ import java.util.concurrent.CompletionException;
 
 @Component
 @Order(value = 2)
+@Slf4j
 public class TokenMessageHandler implements MessageHandler {
 
     @Override
@@ -42,36 +45,22 @@ public class TokenMessageHandler implements MessageHandler {
         );
 
 
-        //delete user
-//        System.out.println("delete user");
-//        try {
-//            deleteUser(userId);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        } catch (URISyntaxException e) {
-//            e.printStackTrace();
-//        } catch (Throwable e) {
-//            e.printStackTrace();
-//        }
-        // create user
-        System.out.println("create user");
+        log.info("create user");
         try {
             Map<String, String> result = postJSON(new URI("http://localhost:8081/user"), body);
-            System.out.println("result = " + result);
+            log.info("result = " + result);
         } catch (IOException | InterruptedException | URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         // get user projects
-        System.out.println("get user's projects");
+        log.info("get user's projects");
         List<Project> resultProjects = null;
         try {
             resultProjects = getProjects(userId);
-            System.out.println("result = " + resultProjects);
+            log.info("result = " + resultProjects);
         } catch (IOException | InterruptedException | URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         // create new project ToDoBot
@@ -89,9 +78,9 @@ public class TokenMessageHandler implements MessageHandler {
             );
 
             Map<String, String> result = postNewProject(new URI("http://localhost:8081/project"), projectBody, userId);
-            System.out.println("resultproject = " + result);
+            log.info("resultproject = " + result);
         } catch (IOException | InterruptedException | URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         // if tasks are not empty -> show OK message

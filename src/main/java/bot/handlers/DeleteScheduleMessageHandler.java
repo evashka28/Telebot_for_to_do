@@ -1,6 +1,8 @@
 package bot.handlers;
 
 import bot.BackendConnector;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,7 @@ import java.net.URISyntaxException;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class DeleteScheduleMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
@@ -27,13 +30,13 @@ public class DeleteScheduleMessageHandler implements MessageHandler {
         message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
 
         String query = update.getCallbackQuery().getData().replace("/schdel", "");
-        System.out.println(query);
+        log.info(query);
         try {
-            System.out.println("delete " + backendConnector.deleteSchedule(query));
+            log.info("delete " + backendConnector.deleteSchedule(query));
             message.setText("Расписание удалено!");
         } catch (Exception e) {
             message.setText("Ошибка!");
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         return message;

@@ -3,6 +3,8 @@ package bot.handlers;
 import bot.BackendConnector;
 import bot.domen.Tag;
 import bot.domen.Task;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -17,6 +19,7 @@ import java.util.List;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class GiveTaskWithTagMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
@@ -35,7 +38,7 @@ public class GiveTaskWithTagMessageHandler implements MessageHandler {
             message.setText("Выберите тег: ");
         } catch (Exception e) {
             message.setText("Ошибка!");
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         return message;
     }
@@ -55,7 +58,7 @@ public class GiveTaskWithTagMessageHandler implements MessageHandler {
         try {
             tags = backendConnector.getTags(userId);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
         List<InlineKeyboardButton> keyboardRow = new ArrayList<>();

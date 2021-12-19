@@ -2,6 +2,7 @@ package bot.handlers;
 
 import bot.BackendConnector;
 import bot.TimeZoneMapBean;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.net.URISyntaxException;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class TimeZoneHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
@@ -31,7 +33,7 @@ public class TimeZoneHandler implements MessageHandler {
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
         String userId = update.getMessage().getFrom().getId() + "";
         Location location = update.getMessage().getLocation();
-        System.out.println(location.getLatitude() + " " + location.getLongitude());
+        log.info(location.getLatitude() + " " + location.getLongitude());
         String timezone = timeZoneMapBean.getTimeZone(location.getLatitude(), location.getLongitude());
         try {
             backendConnector.setTimezone(userId, timezone);

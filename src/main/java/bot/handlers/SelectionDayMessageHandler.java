@@ -3,6 +3,8 @@ package bot.handlers;
 import bot.Keyboards;
 import bot.domen.Schedule;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -21,6 +23,7 @@ import java.util.Map;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class SelectionDayMessageHandler implements MessageHandler {
     enum Week {Воскресенье, Понедельник, Вторник, Среда, Четверг, Пятница, Суббота}
 
@@ -34,7 +37,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
         message = new SendMessage();
         if (update.hasCallbackQuery()) {
             tagId = update.getCallbackQuery().getData().replace("/tagget", "");
-            System.out.println(tagId);
+            log.info(tagId);
             message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
             message.setText("Выбери расписания для тега в формате:\n" +
                     "sh 15:45 1,2,3 \n" +
@@ -64,10 +67,10 @@ public class SelectionDayMessageHandler implements MessageHandler {
                     );
 
                     result = postNewSch(new URI("http://localhost:8081/schedule/tag"), tagBody, tagId, userId);
-                    System.out.println(tagBody);
-                    System.out.println("resultTask = " + result);
+                    log.info(String.valueOf(tagBody));
+                    log.info("resultTask = " + result);
                 } catch (IOException | InterruptedException | URISyntaxException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
                 }
             }
         }

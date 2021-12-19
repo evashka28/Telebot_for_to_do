@@ -5,6 +5,8 @@ import bot.domen.Tag;
 import bot.domen.Task;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class ReturnTagMessageHandler implements MessageHandler {
     @Override
     public SendMessage getMessage(Update update) {
@@ -31,9 +34,9 @@ public class ReturnTagMessageHandler implements MessageHandler {
         List<Tag> resultTags = null;
         try {
             resultTags = getTags(userId);
-            System.out.println("resultgetTask = " + resultTags);
+            log.info("resultgetTask = " + resultTags);
         } catch (IOException | InterruptedException | URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         String returnTags = resultTags.stream()
                 .map(Tag::getName)

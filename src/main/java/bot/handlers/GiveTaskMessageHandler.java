@@ -4,6 +4,8 @@ import bot.BackendConnector;
 import bot.InlineKeyboards;
 import bot.domen.Project;
 import bot.domen.Task;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class GiveTaskMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
@@ -35,12 +38,13 @@ public class GiveTaskMessageHandler implements MessageHandler {
             task = getTask(userId);
             String taskContent = task.getContent() + "";
             message.setText("Отличное время, чтобы изучить что-то новое. Например  это:" + taskContent);
+            InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
         } catch (Exception e) {
             message.setText("Ошибка!");
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
-        InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
+
 
         return message;
     }

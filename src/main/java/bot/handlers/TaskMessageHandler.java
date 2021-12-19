@@ -3,6 +3,8 @@ package bot.handlers;
 import bot.BackendConnector;
 import bot.InlineKeyboards;
 import bot.domen.Task;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -14,6 +16,7 @@ import java.net.URISyntaxException;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class TaskMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
@@ -38,7 +41,7 @@ public class TaskMessageHandler implements MessageHandler {
             InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
         } catch (Exception e) {
             message.setText("Ошибка!");
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         return message;

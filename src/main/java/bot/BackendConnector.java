@@ -6,7 +6,9 @@ import bot.domen.Task;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.time.LocalTime;
 
 @Component
+@Slf4j
 public class BackendConnector {
 
     public List<Tag> getTags(String userId) throws Exception {
@@ -27,7 +30,7 @@ public class BackendConnector {
         try {
             uri = new URI("http://localhost:8081/tags");
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
@@ -39,7 +42,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
 
@@ -51,7 +54,7 @@ public class BackendConnector {
                 return objectMapper.readValue(body, new TypeReference<>() {
                 });
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
                 throw new Exception();
             }
         }
@@ -63,7 +66,7 @@ public class BackendConnector {
         try {
             uri = new URI("http://localhost:8081/tasks");
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
@@ -75,7 +78,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
 
@@ -87,7 +90,7 @@ public class BackendConnector {
                 return objectMapper.readValue(body, new TypeReference<>() {
                 });
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
                 throw new Exception();
             }
         }
@@ -99,7 +102,7 @@ public class BackendConnector {
         try {
             uri = new URI(String.format("http://localhost:8081/tasks/tag/%d", tagId));
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
@@ -111,7 +114,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
 
@@ -123,7 +126,7 @@ public class BackendConnector {
                 return objectMapper.readValue(body, new TypeReference<>() {
                 });
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
                 throw new Exception();
             }
         }
@@ -135,7 +138,7 @@ public class BackendConnector {
         try {
             uri = new URI(String.format("http://localhost:8081/task/%d", taskId));
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
@@ -147,7 +150,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
 
@@ -159,7 +162,7 @@ public class BackendConnector {
                 return objectMapper.readValue(body, new TypeReference<>() {
                 });
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
                 throw new Exception();
             }
         }
@@ -171,7 +174,7 @@ public class BackendConnector {
         try {
             uri = new URI("http://localhost:8081/task/tag/" + tagId);
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
@@ -183,7 +186,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
 
@@ -195,7 +198,7 @@ public class BackendConnector {
                 return objectMapper.readValue(body, new TypeReference<>() {
                 });
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
                 throw new Exception();
             }
         }
@@ -207,7 +210,7 @@ public class BackendConnector {
         try {
             uri = new URI("http://localhost:8081/task");
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("userId", userId)
@@ -218,7 +221,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         if (response.statusCode() == 410) {
@@ -229,7 +232,7 @@ public class BackendConnector {
                 return objectMapper.readValue(body, new TypeReference<>() {
                 });
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
                 throw new Exception();
             }
         }
@@ -241,7 +244,7 @@ public class BackendConnector {
         try {
             uri = new URI(String.format("http://localhost:8081/task/%d/tag/%d", taskId, tagId));
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .PUT(HttpRequest.BodyPublishers.noBody())
@@ -253,7 +256,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         if (response.statusCode() == 410) {
@@ -264,7 +267,7 @@ public class BackendConnector {
                 return objectMapper.readValue(body, new TypeReference<>() {
                 });
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
                 throw new Exception();
             }
         }
@@ -276,7 +279,7 @@ public class BackendConnector {
         try {
             uri = new URI(String.format("http://localhost:8081/task/%d", taskId));
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .DELETE()
@@ -288,7 +291,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
 
@@ -305,7 +308,7 @@ public class BackendConnector {
         try {
             uri = new URI(String.format("http://localhost:8081/task/%d/complete", taskId));
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
@@ -318,7 +321,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
 
@@ -335,7 +338,7 @@ public class BackendConnector {
         try {
             uri = new URI(String.format("http://localhost:8081/tag/%d", tagId));
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
@@ -348,7 +351,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
 
@@ -367,7 +370,7 @@ public class BackendConnector {
         try {
             uri = new URI("http://localhost:8081/schedules");
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
@@ -379,7 +382,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
 
@@ -391,7 +394,7 @@ public class BackendConnector {
                 return objectMapper.readValue(body, new TypeReference<>() {
                 });
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
                 throw new Exception();
             }
         }
@@ -403,7 +406,7 @@ public class BackendConnector {
         try {
             uri = new URI(String.format("http://localhost:8081/task/%d", taskId));
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
@@ -415,7 +418,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
 
@@ -427,7 +430,7 @@ public class BackendConnector {
                 return objectMapper.readValue(body, new TypeReference<>() {
                 });
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
                 return null;
             }
         }
@@ -439,7 +442,7 @@ public class BackendConnector {
         try {
             uri = new URI(String.format("http://localhost:8081/user/%s/timezone", userId));
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
@@ -453,7 +456,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
 
@@ -470,7 +473,7 @@ public class BackendConnector {
         try {
             uri = new URI(String.format("http://localhost:8081/schedule/%s", id));
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
@@ -482,7 +485,7 @@ public class BackendConnector {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             throw new Exception();
         }
 

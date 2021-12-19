@@ -4,6 +4,8 @@ import bot.BackendConnector;
 import bot.InlineKeyboards;
 import bot.domen.Tag;
 import bot.domen.Task;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -18,6 +20,7 @@ import java.util.List;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class GiveOneTaskMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
@@ -39,7 +42,7 @@ public class GiveOneTaskMessageHandler implements MessageHandler {
             message.setText("Отличное время, чтобы изучить что-то новое:\n" + taskContent);
         } catch (Exception e) {
             message.setText("По такому тегу нет задач!");
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         return message;
     }

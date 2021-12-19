@@ -1,6 +1,8 @@
 package bot.handlers;
 
 import bot.BackendConnector;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,7 @@ import java.net.URISyntaxException;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class DeleteTaskMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
@@ -29,11 +32,11 @@ public class DeleteTaskMessageHandler implements MessageHandler {
 
         String query = update.getCallbackQuery().getData().replace("/taskdel", "");
         try {
-            System.out.println("delete " + backendConnector.deleteTask(userId, Long.parseLong(query)));
+            log.info("delete " + backendConnector.deleteTask(userId, Long.parseLong(query)));
             message.setText("Задание удалено!");
         } catch (Exception e) {
             message.setText("Ошибка!");
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         return message;
     }

@@ -1,6 +1,8 @@
 package bot.handlers;
 
 import bot.BackendConnector;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -9,6 +11,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class AddTagToTaskHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
@@ -24,7 +27,7 @@ public class AddTagToTaskHandler implements MessageHandler {
         message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
 
         String query = update.getCallbackQuery().getData().replace("/addTtT", "");
-        System.out.println(query);
+        log.info(query);
         String[] tags = query.split("\\."); //первый id тега, второй - задачи
         try {
             String result = backendConnector.addTagToTask(update.getCallbackQuery().getFrom().getId().toString(),
@@ -32,7 +35,7 @@ public class AddTagToTaskHandler implements MessageHandler {
             message.setText("Тег добавлен к задаче!");
         } catch (Exception e) {
             message.setText("Ошибка!");
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         return message;

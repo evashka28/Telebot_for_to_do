@@ -4,6 +4,8 @@ import bot.BackendConnector;
 import bot.InlineKeyboards;
 import bot.domen.Tag;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -23,6 +25,7 @@ import java.util.Map;
 
 @Component
 @Order(value = 1)
+@Slf4j
 public class LinkMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
@@ -60,7 +63,7 @@ public class LinkMessageHandler implements MessageHandler {
             );
 
             result = postNewTask(new URI("http://localhost:8081/task"), taskBody, userId);
-            System.out.println("resultTask = " + result);
+            log.info("resultTask = " + result);
 
             if (result != null) {
                 long taskId = Long.parseLong(result.get("id").toString());
@@ -68,7 +71,7 @@ public class LinkMessageHandler implements MessageHandler {
             }
         } catch (Exception e) {
             message.setText("Ошибка!");
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         return message;

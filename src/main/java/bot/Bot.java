@@ -2,6 +2,8 @@ package bot;
 
 import bot.domen.Task;
 import bot.handlers.*;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,7 @@ import java.util.List;
 
 // Аннотация @Component необходима, чтобы наш класс распознавался Spring, как полноправный Bean
 @Component
+@Slf4j
 // Наследуемся от TelegramLongPollingBot - абстрактного класса Telegram API
 public class Bot extends TelegramLongPollingBot {
     final private BackendConnector backendConnector;
@@ -49,7 +52,7 @@ public class Bot extends TelegramLongPollingBot {
         try {
             return handler.getMessage(update);
         } catch (URISyntaxException | IOException | InterruptedException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         return null;
     }
@@ -60,7 +63,7 @@ public class Bot extends TelegramLongPollingBot {
                 execute(msg);
             }
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
     }
 
