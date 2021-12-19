@@ -338,6 +338,7 @@ public class BackendConnector {
             uri = new URI(String.format("http://localhost:8081/tag/%d", tagId));
         } catch (URISyntaxException e) {
             e.printStackTrace();
+            throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .DELETE()
@@ -370,6 +371,7 @@ public class BackendConnector {
             uri = new URI("http://localhost:8081/schedules");
         } catch (URISyntaxException e) {
             e.printStackTrace();
+            throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("userId", userId)
@@ -381,6 +383,7 @@ public class BackendConnector {
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            throw new Exception();
         }
 
         if (response.statusCode() == 410) {
@@ -404,6 +407,7 @@ public class BackendConnector {
             uri = new URI(String.format("http://localhost:8081/task/%d", taskId));
         } catch (URISyntaxException e) {
             e.printStackTrace();
+            throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("userId", userId)
@@ -439,6 +443,7 @@ public class BackendConnector {
             uri = new URI(String.format("http://localhost:8081/user/%s/timezone", userId));
         } catch (URISyntaxException e) {
             e.printStackTrace();
+            throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("Content-Type", "application/json")
@@ -470,6 +475,7 @@ public class BackendConnector {
             uri = new URI(String.format("http://localhost:8081/schedule/%s", id));
         } catch (URISyntaxException e) {
             e.printStackTrace();
+            throw new Exception();
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .DELETE()

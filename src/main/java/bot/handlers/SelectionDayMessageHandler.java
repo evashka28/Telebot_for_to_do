@@ -118,8 +118,8 @@ public class SelectionDayMessageHandler implements MessageHandler {
         //if(update.hasCallbackQuery())
        //     return update.getCallbackQuery().getData().contains("/tagget");
         if((update.hasMessage() && update.getMessage().hasText()) ) {
-            String text = update.getMessage().getText();
-            return  text.contains("sh") ;}
+            return  update.getMessage().getText().contains("sh") ;
+        }
         else if (update.hasCallbackQuery()){
             return update.getCallbackQuery().getData().contains("/tagget");
         }

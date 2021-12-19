@@ -60,13 +60,7 @@ public class TokenMessageHandler implements MessageHandler {
         try {
             Map<String, String> result = postJSON(new URI("http://localhost:8081/user"), body);
             System.out.println("result = " + result);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (Throwable e) {
+        } catch (IOException | InterruptedException | URISyntaxException e) {
             e.printStackTrace();
         }
 
@@ -76,11 +70,7 @@ public class TokenMessageHandler implements MessageHandler {
         try {
             resultProjects = getProjects(userId);
             System.out.println("result = " + resultProjects);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+        } catch (IOException | InterruptedException | URISyntaxException e) {
             e.printStackTrace();
         }
 
@@ -100,11 +90,7 @@ public class TokenMessageHandler implements MessageHandler {
 
             Map<String, String> result = postNewProject(new URI("http://localhost:8081/project"), projectBody, userId);
             System.out.println("resultproject = " + result);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+        } catch (IOException | InterruptedException | URISyntaxException e) {
             e.printStackTrace();
         }
 
@@ -171,8 +157,7 @@ public class TokenMessageHandler implements MessageHandler {
             return null;
         } else {
             String body = response.body();
-            return objectMapper.readValue(body, new TypeReference<>() {
-            });
+            return objectMapper.readValue(body, new TypeReference<>() {});
         }
 
     }
@@ -232,8 +217,7 @@ public class TokenMessageHandler implements MessageHandler {
          */
         Map<String, String> readValue(String content) {
             try {
-                return this.readValue(content, new TypeReference<>() {
-                });
+                return this.readValue(content, new TypeReference<>() {});
             } catch (IOException ioe) {
                 throw new CompletionException(ioe);
             }

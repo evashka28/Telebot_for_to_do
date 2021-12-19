@@ -45,8 +45,6 @@ public class TimeZoneHandler implements MessageHandler{
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasMessage() && update.getMessage().hasLocation())
-            return true;
-        return false;
+        return update.hasMessage() && update.getMessage().hasLocation();
     }
 }

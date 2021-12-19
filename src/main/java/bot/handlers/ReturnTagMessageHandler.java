@@ -32,11 +32,7 @@ public class ReturnTagMessageHandler implements MessageHandler {
         try {
             resultTags = getTags(userId);
             System.out.println("resultgetTask = " + resultTags);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+        } catch (IOException | InterruptedException | URISyntaxException e) {
             e.printStackTrace();
         }
         String returnTags = resultTags.stream()

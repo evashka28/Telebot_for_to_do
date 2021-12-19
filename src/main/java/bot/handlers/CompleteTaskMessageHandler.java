@@ -41,8 +41,9 @@ public class CompleteTaskMessageHandler implements MessageHandler{
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasCallbackQuery())
+        if(update.hasCallbackQuery()) {
             return update.getCallbackQuery().getData().contains("/taskcom");
+        }
         return false;
     }
 }

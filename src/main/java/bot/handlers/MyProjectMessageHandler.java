@@ -34,11 +34,7 @@ public class MyProjectMessageHandler implements MessageHandler {
         try {
             resultProjects = getProjects(userId);
             System.out.println("result = " + resultProjects);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
+        } catch (IOException | InterruptedException | URISyntaxException e) {
             e.printStackTrace();
         }
         String returnProjectsName = resultProjects.stream()
