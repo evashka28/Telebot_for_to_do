@@ -40,17 +40,17 @@ public class LinkMessageHandler implements MessageHandler {
         message = new SendMessage();
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
         message.setText("Сохраняю ссылку...\n" +
-                        "\n" +
-                        "Выберите подходящий тег для этой задачи");
+                "\n" +
+                "Выберите подходящий тег для этой задачи");
 
 
         // create new task in ToDoist
-        Map<String, Object> result = null;
+        Map<String, Object> result;
         try {
             String favorite = "false";
             String todoistId = 0 + "";
             String description = "";
-            String id = 0 +"";
+            String id = 0 + "";
             Map<String, Object> taskBody = Map.of(
                     "favorite", favorite,
                     "id", id,
@@ -62,7 +62,7 @@ public class LinkMessageHandler implements MessageHandler {
             result = postNewTask(new URI("http://localhost:8081/task"), taskBody, userId);
             System.out.println("resultTask = " + result);
 
-            if(result != null) {
+            if (result != null) {
                 long taskId = Long.parseLong(result.get("id").toString());
                 InlineKeyboards.setInlineTagKeyboard(message, getTags(userId), taskId);
             }
@@ -74,7 +74,7 @@ public class LinkMessageHandler implements MessageHandler {
         return message;
     }
 
-    public Map<String,Object> postNewTask(URI uri, Map<String,Object> map, String userId)
+    public Map<String, Object> postNewTask(URI uri, Map<String, Object> map, String userId)
             throws IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper
@@ -96,7 +96,7 @@ public class LinkMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             String text = update.getMessage().getText();
             String isSafeLink = "https://";
             String isLink = "http://";

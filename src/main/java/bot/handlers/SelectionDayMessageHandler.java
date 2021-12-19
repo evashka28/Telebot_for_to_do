@@ -22,38 +22,39 @@ import java.util.Map;
 @Component
 @Order(value = 1)
 public class SelectionDayMessageHandler implements MessageHandler {
-    enum Week { Воскресенье, Понедельник, Вторник, Среда, Четверг, Пятница, Суббота}
-    String rightSchedule="sh "+"\\d{2}"+":"+"\\d{2}"+" ([1-7]{1})"+"(,[1-7]){0,6}";
-    List<Integer> daysOfWeek = new ArrayList<Integer>();
-    String tagId="";
+    enum Week {Воскресенье, Понедельник, Вторник, Среда, Четверг, Пятница, Суббота}
+
+    String rightSchedule = "sh " + "\\d{2}" + ":" + "\\d{2}" + " ([1-7]{1})" + "(,[1-7]){0,6}";
+    List<Integer> daysOfWeek = new ArrayList();
+    String tagId = "";
 
     @Override
     public SendMessage getMessage(Update update) {
         SendMessage message;
         message = new SendMessage();
-        if (update.hasCallbackQuery()){
-            tagId = update.getCallbackQuery().getData().replace("/tagget","") ;
+        if (update.hasCallbackQuery()) {
+            tagId = update.getCallbackQuery().getData().replace("/tagget", "");
             System.out.println(tagId);
             message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
             message.setText("Выбери расписания для тега в формате:\n" +
                     "sh 15:45 1,2,3 \n" +
                     "где 1 -вс, 2-пн и так далее");
-        }
-        else {
+        } else {
             String userId = update.getMessage().getFrom().getId() + "";
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
             String schedule = update.getMessage().getText();
             String[] words = schedule.split(" ");
 
-            if (!schedule.matches(rightSchedule)||timeiswrong(words)||sameday(words))message.setText("Неправильное выражение, попробуй еще раз.");
+            if (!schedule.matches(rightSchedule) || timeiswrong(words) || sameday(words))
+                message.setText("Неправильное выражение, попробуй еще раз.");
             else {
 
-                message.setText("Спасибо, расписание сохранено" );
-                String dateTime= words[1]+":00";
+                message.setText("Спасибо, расписание сохранено");
+                String dateTime = words[1] + ":00";
                 //message.setText("Спасибо, задача с тегом %s будет выведена в %s в %s", tagId, words[1], weeks[Integer.parseInt(words[2].split(",")[1])]  );
 
 
-                Map<String, Object> result = null;
+                Map<String, Object> result;
                 try {
 
                     Map<String, Object> tagBody = Map.of(
@@ -77,22 +78,20 @@ public class SelectionDayMessageHandler implements MessageHandler {
     }
 
     public boolean sameday(String[] words) {
-        String str=words[2];
-        for (int i = 1; i < 8; i++) str=str.replace(Integer.toString(i),"");
+        String str = words[2];
+        for (int i = 1; i < 8; i++) str = str.replace(Integer.toString(i), "");
         return words[2].length() != str.length();
     }
 
 
     public boolean timeiswrong(String[] words) {
-            return (words[1].split(":")[0].charAt(0) != '0' && Integer.parseInt(words[1].split(":")[0]) > 23) ||
-                    (words[1].split(":")[1].charAt(0) != '0' && Integer.parseInt(words[1].split(":")[1]) > 59);
+        return (words[1].split(":")[0].charAt(0) != '0' && Integer.parseInt(words[1].split(":")[0]) > 23) ||
+                (words[1].split(":")[1].charAt(0) != '0' && Integer.parseInt(words[1].split(":")[1]) > 59);
 
     }
 
 
-
-
-    public Map<String,Object> postNewSch(URI uri, Map<String,Object> map, String tagId, String userId)
+    public Map<String, Object> postNewSch(URI uri, Map<String, Object> map, String tagId, String userId)
             throws IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper
@@ -116,11 +115,10 @@ public class SelectionDayMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         //if(update.hasCallbackQuery())
-       //     return update.getCallbackQuery().getData().contains("/tagget");
-        if((update.hasMessage() && update.getMessage().hasText()) ) {
-            return  update.getMessage().getText().contains("sh") ;
-        }
-        else if (update.hasCallbackQuery()){
+        //     return update.getCallbackQuery().getData().contains("/tagget");
+        if ((update.hasMessage() && update.getMessage().hasText())) {
+            return update.getMessage().getText().contains("sh");
+        } else if (update.hasCallbackQuery()) {
             return update.getCallbackQuery().getData().contains("/tagget");
         }
         return false;

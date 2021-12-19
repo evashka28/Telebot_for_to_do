@@ -29,7 +29,7 @@ public class TasksMessageHandler implements MessageHandler {
         message = new SendMessage();
         message.setText("Список твоих задач: ");
 
-        if(update.hasMessage()) {
+        if (update.hasMessage()) {
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
             String userId = update.getMessage().getFrom().getId() + "";
             try {
@@ -39,7 +39,7 @@ public class TasksMessageHandler implements MessageHandler {
                 e.printStackTrace();
             }
         }
-        if(update.hasCallbackQuery()) {
+        if (update.hasCallbackQuery()) {
             message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
             String query = update.getCallbackQuery().getData().replace("/getTaskByTag", "");
             long tagId = Long.parseLong(query);
@@ -56,21 +56,21 @@ public class TasksMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             return update.getMessage().getText().equalsIgnoreCase("Задачи");
         }
-        if(update.hasCallbackQuery()) {
+        if (update.hasCallbackQuery()) {
             return update.getCallbackQuery().getData().contains("/getTaskByTag");
         }
         return false;
     }
 
-    public void setInlineTaskKeyboard(SendMessage message, String userId, List<Task> tasks){
+    public void setInlineTaskKeyboard(SendMessage message, String userId, List<Task> tasks) {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
-        for(Task task: tasks){
+        for (Task task : tasks) {
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(task.getContent());
             button.setCallbackData(String.format("/taskget%d", task.getId()));

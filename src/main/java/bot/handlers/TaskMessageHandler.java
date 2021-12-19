@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 
 @Component
 @Order(value = 1)
-public class TaskMessageHandler implements MessageHandler{
+public class TaskMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
     @Autowired
@@ -31,7 +31,7 @@ public class TaskMessageHandler implements MessageHandler{
 
         String query = update.getCallbackQuery().getData().replace("/taskget", "");
 
-        Task task = null;
+        Task task;
         try {
             task = backendConnector.getTask(userId, Long.parseLong(query));
             message.setText(task.getContent());
@@ -46,7 +46,7 @@ public class TaskMessageHandler implements MessageHandler{
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasCallbackQuery())
+        if (update.hasCallbackQuery())
             return update.getCallbackQuery().getData().contains("/taskget");
         return false;
     }

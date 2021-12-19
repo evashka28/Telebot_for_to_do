@@ -30,20 +30,25 @@ public class GiveTaskWithTagMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Выберите тег: ");
-        setInlineTagKeyboard(message, userId);
+        try {
+            setInlineTagKeyboard(message, userId);
+            message.setText("Выберите тег: ");
+        } catch (Exception e) {
+            message.setText("Ошибка!");
+            e.printStackTrace();
+        }
         return message;
     }
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             return update.getMessage().getText().equalsIgnoreCase("Дай задачу по тегу");
         }
         return false;
     }
 
-    public void setInlineTagKeyboard(SendMessage message, String userId){
+    public void setInlineTagKeyboard(SendMessage message, String userId) throws Exception {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
         List<Tag> tags = null;
@@ -51,10 +56,11 @@ public class GiveTaskWithTagMessageHandler implements MessageHandler {
             tags = backendConnector.getTags(userId);
         } catch (Exception e) {
             e.printStackTrace();
+            throw new Exception();
         }
         List<InlineKeyboardButton> keyboardRow = new ArrayList<>();
 
-        for(Tag tag : tags){
+        for (Tag tag : tags) {
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(tag.getName());
             button.setCallbackData(String.format("/getOneTaskByTag%d", tag.getId()));

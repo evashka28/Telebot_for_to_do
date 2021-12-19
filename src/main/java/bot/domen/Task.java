@@ -10,16 +10,17 @@ public class Task implements Serializable {
     private String content;
     private boolean favourite;
 
-    public Task(long id, String description, String content, boolean favourite){
+    public Task(long id, String description, String content, boolean favourite) {
         this.id = id;
         this.description = description;
         this.content = content;
         this.favourite = favourite;
     }
 
-    public Task(){}
+    public Task() {
+    }
 
-    public long getId(){
+    public long getId() {
         return id;
     }
 
@@ -27,15 +28,17 @@ public class Task implements Serializable {
         return todoistId;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
-    public String getContent(){
+    public String getContent() {
         return content;
     }
 
-    public boolean getFavourite() { return favourite; }
+    public boolean getFavourite() {
+        return favourite;
+    }
 
     public void setId(long id) {
         this.id = id;
@@ -58,8 +61,7 @@ public class Task implements Serializable {
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("{\"id\":%d, \"todoistId\":%d, \"description\":\"%s\", \"content\":\"%s\", \"favourite\":%s}",
                 id, todoistId, description, content, favourite);
     }

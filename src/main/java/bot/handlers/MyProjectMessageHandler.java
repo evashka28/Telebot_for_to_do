@@ -42,7 +42,7 @@ public class MyProjectMessageHandler implements MessageHandler {
                 .collect(Collectors.joining(", "));
 
         message = new SendMessage();
-        message.setChatId(String.valueOf(update.getMessage().getChatId()));;
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));
         message.setText("Список твоих проектов: " + returnProjectsName);
         Keyboards.setButtonsProject(message);
         return message;
@@ -63,13 +63,14 @@ public class MyProjectMessageHandler implements MessageHandler {
             return null;
         } else {
             String body = response.body();
-            return objectMapper.readValue(body, new TypeReference<>() {});
+            return objectMapper.readValue(body, new TypeReference<>() {
+            });
         }
     }
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             String text = update.getMessage().getText();
             return text.equalsIgnoreCase("Мои проекты");
         }

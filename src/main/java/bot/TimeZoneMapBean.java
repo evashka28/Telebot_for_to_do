@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import us.dustinj.timezonemap.TimeZoneMap;
 
 @Component
-public class TimeZoneMapBean{
+public class TimeZoneMapBean {
     private final TimeZoneMap timeZoneMap;
 
     public TimeZoneMapBean() {

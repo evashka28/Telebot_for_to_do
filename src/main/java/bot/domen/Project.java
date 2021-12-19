@@ -9,7 +9,8 @@ public class Project implements Serializable {
     private boolean favourite;
     private String name;
 
-    public Project(){}
+    public Project() {
+    }
 
     public Project(long id, long todoistId, boolean favourite) {
         this.id = id;

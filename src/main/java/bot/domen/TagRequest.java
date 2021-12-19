@@ -1,7 +1,7 @@
 package bot.domen;
+
 import java.io.Serializable;
 import java.time.LocalTime;
-
 
 
 public class TagRequest implements Serializable {
@@ -14,12 +14,12 @@ public class TagRequest implements Serializable {
     private LocalTime dateTime;
 
 
-    public TagRequest() {}
+    public TagRequest() {
+    }
 
     public String getId() {
         return id;
     }
-
 
     public LocalTime getDateTime() {
         return dateTime;

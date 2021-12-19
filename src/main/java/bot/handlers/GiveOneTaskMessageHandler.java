@@ -29,12 +29,12 @@ public class GiveOneTaskMessageHandler implements MessageHandler {
     public SendMessage getMessage(Update update) {
         SendMessage message;
         message = new SendMessage();
-        String userId = update.getCallbackQuery().getFrom().getId() +"";
+        String userId = update.getCallbackQuery().getFrom().getId() + "";
         message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
         String tagId = update.getCallbackQuery().getData().replace("/getOneTaskByTag", "");
-        Task task = null;
+        Task task;
         try {
-            task = getTaskByTag(userId,tagId);
+            task = getTaskByTag(userId, tagId);
             String taskContent = task.getContent() + "";
             message.setText("Отличное время, чтобы изучить что-то новое:\n" + taskContent);
         } catch (Exception e) {
@@ -46,10 +46,10 @@ public class GiveOneTaskMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-            if(update.hasCallbackQuery()) {
-                return update.getCallbackQuery().getData().contains("/getOneTaskByTag");
-            }
-            return false;
+        if (update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getData().contains("/getOneTaskByTag");
+        }
+        return false;
     }
 
     private Task getTaskByTag(String userId, String tagId) throws Exception {

@@ -14,7 +14,7 @@ import java.net.URISyntaxException;
 
 @Component
 @Order(value = 1)
-public class TimeZoneHandler implements MessageHandler{
+public class TimeZoneHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
     private final TimeZoneMapBean timeZoneMapBean;

@@ -10,7 +10,8 @@ public class Tag implements Serializable {
 
     private String name;
 
-    public Tag() {}
+    public Tag() {
+    }
 
     public long getId() {
         return id;

@@ -28,7 +28,7 @@ public class DeleteTagsMessageHandler implements MessageHandler {
     public SendMessage getMessage(Update update) {
         SendMessage message;
         message = new SendMessage();
-        if(update.hasMessage()) {
+        if (update.hasMessage()) {
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
             String userId = update.getMessage().getFrom().getId() + "";
@@ -40,7 +40,7 @@ public class DeleteTagsMessageHandler implements MessageHandler {
                 e.printStackTrace();
             }
         }
-        if(update.hasCallbackQuery()) {
+        if (update.hasCallbackQuery()) {
             message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
             String query = update.getCallbackQuery().getData().replace("/deleteTag", "");
             long tagId = Long.parseLong(query);
@@ -57,12 +57,12 @@ public class DeleteTagsMessageHandler implements MessageHandler {
         return message;
     }
 
-    public void setInlineTagKeyboard(SendMessage message, String userId, List<Tag> tags){
+    public void setInlineTagKeyboard(SendMessage message, String userId, List<Tag> tags) {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
-        for(Tag tag: tags){
+        for (Tag tag : tags) {
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(tag.getName());
             button.setCallbackData(String.format("/deleteTag%d", tag.getId()));
@@ -77,9 +77,9 @@ public class DeleteTagsMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText())
+        if (update.hasMessage() && update.getMessage().hasText())
             return update.getMessage().getText().equalsIgnoreCase("Удалить тег");
-        if(update.hasCallbackQuery()) {
+        if (update.hasCallbackQuery()) {
             return update.getCallbackQuery().getData().contains("/deleteTag");
         }
         return false;

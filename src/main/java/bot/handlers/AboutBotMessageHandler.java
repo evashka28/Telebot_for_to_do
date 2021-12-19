@@ -15,16 +15,16 @@ public class AboutBotMessageHandler implements MessageHandler {
         message = new SendMessage();
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
         message.setText("Хей! Механика моей работы простая\uD83D\uDE09\n " +
-                        "Ты отправляешь мне ссылки и выбираешь режим чтения\n " +
-                        "Я - завожу задачи в Todoist, контролирую их выполнение\n " +
-                        "\n"+
-                        "В ходе разработки появятся новые фичи и ты обязательно об этом узнаешь ☺️");
+                "Ты отправляешь мне ссылки и выбираешь режим чтения\n " +
+                "Я - завожу задачи в Todoist, контролирую их выполнение\n " +
+                "\n" +
+                "В ходе разработки появятся новые фичи и ты обязательно об этом узнаешь ☺️");
         Keyboards.setButtons(message);
         return message;
     }
 
 
-//    @Override
+    //    @Override
 //    public boolean canHandle(Update update) {
 //        if(update.hasMessage() && update.getMessage().hasText()) {
 //            String text = update.getMessage().getText();
@@ -38,7 +38,7 @@ public class AboutBotMessageHandler implements MessageHandler {
 //    }
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             return (update.getMessage().getText().equalsIgnoreCase("Как работает бот?") ||
                     update.getMessage().getText().equalsIgnoreCase("/help"));
         }

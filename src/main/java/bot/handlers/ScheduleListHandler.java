@@ -53,14 +53,14 @@ public class ScheduleListHandler implements MessageHandler {
         return false;
     }
 
-    public void setInlineTaskKeyboard(SendMessage message, List<TagRequest> schedules){
+    public void setInlineTaskKeyboard(SendMessage message, List<TagRequest> schedules) {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
-        for(TagRequest schedule: schedules){
+        for (TagRequest schedule : schedules) {
             InlineKeyboardButton button = new InlineKeyboardButton();
-            button.setText(String.format("%s Время: %s, Дни: %s", schedule.getTag().getName() , schedule.getDateTime(), schedule.getDaysOfWeek()));
+            button.setText(String.format("%s Время: %s, Дни: %s", schedule.getTag().getName(), schedule.getDateTime(), schedule.getDaysOfWeek()));
             button.setCallbackData(String.format("/schdel%s", schedule.getId()));
             List<InlineKeyboardButton> row = new ArrayList<>();
             row.add(button);

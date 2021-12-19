@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 
 @Component
 @Order(value = 1)
-public class CompleteTaskMessageHandler implements MessageHandler{
+public class CompleteTaskMessageHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
     @Autowired
@@ -41,7 +41,7 @@ public class CompleteTaskMessageHandler implements MessageHandler{
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasCallbackQuery()) {
+        if (update.hasCallbackQuery()) {
             return update.getCallbackQuery().getData().contains("/taskcom");
         }
         return false;

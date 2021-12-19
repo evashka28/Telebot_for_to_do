@@ -137,8 +137,7 @@ public class TokenMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            boolean can = update.getMessage().getText().length() == 40;
-            return can;
+            return update.getMessage().getText().length() == 40;
         }
         return false;
     }
@@ -157,7 +156,8 @@ public class TokenMessageHandler implements MessageHandler {
             return null;
         } else {
             String body = response.body();
-            return objectMapper.readValue(body, new TypeReference<>() {});
+            return objectMapper.readValue(body, new TypeReference<>() {
+            });
         }
 
     }
@@ -217,7 +217,8 @@ public class TokenMessageHandler implements MessageHandler {
          */
         Map<String, String> readValue(String content) {
             try {
-                return this.readValue(content, new TypeReference<>() {});
+                return this.readValue(content, new TypeReference<>() {
+                });
             } catch (IOException ioe) {
                 throw new CompletionException(ioe);
             }

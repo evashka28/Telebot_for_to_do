@@ -15,7 +15,7 @@ import java.util.List;
 
 @Component
 @Order(value = 1)
-public class TagSelectionHandler implements MessageHandler{
+public class TagSelectionHandler implements MessageHandler {
     private final BackendConnector backendConnector;
 
     @Autowired
@@ -46,7 +46,7 @@ public class TagSelectionHandler implements MessageHandler{
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasCallbackQuery()) {
+        if (update.hasCallbackQuery()) {
             return update.getCallbackQuery().getData().contains("/tasktagsel");
         }
         return false;

@@ -62,14 +62,15 @@ public class ReturnTagMessageHandler implements MessageHandler {
             return null;
         } else {
             String body = response.body();
-            return objectMapper.readValue(body, new TypeReference<>() {});
+            return objectMapper.readValue(body, new TypeReference<>() {
+            });
         }
 
     }
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             return update.getMessage().getText().equalsIgnoreCase("Мои теги");
         }
         return false;

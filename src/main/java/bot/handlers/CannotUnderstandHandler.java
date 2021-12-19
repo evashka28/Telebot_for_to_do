@@ -11,7 +11,7 @@ import java.net.URISyntaxException;
 
 @Component
 @Order(value = 3)
-public class CannotUnderstandHandler implements MessageHandler{
+public class CannotUnderstandHandler implements MessageHandler {
 
     @Override
     public SendMessage getMessage(Update update) throws URISyntaxException, IOException, InterruptedException {

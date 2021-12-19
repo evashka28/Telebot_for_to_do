@@ -12,7 +12,7 @@ import java.util.List;
 
 public class InlineKeyboards {
 
-    public static void setInlineTagKeyboard(SendMessage message, List<Tag> tags, long taskId){
+    public static void setInlineTagKeyboard(SendMessage message, List<Tag> tags, long taskId) {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
 
@@ -21,13 +21,13 @@ public class InlineKeyboards {
 
         int counter = 0;
 
-        for(Tag tag : tags){
+        for (Tag tag : tags) {
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(tag.getName());
             button.setCallbackData(String.format("/addTtT%d.%s", tag.getId(), taskId));
             keyboardRow.add(button);
             counter++;
-            if(counter == 3) {
+            if (counter == 3) {
                 keyboard.add(keyboardRow);
                 keyboardRow = new ArrayList<>();
                 counter = 0;
@@ -41,7 +41,7 @@ public class InlineKeyboards {
         message.setReplyMarkup(keyboardMarkup);
     }
 
-    public static void setInlineTaskKeyboard(SendMessage message, String userId, long taskId){
+    public static void setInlineTaskKeyboard(SendMessage message, String userId, long taskId) {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();

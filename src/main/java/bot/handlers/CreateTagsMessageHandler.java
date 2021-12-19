@@ -40,26 +40,26 @@ public class CreateTagsMessageHandler implements MessageHandler {
         stateManager.setState(UserState.NORMAL, update.getMessage().getFrom().getId());
 
 
-    // create new tag in ToDoist
-    Map<String, Object> result = null;
+        // create new tag in ToDoist
+        Map<String, Object> result;
         try {
-        String id = 0 +"";
-        Map<String, Object> tagBody = Map.of(
-                "id", id,
-                "name", content
-        );
+            String id = 0 + "";
+            Map<String, Object> tagBody = Map.of(
+                    "id", id,
+                    "name", content
+            );
 
-        result = postNewTag(new URI("http://localhost:8081/tag"), tagBody, userId);
-        System.out.println("resultTag = " + result);
-    } catch (IOException | InterruptedException | URISyntaxException e) {
-        e.printStackTrace();
-        message.setText("Ошибка");
-    }
+            result = postNewTag(new URI("http://localhost:8081/tag"), tagBody, userId);
+            System.out.println("resultTag = " + result);
+        } catch (IOException | InterruptedException | URISyntaxException e) {
+            e.printStackTrace();
+            message.setText("Ошибка");
+        }
         return message;
-}
+    }
 
 
-    public Map<String,Object> postNewTag(URI uri, Map<String,Object> map, String userId)
+    public Map<String, Object> postNewTag(URI uri, Map<String, Object> map, String userId)
             throws IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper
@@ -81,13 +81,12 @@ public class CreateTagsMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             UserState userState = stateManager.getState(update.getMessage().getFrom().getId());
             if (userState == UserState.CREATING_TAG) {
                 return update.getMessage().getText().startsWith("#");
             }
-        }
-        else {
+        } else {
             if (update.hasCallbackQuery()) {
                 UserState userState = stateManager.getState(update.getCallbackQuery().getFrom().getId());
                 if (update.hasMessage() && update.getMessage().hasText() &&

@@ -16,16 +16,16 @@ public class ReadingModeHandler implements MessageHandler {
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
         message.setText("Здесь ты можешь работать с расписание по которому тебе приходят задачи.\n\n" +
-                        "Ты можешь\n" +
-                        "➡️Посмотреть все свои расписания по тегам \n" +
-                        "➡️Создать новое расписание для тега  \n");
+                "Ты можешь\n" +
+                "➡️Посмотреть все свои расписания по тегам \n" +
+                "➡️Создать новое расписание для тега  \n");
         Keyboards.setButtons6(message);
         return message;
     }
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             return update.getMessage().getText().equals("Расписание");
         }
         return false;

@@ -23,7 +23,7 @@ public class BackendConnector {
 
     public List<Tag> getTags(String userId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        URI uri = null;
+        URI uri;
         try {
             uri = new URI("http://localhost:8081/tags");
         } catch (URISyntaxException e) {
@@ -34,7 +34,7 @@ public class BackendConnector {
                 .header("userId", userId)
                 .build();
 
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
@@ -59,7 +59,7 @@ public class BackendConnector {
 
     public List<Task> getTasks(String userId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        URI uri = null;
+        URI uri;
         try {
             uri = new URI("http://localhost:8081/tasks");
         } catch (URISyntaxException e) {
@@ -70,7 +70,7 @@ public class BackendConnector {
                 .header("userId", userId)
                 .build();
 
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
@@ -95,7 +95,7 @@ public class BackendConnector {
 
     public List<Task> getTasksByTag(String userId, long tagId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        URI uri = null;
+        URI uri;
         try {
             uri = new URI(String.format("http://localhost:8081/tasks/tag/%d", tagId));
         } catch (URISyntaxException e) {
@@ -106,7 +106,7 @@ public class BackendConnector {
                 .header("userId", userId)
                 .build();
 
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
@@ -131,7 +131,7 @@ public class BackendConnector {
 
     public Task getTask(String userId, long taskId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        URI uri = null;
+        URI uri;
         try {
             uri = new URI(String.format("http://localhost:8081/task/%d", taskId));
         } catch (URISyntaxException e) {
@@ -142,7 +142,7 @@ public class BackendConnector {
                 .header("userId", userId)
                 .build();
 
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
@@ -167,9 +167,9 @@ public class BackendConnector {
 
     public Task getTaskByTag(String tagId, String userId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        URI uri = null;
+        URI uri;
         try {
-            uri = new URI("http://localhost:8081/task/tag/"+ tagId);
+            uri = new URI("http://localhost:8081/task/tag/" + tagId);
         } catch (URISyntaxException e) {
             e.printStackTrace();
             throw new Exception();
@@ -178,7 +178,7 @@ public class BackendConnector {
                 .header("userId", userId)
                 .build();
 
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
@@ -205,7 +205,7 @@ public class BackendConnector {
         ObjectMapper objectMapper = new ObjectMapper();
         URI uri = null;
         try {
-            uri = new URI(String.format("http://localhost:8081/task"));
+            uri = new URI("http://localhost:8081/task");
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
@@ -283,7 +283,7 @@ public class BackendConnector {
                 .header("userId", userId)
                 .build();
 
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
@@ -295,14 +295,13 @@ public class BackendConnector {
         if (response.statusCode() == 410) {
             return null;
         } else {
-            String body = response.toString();
-            return body;
+            return response.toString();
         }
     }
 
     public String completeTask(String userId, long taskId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        URI uri = null;
+        URI uri;
         try {
             uri = new URI(String.format("http://localhost:8081/task/%d/complete", taskId));
         } catch (URISyntaxException e) {
@@ -314,7 +313,7 @@ public class BackendConnector {
                 .header("userId", userId)
                 .build();
 
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
@@ -326,14 +325,13 @@ public class BackendConnector {
         if (response.statusCode() == 410) {
             return null;
         } else {
-            String body = response.toString();
-            return body;
+            return response.toString();
         }
     }
 
     public String deleteTag(String userId, long tagId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        URI uri = null;
+        URI uri;
         try {
             uri = new URI(String.format("http://localhost:8081/tag/%d", tagId));
         } catch (URISyntaxException e) {
@@ -345,7 +343,7 @@ public class BackendConnector {
                 .header("userId", userId)
                 .build();
 
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
@@ -357,8 +355,7 @@ public class BackendConnector {
         if (response.statusCode() == 410) {
             return null;
         } else {
-            String body = response.toString();
-            return body;
+            return response.toString();
         }
     }
 
@@ -366,7 +363,7 @@ public class BackendConnector {
     public List<TagRequest> getSchedules(String userId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.findAndRegisterModules();
-        URI uri = null;
+        URI uri;
         try {
             uri = new URI("http://localhost:8081/schedules");
         } catch (URISyntaxException e) {
@@ -377,7 +374,7 @@ public class BackendConnector {
                 .header("userId", userId)
                 .build();
 
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
@@ -402,7 +399,7 @@ public class BackendConnector {
 
     public TagRequest getSchedule(String userId, long taskId) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        URI uri = null;
+        URI uri;
         try {
             uri = new URI(String.format("http://localhost:8081/task/%d", taskId));
         } catch (URISyntaxException e) {
@@ -413,7 +410,7 @@ public class BackendConnector {
                 .header("userId", userId)
                 .build();
 
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
@@ -438,7 +435,7 @@ public class BackendConnector {
 
     public String setTimezone(String userId, String timezone) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        URI uri = null;
+        URI uri;
         try {
             uri = new URI(String.format("http://localhost:8081/user/%s/timezone", userId));
         } catch (URISyntaxException e) {
@@ -447,11 +444,11 @@ public class BackendConnector {
         }
         HttpRequest request = HttpRequest.newBuilder(uri)
                 .header("Content-Type", "application/json")
-                .PUT(HttpRequest.BodyPublishers.ofString(String.format(timezone)))
+                .PUT(HttpRequest.BodyPublishers.ofString(timezone))
                 .header("userId", userId)
                 .build();
 
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
@@ -463,14 +460,13 @@ public class BackendConnector {
         if (response.statusCode() == 410) {
             return null;
         } else {
-            String body = response.body();
-            return body;
+            return response.body();
         }
     }
 
     public String deleteSchedule(String id) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        URI uri = null;
+        URI uri;
         try {
             uri = new URI(String.format("http://localhost:8081/schedule/%s", id));
         } catch (URISyntaxException e) {
@@ -481,7 +477,7 @@ public class BackendConnector {
                 .DELETE()
                 .build();
 
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         try {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
@@ -493,8 +489,7 @@ public class BackendConnector {
         if (response.statusCode() == 410) {
             return null;
         } else {
-            String body = response.toString();
-            return body;
+            return response.toString();
         }
     }
 }

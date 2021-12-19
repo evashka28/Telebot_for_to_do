@@ -22,17 +22,17 @@ public class ProjectMessageHandler implements MessageHandler {
     public SendMessage getMessage(Update update) {
         SendMessage message;
         message = new SendMessage();
-        message.setChatId(String.valueOf(update.getMessage().getChatId()));;
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));
         message.setText("Ты можешь\n" +
-                        "➡️ Создать новый проект\n" +
-                        "➡️ Посмотреть список всех проектов");
+                "➡️ Создать новый проект\n" +
+                "➡️ Посмотреть список всех проектов");
         Keyboards.setButtonsProject(message);
         return message;
     }
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             String text = update.getMessage().getText();
             return text.equalsIgnoreCase("Проекты");
         }

@@ -48,7 +48,7 @@ public class TasksByTagHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             return update.getMessage().getText().equalsIgnoreCase("Задачи по тегу");
         }
         return false;
@@ -60,7 +60,7 @@ public class TasksByTagHandler implements MessageHandler {
         List<Tag> tags = backendConnector.getTags(userId);
         List<InlineKeyboardButton> keyboardRow = new ArrayList<>();
 
-        for(Tag tag : tags){
+        for (Tag tag : tags) {
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(tag.getName());
             button.setCallbackData(String.format("/getTaskByTag%d", tag.getId()));

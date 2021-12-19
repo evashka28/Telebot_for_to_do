@@ -13,7 +13,7 @@ public class ReturnToMainMessage implements MessageHandler {
     public SendMessage getMessage(Update update) {
         SendMessage message;
         message = new SendMessage();
-        message.setChatId(String.valueOf(update.getMessage().getChatId()));;
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));
         message.setText("Ты мне ссылку, я тебе задачу \n" +
                 "Как и договаривались\uD83D\uDE09");
         Keyboards.setButtons(message);
@@ -22,7 +22,7 @@ public class ReturnToMainMessage implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
             return update.getMessage().getText().equalsIgnoreCase("Назад \uD83D\uDD19");
         }
         return false;
