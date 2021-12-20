@@ -14,15 +14,7 @@ public class LoginMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
-        message.setText("Для того чтобы залогиниться тебе необходимо отправить мне свой токен точно как в Todoist\n" +
-                "Введи его и просто отправь мне⬇️\n" +
-                "\n" +
-                "Откуда взять токен?\n" +
-                "1️⃣ Необходимо нажать на иконку своего профиля в Todoist\n" +
-                "2️⃣ Нажать на вкладку  Интеграции \n" +
-                "3️⃣ Скопировать Токен API (можно нажать на Скопировать в буфер обмена)\n" +
-                "4️⃣ Вернутся в наш чатик и отправить токен мне (вставить)"
-        );
+        message.setText(TextMessage.login_mess);
         Keyboards.setButtons2(message);
         return message;
     }
@@ -30,7 +22,7 @@ public class LoginMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase("Залогиниться✅");
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.logging);
         }
         return false;
     }

@@ -39,9 +39,9 @@ public class GiveOneTaskMessageHandler implements MessageHandler {
         try {
             task = getTaskByTag(userId, tagId);
             String taskContent = task.getContent() + "";
-            message.setText("Отличное время, чтобы изучить что-то новое:\n" + taskContent);
+            message.setText(TextMessage.good_time + taskContent);
         } catch (Exception e) {
-            message.setText("По такому тегу нет задач!");
+            message.setText(TextMessage.havenot_task);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         return message;

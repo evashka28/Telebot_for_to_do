@@ -37,10 +37,10 @@ public class GiveTaskMessageHandler implements MessageHandler {
         try {
             task = getTask(userId);
             String taskContent = task.getContent() + "";
-            message.setText("Отличное время, чтобы изучить что-то новое. Например  это:" + taskContent);
+            message.setText(TextMessage.good_time + taskContent);
             InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
         } catch (Exception e) {
-            message.setText("Ошибка!");
+            message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
@@ -52,7 +52,7 @@ public class GiveTaskMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase("Дай Задачу");
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.give_task);
         }
         return false;
     }

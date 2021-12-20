@@ -25,9 +25,7 @@ public class TagsMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Для того чтобы создать новый тег, введи:" +
-                "#название_тега\n " +
-                "Например: #читать\n");
+        message.setText(TextMessage.create_new_tag);
         Keyboards.setButtonsTag(message);
         return message;
     }
@@ -36,7 +34,7 @@ public class TagsMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase("Создать тег");
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.create_tag);
         }
         return false;
     }

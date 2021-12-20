@@ -39,9 +39,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
             tagId = update.getCallbackQuery().getData().replace("/tagget", "");
             log.info(tagId);
             message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
-            message.setText("Выбери расписания для тега в формате:\n" +
-                    "sh 15:45 1,2,3 \n" +
-                    "где 1 -вс, 2-пн и так далее");
+            message.setText(TextMessage.create_shed);
         } else {
             String userId = update.getMessage().getFrom().getId() + "";
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
@@ -49,10 +47,10 @@ public class SelectionDayMessageHandler implements MessageHandler {
             String[] words = schedule.split(" ");
 
             if (!schedule.matches(rightSchedule) || timeiswrong(words) || sameday(words))
-                message.setText("Неправильное выражение, попробуй еще раз.");
+                message.setText(TextMessage.wrong_term);
             else {
 
-                message.setText("Спасибо, расписание сохранено");
+                message.setText(TextMessage.good_term);
                 String dateTime = words[1] + ":00";
                 //message.setText("Спасибо, задача с тегом %s будет выведена в %s в %s", tagId, words[1], weeks[Integer.parseInt(words[2].split(",")[1])]  );
 

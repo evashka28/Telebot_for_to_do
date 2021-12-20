@@ -38,10 +38,10 @@ public class TimeZoneHandler implements MessageHandler {
         try {
             backendConnector.setTimezone(userId, timezone);
         } catch (Exception e) {
-            message.setText("Ошибка!");
+            message.setText(TextMessage.error);
             e.printStackTrace();
         }
-        message.setText("Ваш часовой пояс - " + timezone);
+        message.setText(TextMessage.time_zone+ timezone);
         return message;
     }
 

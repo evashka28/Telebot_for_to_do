@@ -38,10 +38,10 @@ public class TasksByTagHandler implements MessageHandler {
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
 
         try {
-            message.setText("Выберите тег: ");
+            message.setText(TextMessage.choose_task_tag);
             setInlineTagKeyboard(message, userId);
         } catch (Exception e) {
-            message.setText("Ошибка!");
+            message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
@@ -52,7 +52,7 @@ public class TasksByTagHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase("Задачи по тегу");
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.task_by_tag);
         }
         return false;
     }

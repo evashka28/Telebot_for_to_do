@@ -37,10 +37,10 @@ public class TagSelectionHandler implements MessageHandler {
         String query = update.getCallbackQuery().getData().replace("/tasktagsel", "");
         long taskId = Long.parseLong(query);
         try {
-            message.setText("Выберите тег:");
+            message.setText(TextMessage.choose_task_tag);
             InlineKeyboards.setInlineTagKeyboard(message, getTags(userId), taskId);
         } catch (Exception e) {
-            message.setText("Ошибка!");
+            message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 

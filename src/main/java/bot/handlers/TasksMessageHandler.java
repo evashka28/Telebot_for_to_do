@@ -30,7 +30,7 @@ public class TasksMessageHandler implements MessageHandler {
     public SendMessage getMessage(Update update) {
         SendMessage message;
         message = new SendMessage();
-        message.setText("Список твоих задач: ");
+        message.setText(TextMessage.tasks_list);
 
         if (update.hasMessage()) {
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
@@ -38,7 +38,7 @@ public class TasksMessageHandler implements MessageHandler {
             try {
                 setInlineTaskKeyboard(message, userId, getTasks(userId));
             } catch (Exception e) {
-                message.setText("Ошибка!");
+                message.setText(TextMessage.error);
                 log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             }
         }
@@ -50,7 +50,7 @@ public class TasksMessageHandler implements MessageHandler {
             try {
                 setInlineTaskKeyboard(message, userId, getTasks(userId, tagId));
             } catch (Exception e) {
-                message.setText("Ошибка!");
+                message.setText(TextMessage.error);
                 log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             }
         }
@@ -60,7 +60,7 @@ public class TasksMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase("Задачи");
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.tasks);
         }
         if (update.hasCallbackQuery()) {
             return update.getCallbackQuery().getData().contains("/getTaskByTag");

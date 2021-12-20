@@ -14,11 +14,7 @@ public class ThisIsMeMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Если ты пользователь Todoist, то смело нажимай залогиниться✅\n" +
-                "\n" +
-                "А если у тебя еще нет профиля, то ссылка внизу\uD83D\uDE09\n" +
-                "Скорее регистрируйся и возвращайся ко мне\uD83E\uDD17 \n" +
-                "https://todoist.com/users/showregister");
+        message.setText(TextMessage.this_is_me);
         Keyboards.setButtons2(message);
         return message;
     }
@@ -26,7 +22,7 @@ public class ThisIsMeMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase("Точно я!");
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.is_me);
         }
         return false;
     }

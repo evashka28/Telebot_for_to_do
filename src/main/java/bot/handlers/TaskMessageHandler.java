@@ -40,7 +40,7 @@ public class TaskMessageHandler implements MessageHandler {
             message.setText(task.getContent());
             InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
         } catch (Exception e) {
-            message.setText("Ошибка!");
+            message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 

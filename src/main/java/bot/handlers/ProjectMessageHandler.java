@@ -23,9 +23,7 @@ public class ProjectMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Ты можешь\n" +
-                "➡️ Создать новый проект\n" +
-                "➡️ Посмотреть список всех проектов");
+        message.setText(TextMessage.projects_info);
         Keyboards.setButtonsProject(message);
         return message;
     }
@@ -34,7 +32,7 @@ public class ProjectMessageHandler implements MessageHandler {
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String text = update.getMessage().getText();
-            return text.equalsIgnoreCase("Проекты");
+            return text.equalsIgnoreCase(TextMessage.projects);
         }
         return false;
     }

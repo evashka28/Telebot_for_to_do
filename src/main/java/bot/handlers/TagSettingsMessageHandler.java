@@ -15,13 +15,7 @@ public class TagSettingsMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Добавляя тег к задаче, ты условно делишь свои задачи на категории.\n\n" +
-                "Благодаря этому можно быстро получать список задач или конкретную задачу\n" +
-                "Это удобно, я проверял\uD83D\uDE09\n\n" +
-                "Ты можешь\n" +
-                "➡️Посмотреть все свои теги \n" +
-                "➡️Создать новый тег  \n" +
-                "➡️Удалить тег \n");
+        message.setText(TextMessage.tag_info);
         Keyboards.setButtonsTag(message);
         return message;
     }
@@ -29,7 +23,7 @@ public class TagSettingsMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase("Теги");
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.tags);
         }
         return false;
     }

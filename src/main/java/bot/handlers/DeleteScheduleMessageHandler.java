@@ -33,9 +33,9 @@ public class DeleteScheduleMessageHandler implements MessageHandler {
         log.info(query);
         try {
             log.info("delete " + backendConnector.deleteSchedule(query));
-            message.setText("Расписание удалено!");
+            message.setText(TextMessage.deleted_shed);
         } catch (Exception e) {
-            message.setText("Ошибка!");
+            message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 

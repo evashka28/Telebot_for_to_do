@@ -32,9 +32,9 @@ public class AddTagToTaskHandler implements MessageHandler {
         try {
             String result = backendConnector.addTagToTask(update.getCallbackQuery().getFrom().getId().toString(),
                     Long.parseLong(tags[1]), Long.parseLong(tags[0]));
-            message.setText("Тег добавлен к задаче!");
+            message.setText(TextMessage.add_tag);
         } catch (Exception e) {
-            message.setText("Ошибка!");
+            message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 

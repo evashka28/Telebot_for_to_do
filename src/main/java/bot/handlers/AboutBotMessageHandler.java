@@ -14,32 +14,15 @@ public class AboutBotMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
-        message.setText("Хей! Механика моей работы простая\uD83D\uDE09\n " +
-                "Ты отправляешь мне ссылки и выбираешь режим чтения\n " +
-                "Я - завожу задачи в Todoist, контролирую их выполнение\n " +
-                "\n" +
-                "В ходе разработки появятся новые фичи и ты обязательно об этом узнаешь ☺️");
+        message.setText(TextMessage.about_bot);
         Keyboards.setButtons(message);
         return message;
     }
 
-
-    //    @Override
-//    public boolean canHandle(Update update) {
-//        if(update.hasMessage() && update.getMessage().hasText()) {
-//            String text = update.getMessage().getText();
-//            String isSafeLink = "https://";
-//            String isLink = "http://";
-//            return (text.toLowerCase().contains(isLink.toLowerCase()) ||
-//                    text.toLowerCase().contains(isSafeLink.toLowerCase()));
-//        }
-//        return false;
-//
-//    }
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return (update.getMessage().getText().equalsIgnoreCase("Как работает бот?") ||
+            return (update.getMessage().getText().equalsIgnoreCase(TextMessage.how_working_bot) ||
                     update.getMessage().getText().equalsIgnoreCase("/help"));
         }
         return false;

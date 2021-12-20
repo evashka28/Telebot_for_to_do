@@ -14,8 +14,7 @@ public class StartMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Привет! Я Todo Bot\uD83E\uDD16\n" +
-                "Если ты часто добавляешь видосики, статьи, а может подкасты в закладки, но у тебя нет времени все это посмотреть, почитать, послушать прямо сейчас, то нам с тобой по пути.");
+        message.setText(TextMessage.start_mess);
         Keyboards.setButtons1(message);
         return message;
     }

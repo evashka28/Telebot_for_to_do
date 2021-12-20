@@ -44,7 +44,7 @@ public class ReturnTagMessageHandler implements MessageHandler {
 
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Список твоих тегов: " + returnTags);
+        message.setText(TextMessage.tags_list + returnTags);
         Keyboards.setButtonsTag(message);
 
         return message;
@@ -74,7 +74,7 @@ public class ReturnTagMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase("Мои теги");
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.my_tags);
         }
         return false;
     }

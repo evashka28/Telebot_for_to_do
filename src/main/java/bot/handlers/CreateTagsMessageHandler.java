@@ -38,7 +38,7 @@ public class CreateTagsMessageHandler implements MessageHandler {
         String content = update.getMessage().getText() + "";
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Тег создан!");
+        message.setText(TextMessage.created_tag);
         Keyboards.setButtonsTag(message);
         stateManager.setState(UserState.NORMAL, update.getMessage().getFrom().getId());
 
@@ -56,7 +56,7 @@ public class CreateTagsMessageHandler implements MessageHandler {
             log.info("resultTag = " + result);
         } catch (IOException | InterruptedException | URISyntaxException e) {
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
-            message.setText("Ошибка");
+            message.setText(TextMessage.error);
         }
         return message;
     }

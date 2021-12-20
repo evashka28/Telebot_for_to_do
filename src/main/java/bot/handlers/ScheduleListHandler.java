@@ -36,10 +36,10 @@ public class ScheduleListHandler implements MessageHandler {
 
 
         try {
-            message.setText("Список твоих расписаний (для удаления нажми на него):");
+            message.setText(TextMessage.shed_list);
             setInlineTaskKeyboard(message, getSchedules(userId));
         } catch (Exception e) {
-            message.setText("Ошибка!");
+            message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
@@ -51,7 +51,7 @@ public class ScheduleListHandler implements MessageHandler {
     public boolean canHandle(Update update) {
 
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase("Моё расписание");
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.my_shedule);
         }
         return false;
     }

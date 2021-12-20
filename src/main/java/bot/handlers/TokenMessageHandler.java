@@ -89,37 +89,15 @@ public class TokenMessageHandler implements MessageHandler {
         if (resultProjects == null) {
             message = new SendMessage();
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
-            message.setText("Введенный токен не верный, попробуй еще раз");
+            message.setText(TextMessage.invalid_token);
             Keyboards.setButtons2(message);
             return message;
         } else {
             message = new SendMessage();
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
-            message.setText("Отлично \uD83E\uDD17 Пользователь с таким токеном существует!\n" +
-                    "\n" +
-                    "В твоём профиле Todoist я специально создал проект с названием fromToDoBot.\n" +
-                    "Именно туда я буду добавлять все ссылки, которые ты мне пришлёшь \uD83D\uDE09\n" +
-                    "\n" +
-                    "Немного о моих кнопках:\n" +
-                    "\uD83D\uDCCDРасписание \n" +
-                    "Ты можешь создавать расписание, а я буду отправлять тебе ссылку в настроенное время\n" +
-                    "\uD83D\uDCCDДай задачу\n" +
-                    "Дам одну любую ссылку из имеющихся\n" +
-                    "\uD83D\uDCCDТеги\n" +
-                    "можно создать теги и бытро находить задачи\n" +
-                    "\uD83D\uDCCDЗадачи\n" +
-                    "Дам все ссылки, которые ты мне присылал\n" +
-                    "\uD83D\uDCCDДай Задачу по тегу\n" +
-                    "Отыщу любую задачу по выбранному тегу\n" +
-                    "\uD83D\uDCCDЗадачи по тегу\n" +
-                    "Верну все задачи по выбранному тегу\n" +
-                    "\uD83D\uDCCDЗадать часовой пояс\n" +
-                    "Необходимо настроить для корректной работы расписания\n" +
-                    "\uD83D\uDCCDКак работает бот?\n" +
-                    "Краткая информация обо мне");
+            message.setText(TextMessage.good_authorization);
             Keyboards.setButtons(message);
             return message;
-
         }
     }
 

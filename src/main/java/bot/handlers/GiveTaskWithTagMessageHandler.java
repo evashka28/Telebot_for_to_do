@@ -35,9 +35,9 @@ public class GiveTaskWithTagMessageHandler implements MessageHandler {
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
         try {
             setInlineTagKeyboard(message, userId);
-            message.setText("Выберите тег: ");
+            message.setText(TextMessage.choose_task_tag);
         } catch (Exception e) {
-            message.setText("Ошибка!");
+            message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         return message;
@@ -46,7 +46,7 @@ public class GiveTaskWithTagMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase("Дай задачу по тегу");
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.give_task_by_tag);
         }
         return false;
     }

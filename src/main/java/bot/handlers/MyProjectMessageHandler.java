@@ -46,7 +46,7 @@ public class MyProjectMessageHandler implements MessageHandler {
 
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Список твоих проектов: " + returnProjectsName);
+        message.setText(TextMessage.project_list + returnProjectsName);
         Keyboards.setButtonsProject(message);
         return message;
 
@@ -75,7 +75,7 @@ public class MyProjectMessageHandler implements MessageHandler {
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String text = update.getMessage().getText();
-            return text.equalsIgnoreCase("Мои проекты");
+            return text.equalsIgnoreCase(TextMessage.my_project);
         }
         return false;
     }

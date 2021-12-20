@@ -15,10 +15,7 @@ public class ReadingModeHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText("Здесь ты можешь работать с расписание по которому тебе приходят задачи.\n\n" +
-                "Ты можешь\n" +
-                "➡️Посмотреть все свои расписания по тегам \n" +
-                "➡️Создать новое расписание для тега  \n");
+        message.setText(TextMessage.reading_mode);
         Keyboards.setButtons6(message);
         return message;
     }
@@ -26,7 +23,7 @@ public class ReadingModeHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equals("Расписание");
+            return update.getMessage().getText().equals(TextMessage.shedule);
         }
         return false;
     }

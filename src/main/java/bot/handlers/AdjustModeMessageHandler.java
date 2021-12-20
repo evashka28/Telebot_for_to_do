@@ -34,10 +34,10 @@ public class AdjustModeMessageHandler implements MessageHandler {
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
 
         try {
-            message.setText("Выбери тег для которого хочешь настроить режим \n ⬇️ ️");
+            message.setText(TextMessage.choose_tag);
             setInlineTagKeyboard(message, userId);
         } catch (Exception e) {
-            message.setText("Ошибка!");
+            message.setText(TextMessage.error + e.getMessage());
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         return message;
@@ -46,7 +46,7 @@ public class AdjustModeMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase("Создать расписание");
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.create_new_shed);
         }
         return false;
     }

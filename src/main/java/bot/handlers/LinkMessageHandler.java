@@ -42,9 +42,7 @@ public class LinkMessageHandler implements MessageHandler {
         String content = URLEncoder.encode(update.getMessage().getText() + "", StandardCharsets.UTF_8);
         message = new SendMessage();
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
-        message.setText("Сохраняю ссылку...\n" +
-                "\n" +
-                "Выберите подходящий тег для этой задачи");
+        message.setText(TextMessage.save_link);
 
 
         // create new task in ToDoist
@@ -70,7 +68,7 @@ public class LinkMessageHandler implements MessageHandler {
                 InlineKeyboards.setInlineTagKeyboard(message, getTags(userId), taskId);
             }
         } catch (Exception e) {
-            message.setText("Ошибка!");
+            message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
