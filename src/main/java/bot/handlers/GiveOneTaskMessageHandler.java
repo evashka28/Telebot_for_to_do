@@ -40,6 +40,7 @@ public class GiveOneTaskMessageHandler implements MessageHandler {
             task = getTaskByTag(userId, tagId);
             String taskContent = task.getContent() + "";
             message.setText(TextMessage.good_time + taskContent);
+            InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
         } catch (Exception e) {
             message.setText(TextMessage.havenot_task);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));

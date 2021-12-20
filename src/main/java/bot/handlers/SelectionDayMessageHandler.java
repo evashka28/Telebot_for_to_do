@@ -1,7 +1,6 @@
 package bot.handlers;
 
 import bot.Keyboards;
-import bot.domen.Schedule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -16,7 +15,6 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +44,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
             String schedule = update.getMessage().getText();
             String[] words = schedule.split(" ");
 
-            if (!schedule.matches(rightSchedule) || timeiswrong(words) || sameday(words))
+            if (!schedule.matches(rightSchedule) || timeIsWrong(words) || sameDay(words))
                 message.setText(TextMessage.wrong_term);
             else {
 
@@ -64,7 +62,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
                             "id", "hi"
                     );
 
-                    result = postNewSch(new URI("http://localhost:8081/schedule/tag"), tagBody, tagId, userId);
+                    result = postNewSchedule(new URI("http://localhost:8081/schedule/tag"), tagBody, tagId, userId);
                     log.info(String.valueOf(tagBody));
                     log.info("resultTask = " + result);
                 } catch (IOException | InterruptedException | URISyntaxException e) {
@@ -78,21 +76,23 @@ public class SelectionDayMessageHandler implements MessageHandler {
         return message;
     }
 
-    public boolean sameday(String[] words) {
+    public boolean sameDay(String[] words) {
         String str = words[2];
-        for (int i = 1; i < 8; i++) str = str.replace(Integer.toString(i), "");
+        for (int i = 1; i < 8; i++) {
+            str = str.replace(Integer.toString(i), "");
+        }
         return words[2].length() != str.length();
     }
 
 
-    public boolean timeiswrong(String[] words) {
+    public boolean timeIsWrong(String[] words) {
         return (words[1].split(":")[0].charAt(0) != '0' && Integer.parseInt(words[1].split(":")[0]) > 23) ||
                 (words[1].split(":")[1].charAt(0) != '0' && Integer.parseInt(words[1].split(":")[1]) > 59);
 
     }
 
 
-    public Map<String, Object> postNewSch(URI uri, Map<String, Object> map, String tagId, String userId)
+    public Map<String, Object> postNewSchedule(URI uri, Map<String, Object> map, String tagId, String userId)
             throws IOException, InterruptedException {
         ObjectMapper objectMapper = new ObjectMapper();
         String requestBody = objectMapper
