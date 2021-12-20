@@ -44,7 +44,7 @@ public class ReturnTagMessageHandler implements MessageHandler {
 
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText(TextMessage.tags_list + returnTags);
+        message.setText(TextMessage.tagsList + returnTags);
         Keyboards.setButtonsTag(message);
 
         return message;
@@ -74,7 +74,7 @@ public class ReturnTagMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase(TextMessage.my_tags);
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.myTags);
         }
         return false;
     }

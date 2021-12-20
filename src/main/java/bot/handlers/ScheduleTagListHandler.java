@@ -34,7 +34,7 @@ public class ScheduleTagListHandler implements MessageHandler {
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
 
         try {
-            message.setText(TextMessage.choose_shed);
+            message.setText(TextMessage.chooseShed);
             setInlineTagKeyboard(message, userId);
         } catch (Exception e) {
             message.setText(TextMessage.error);

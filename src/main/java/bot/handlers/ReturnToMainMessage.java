@@ -14,7 +14,7 @@ public class ReturnToMainMessage implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText(TextMessage.main_mess);
+        message.setText(TextMessage.mainMess);
         Keyboards.setButtons(message);
         return message;
     }

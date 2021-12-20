@@ -37,7 +37,7 @@ public class GiveTaskMessageHandler implements MessageHandler {
         try {
             task = getTask(userId);
             String taskContent = task.getContent() + "";
-            message.setText(TextMessage.good_time + taskContent);
+            message.setText(TextMessage.goodTime + taskContent);
             InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
         } catch (Exception e) {
             message.setText(TextMessage.error);
@@ -52,7 +52,7 @@ public class GiveTaskMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase(TextMessage.give_task);
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.giveTask);
         }
         return false;
     }

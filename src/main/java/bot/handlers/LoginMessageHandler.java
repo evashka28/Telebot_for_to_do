@@ -14,7 +14,7 @@ public class LoginMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
-        message.setText(TextMessage.login_mess);
+        message.setText(TextMessage.loginMess);
         Keyboards.setButtons2(message);
         return message;
     }

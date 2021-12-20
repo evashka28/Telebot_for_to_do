@@ -38,7 +38,7 @@ public class TasksByTagHandler implements MessageHandler {
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
 
         try {
-            message.setText(TextMessage.choose_task_tag);
+            message.setText(TextMessage.chooseTaskTag);
             setInlineTagKeyboard(message, userId);
         } catch (Exception e) {
             message.setText(TextMessage.error);
@@ -52,7 +52,7 @@ public class TasksByTagHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase(TextMessage.task_by_tag);
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.taskByTag);
         }
         return false;
     }

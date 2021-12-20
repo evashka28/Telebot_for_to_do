@@ -14,7 +14,7 @@ public class ThisIsMeMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText(TextMessage.this_is_me);
+        message.setText(TextMessage.thisIsMe);
         Keyboards.setButtons2(message);
         return message;
     }
@@ -22,7 +22,7 @@ public class ThisIsMeMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase(TextMessage.is_me);
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.isMe);
         }
         return false;
     }

@@ -38,7 +38,7 @@ public class CreateTagsMessageHandler implements MessageHandler {
         String content = update.getMessage().getText() + "";
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText(TextMessage.created_tag);
+        message.setText(TextMessage.createdTag);
         Keyboards.setButtonsTag(message);
         stateManager.setState(UserState.NORMAL, update.getMessage().getFrom().getId());
 

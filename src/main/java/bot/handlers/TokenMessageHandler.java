@@ -89,13 +89,13 @@ public class TokenMessageHandler implements MessageHandler {
         if (resultProjects == null) {
             message = new SendMessage();
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
-            message.setText(TextMessage.invalid_token);
+            message.setText(TextMessage.invalidToken);
             Keyboards.setButtons2(message);
             return message;
         } else {
             message = new SendMessage();
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
-            message.setText(TextMessage.good_authorization);
+            message.setText(TextMessage.goodAuthorization);
             Keyboards.setButtons(message);
             return message;
         }

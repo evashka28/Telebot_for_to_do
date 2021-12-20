@@ -36,7 +36,7 @@ public class DeleteTagsMessageHandler implements MessageHandler {
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
             String userId = update.getMessage().getFrom().getId() + "";
             try {
-                message.setText(TextMessage.deleted_tag_ask);
+                message.setText(TextMessage.deletedTagAsk);
                 setInlineTagKeyboard(message, userId, getTag(userId));
             } catch (Exception e) {
                 message.setText(TextMessage.error);
@@ -50,7 +50,7 @@ public class DeleteTagsMessageHandler implements MessageHandler {
             String userId = update.getCallbackQuery().getFrom().getId() + "";
             try {
                 log.info("delete " + backendConnector.deleteTag(userId, Long.parseLong(query)));
-                message.setText(TextMessage.deleted_tag);
+                message.setText(TextMessage.deletedTag);
             } catch (Exception e) {
                 message.setText(TextMessage.error);
                 log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
@@ -81,7 +81,7 @@ public class DeleteTagsMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText())
-            return update.getMessage().getText().equalsIgnoreCase(TextMessage.delete_tag);
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.deleteTag);
         if (update.hasCallbackQuery()) {
             return update.getCallbackQuery().getData().contains("/deleteTag");
         }

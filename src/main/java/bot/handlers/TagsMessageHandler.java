@@ -25,7 +25,7 @@ public class TagsMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText(TextMessage.create_new_tag);
+        message.setText(TextMessage.createNewTag);
         Keyboards.setButtonsTag(message);
         return message;
     }
@@ -34,7 +34,7 @@ public class TagsMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase(TextMessage.create_tag);
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.createTag);
         }
         return false;
     }

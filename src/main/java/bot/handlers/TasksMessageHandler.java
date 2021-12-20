@@ -30,7 +30,7 @@ public class TasksMessageHandler implements MessageHandler {
     public SendMessage getMessage(Update update) {
         SendMessage message;
         message = new SendMessage();
-        message.setText(TextMessage.tasks_list);
+        message.setText(TextMessage.tasksList);
 
         if (update.hasMessage()) {
             message.setChatId(String.valueOf(update.getMessage().getChatId()));

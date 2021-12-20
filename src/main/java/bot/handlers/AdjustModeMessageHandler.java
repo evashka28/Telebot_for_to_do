@@ -34,7 +34,7 @@ public class AdjustModeMessageHandler implements MessageHandler {
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
 
         try {
-            message.setText(TextMessage.choose_tag);
+            message.setText(TextMessage.chooseTag);
             setInlineTagKeyboard(message, userId);
         } catch (Exception e) {
             message.setText(TextMessage.error + e.getMessage());
@@ -46,7 +46,7 @@ public class AdjustModeMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase(TextMessage.create_new_shed);
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.createNewShed);
         }
         return false;
     }

@@ -15,7 +15,7 @@ public class ReadingModeHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText(TextMessage.reading_mode);
+        message.setText(TextMessage.readingMode);
         Keyboards.setButtons6(message);
         return message;
     }

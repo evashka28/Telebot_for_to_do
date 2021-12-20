@@ -14,7 +14,7 @@ public class AboutBotMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
-        message.setText(TextMessage.about_bot);
+        message.setText(TextMessage.aboutBot);
         Keyboards.setButtons(message);
         return message;
     }
@@ -22,7 +22,7 @@ public class AboutBotMessageHandler implements MessageHandler {
     @Override
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return (update.getMessage().getText().equalsIgnoreCase(TextMessage.how_working_bot) ||
+            return (update.getMessage().getText().equalsIgnoreCase(TextMessage.howWorkingBot) ||
                     update.getMessage().getText().equalsIgnoreCase("/help"));
         }
         return false;

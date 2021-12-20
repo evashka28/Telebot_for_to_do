@@ -33,7 +33,7 @@ public class DeleteScheduleMessageHandler implements MessageHandler {
         log.info(query);
         try {
             log.info("delete " + backendConnector.deleteSchedule(query));
-            message.setText(TextMessage.deleted_shed);
+            message.setText(TextMessage.deletedShed);
         } catch (Exception e) {
             message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));

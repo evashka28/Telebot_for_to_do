@@ -14,7 +14,7 @@ public class StartMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText(TextMessage.start_mess);
+        message.setText(TextMessage.startMess);
         Keyboards.setButtons1(message);
         return message;
     }

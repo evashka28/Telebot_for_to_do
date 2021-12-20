@@ -15,7 +15,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Map;
 
-@Component
+//@Component
 @Order(value = 1)
 public class ProjectMessageHandler implements MessageHandler {
     @Override
@@ -23,7 +23,7 @@ public class ProjectMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText(TextMessage.projects_info);
+        message.setText(TextMessage.projectsInfo);
         Keyboards.setButtonsProject(message);
         return message;
     }

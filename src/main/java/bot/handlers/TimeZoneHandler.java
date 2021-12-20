@@ -41,7 +41,7 @@ public class TimeZoneHandler implements MessageHandler {
             message.setText(TextMessage.error);
             e.printStackTrace();
         }
-        message.setText(TextMessage.time_zone+ timezone);
+        message.setText(TextMessage.timeZone+ timezone);
         return message;
     }
 

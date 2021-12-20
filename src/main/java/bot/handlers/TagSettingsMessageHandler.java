@@ -15,7 +15,7 @@ public class TagSettingsMessageHandler implements MessageHandler {
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText(TextMessage.tag_info);
+        message.setText(TextMessage.tagInfo);
         Keyboards.setButtonsTag(message);
         return message;
     }

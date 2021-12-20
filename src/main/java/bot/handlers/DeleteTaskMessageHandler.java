@@ -33,7 +33,7 @@ public class DeleteTaskMessageHandler implements MessageHandler {
         String query = update.getCallbackQuery().getData().replace("/taskdel", "");
         try {
             log.info("delete " + backendConnector.deleteTask(userId, Long.parseLong(query)));
-            message.setText(TextMessage.deleted_task);
+            message.setText(TextMessage.deletedTask);
         } catch (Exception e) {
             message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));

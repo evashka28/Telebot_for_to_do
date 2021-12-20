@@ -23,7 +23,7 @@ import java.util.concurrent.CompletionException;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-@Component
+//@Component
 @Order(value = 1)
 @Slf4j
 public class MyProjectMessageHandler implements MessageHandler {
@@ -46,7 +46,7 @@ public class MyProjectMessageHandler implements MessageHandler {
 
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText(TextMessage.project_list + returnProjectsName);
+        message.setText(TextMessage.projectList + returnProjectsName);
         Keyboards.setButtonsProject(message);
         return message;
 
@@ -75,7 +75,7 @@ public class MyProjectMessageHandler implements MessageHandler {
     public boolean canHandle(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
             String text = update.getMessage().getText();
-            return text.equalsIgnoreCase(TextMessage.my_project);
+            return text.equalsIgnoreCase(TextMessage.myProject);
         }
         return false;
     }

@@ -37,7 +37,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
             tagId = update.getCallbackQuery().getData().replace("/tagget", "");
             log.info(tagId);
             message.setChatId(String.valueOf(update.getCallbackQuery().getMessage().getChatId()));
-            message.setText(TextMessage.create_shed);
+            message.setText(TextMessage.createShed);
         } else {
             String userId = update.getMessage().getFrom().getId() + "";
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
@@ -45,10 +45,10 @@ public class SelectionDayMessageHandler implements MessageHandler {
             String[] words = schedule.split(" ");
 
             if (!schedule.matches(rightSchedule) || timeIsWrong(words) || sameDay(words))
-                message.setText(TextMessage.wrong_term);
+                message.setText(TextMessage.wrongTerm);
             else {
 
-                message.setText(TextMessage.good_term);
+                message.setText(TextMessage.goodTerm);
                 String dateTime = words[1] + ":00";
                 //message.setText("Спасибо, задача с тегом %s будет выведена в %s в %s", tagId, words[1], weeks[Integer.parseInt(words[2].split(",")[1])]  );
 

@@ -1,16 +1,10 @@
 package bot;
 
-import bot.domen.Tag;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.bots.TelegramWebhookBot;
-import org.telegram.telegrambots.meta.ApiConstants;
+import bot.handlers.TextMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import org.telegram.telegrambots.meta.generics.BotSession;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,33 +25,25 @@ public class Keyboards {
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         KeyboardRow keyboardThirdRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("Расписание"));
-        keyboardFirstRow.add(new KeyboardButton("Дай Задачу"));
-        keyboardFirstRow.add(new KeyboardButton("Дай Задачу по тегу"));
-
-        KeyboardButton locationButton = new KeyboardButton("Задать часовой пояс");
+        keyboardFirstRow.add(new KeyboardButton(TextMessage.shedule));
+        keyboardFirstRow.add(new KeyboardButton(TextMessage.giveTask));
+        keyboardFirstRow.add(new KeyboardButton(TextMessage.giveTaskByTag));
+        KeyboardButton locationButton = new KeyboardButton(TextMessage.applyTimeZone);
         locationButton.setRequestLocation(true);
-
         keyboardThirdRow.add(locationButton);
-
         // Вторая строчка клавиатуры
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add(new KeyboardButton("Теги"));
-
-
+        keyboardSecondRow.add(new KeyboardButton(TextMessage.tags));
         // Пятая строчка клавиатуры
         KeyboardRow keyboardFiveRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardSecondRow.add(new KeyboardButton("Задачи"));
-
-        keyboardSecondRow.add(new KeyboardButton("Задачи по тегу"));
-
+        keyboardSecondRow.add(new KeyboardButton(TextMessage.tasks));
+        keyboardSecondRow.add(new KeyboardButton(TextMessage.taskByTag));
         // Четвертая строчка клавиатуры
         KeyboardRow keyboardFourthRow = new KeyboardRow();
         // Добавляем кнопки во вторую строчку клавиатуры
-        keyboardThirdRow.add(new KeyboardButton("Как работает бот?"));
-
+        keyboardThirdRow.add(new KeyboardButton(TextMessage.howWorkingBot));
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);
@@ -79,11 +65,10 @@ public class Keyboards {
 
         // Создаем список строк клавиатуры
         List<KeyboardRow> keyboard = new ArrayList<>();
-
         // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("Точно я!"));
+        keyboardFirstRow.add(new KeyboardButton(TextMessage.isMe));
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
@@ -105,7 +90,7 @@ public class Keyboards {
         // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("Залогиниться✅\n"));
+        keyboardFirstRow.add(new KeyboardButton(TextMessage.logging));
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);
@@ -129,9 +114,9 @@ public class Keyboards {
         KeyboardRow keyboardSecondRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
 
-        keyboardSecondRow.add(new KeyboardButton("Создать расписание"));
-        keyboardSecondRow.add(new KeyboardButton("Моё расписание"));
-        keyboardSecondRow.add(new KeyboardButton("Назад \uD83D\uDD19"));
+        keyboardSecondRow.add(new KeyboardButton(TextMessage.createNewShed));
+        keyboardSecondRow.add(new KeyboardButton(TextMessage.myShedule));
+        keyboardSecondRow.add(new KeyboardButton(TextMessage.back));
 
         // Добавляем все строчки клавиатуры в список
 
@@ -179,10 +164,10 @@ public class Keyboards {
         // Первая строчка клавиатуры
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
-        keyboardFirstRow.add(new KeyboardButton("Мои теги"));
-        keyboardFirstRow.add(new KeyboardButton("Создать тег"));
-        keyboardFirstRow.add(new KeyboardButton("Удалить тег"));
-        keyboardFirstRow.add(new KeyboardButton("Назад \uD83D\uDD19"));
+        keyboardFirstRow.add(new KeyboardButton(TextMessage.myTags));
+        keyboardFirstRow.add(new KeyboardButton(TextMessage.createTag));
+        keyboardFirstRow.add(new KeyboardButton(TextMessage.deleteTag));
+        keyboardFirstRow.add(new KeyboardButton(TextMessage.back));
 
         // Добавляем все строчки клавиатуры в список
         keyboard.add(keyboardFirstRow);

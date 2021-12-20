@@ -42,7 +42,7 @@ public class LinkMessageHandler implements MessageHandler {
         String content = URLEncoder.encode(update.getMessage().getText() + "", StandardCharsets.UTF_8);
         message = new SendMessage();
         message.setChatId(String.valueOf(String.valueOf(update.getMessage().getChatId())));
-        message.setText(TextMessage.save_link);
+        message.setText(TextMessage.saveLink);
 
 
         // create new task in ToDoist

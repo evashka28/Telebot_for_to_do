@@ -36,7 +36,7 @@ public class ScheduleListHandler implements MessageHandler {
 
 
         try {
-            message.setText(TextMessage.shed_list);
+            message.setText(TextMessage.shedList);
             setInlineTaskKeyboard(message, getSchedules(userId));
         } catch (Exception e) {
             message.setText(TextMessage.error);
@@ -51,7 +51,7 @@ public class ScheduleListHandler implements MessageHandler {
     public boolean canHandle(Update update) {
 
         if (update.hasMessage() && update.getMessage().hasText()) {
-            return update.getMessage().getText().equalsIgnoreCase(TextMessage.my_shedule);
+            return update.getMessage().getText().equalsIgnoreCase(TextMessage.myShedule);
         }
         return false;
     }
