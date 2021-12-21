@@ -58,6 +58,7 @@ public class AdjustModeMessageHandler implements MessageHandler {
 
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
+
         for (Tag tag : tags) {
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(tag.getName());
@@ -66,8 +67,14 @@ public class AdjustModeMessageHandler implements MessageHandler {
             row.add(button);
             keyboard.add(row);
         }
-
+        InlineKeyboardButton button = new InlineKeyboardButton();
+        List<InlineKeyboardButton> row = new ArrayList<>();
+        button.setText("Без тега");
+        button.setCallbackData(String.format("/tagget%d", -1));
+        row.add(button);
+        keyboard.add(row);
         keyboardMarkup.setKeyboard(keyboard);
+
 
         message.setReplyMarkup(keyboardMarkup);
     }
