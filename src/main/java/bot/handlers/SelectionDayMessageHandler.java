@@ -44,7 +44,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
             String schedule = update.getMessage().getText();
             String[] words = schedule.split(" ");
 
-            if (!schedule.matches(rightSchedule) || timeIsWrong(words) || sameDay(words))
+            if (!schedule.matches(rightSchedule) || timeIsWrong(words) || sameDay(words[2]))
                 message.setText(TextMessage.wrongTerm);
             else {
 
@@ -76,12 +76,12 @@ public class SelectionDayMessageHandler implements MessageHandler {
         return message;
     }
 
-    public boolean sameDay(String[] words) {
-        String str = words[2];
+    public boolean sameDay(String words) {
+        String str = words.replace(",", "");
         for (int i = 1; i < 8; i++) {
-            str = str.replace(Integer.toString(i), "");
+            str = str.replaceFirst(Integer.toString(i), "");
         }
-        return words[2].length() != str.length();
+        return str.length()!=0;
     }
 
 
