@@ -1,8 +1,9 @@
 package bot.handlers;
 
-import bot.BackendConnector;
-import bot.InlineKeyboards;
-import bot.domen.Tag;
+import bot.connectors.BackendConnector;
+import bot.keyboards.InlineKeyboards;
+import bot.TextMessage;
+import bot.entities.Tag;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -14,7 +15,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;

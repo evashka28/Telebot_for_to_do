@@ -1,9 +1,6 @@
-package bot.domen;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package bot.entities;
 
 import java.io.Serializable;
-import java.util.Set;
 
 public class Tag implements Serializable {
     private long id;

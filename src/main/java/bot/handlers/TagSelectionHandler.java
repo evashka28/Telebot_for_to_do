@@ -1,8 +1,9 @@
 package bot.handlers;
 
-import bot.BackendConnector;
-import bot.InlineKeyboards;
-import bot.domen.Tag;
+import bot.connectors.BackendConnector;
+import bot.keyboards.InlineKeyboards;
+import bot.TextMessage;
+import bot.entities.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;

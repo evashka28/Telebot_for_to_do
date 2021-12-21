@@ -1,8 +1,7 @@
 package bot.handlers;
 
-import bot.Keyboards;
+import bot.TextMessage;
 import bot.state.StateManager;
-import bot.state.UserState;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -39,8 +38,8 @@ public class CreateTagsMessageHandler implements MessageHandler {
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
         message.setText(TextMessage.createdTag);
-        Keyboards.setButtonsTag(message);
-        stateManager.setState(UserState.NORMAL, update.getMessage().getFrom().getId());
+        //Keyboards.setButtonsTag(message);
+        //stateManager.setState(UserState.NORMAL, update.getMessage().getFrom().getId());
 
 
         // create new tag in ToDoist
@@ -84,20 +83,23 @@ public class CreateTagsMessageHandler implements MessageHandler {
 
     @Override
     public boolean canHandle(Update update) {
+//        if (update.hasMessage() && update.getMessage().hasText()) {
+//            UserState userState = stateManager.getState(update.getMessage().getFrom().getId());
+//            if (userState == UserState.CREATING_TAG) {
+//                return update.getMessage().getText().startsWith("#");
+//            }
+//        } else {
+//            if (update.hasCallbackQuery()) {
+//                UserState userState = stateManager.getState(update.getCallbackQuery().getFrom().getId());
+//                if (update.hasMessage() && update.getMessage().hasText() &&
+//                        userState == UserState.CREATING_TAG) {
+//                    return update.getMessage().getText().startsWith("#");
+//                }
+//
+//            }
+//        }
         if (update.hasMessage() && update.getMessage().hasText()) {
-            UserState userState = stateManager.getState(update.getMessage().getFrom().getId());
-            if (userState == UserState.CREATING_TAG) {
-                return update.getMessage().getText().startsWith("#");
-            }
-        } else {
-            if (update.hasCallbackQuery()) {
-                UserState userState = stateManager.getState(update.getCallbackQuery().getFrom().getId());
-                if (update.hasMessage() && update.getMessage().hasText() &&
-                        userState == UserState.CREATING_TAG) {
-                    return update.getMessage().getText().startsWith("#");
-                }
-
-            }
+            return update.getMessage().getText().startsWith("#");
         }
         return false;
     }

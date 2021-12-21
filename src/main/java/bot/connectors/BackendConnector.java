@@ -1,13 +1,12 @@
-package bot;
+package bot.connectors;
 
-import bot.domen.Tag;
-import bot.domen.TagRequest;
-import bot.domen.Task;
+import bot.entities.Tag;
+import bot.entities.TagRequest;
+import bot.entities.Task;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +17,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
-import java.time.LocalTime;
 
 @Component
 @Slf4j

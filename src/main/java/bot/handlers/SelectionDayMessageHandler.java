@@ -1,6 +1,7 @@
 package bot.handlers;
 
-import bot.Keyboards;
+import bot.keyboards.Keyboards;
+import bot.TextMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;

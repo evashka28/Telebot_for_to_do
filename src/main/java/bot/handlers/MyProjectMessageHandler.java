@@ -1,13 +1,13 @@
 package bot.handlers;
 
-import bot.Keyboards;
-import bot.domen.Project;
+import bot.keyboards.Keyboards;
+import bot.TextMessage;
+import bot.entities.Project;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -18,9 +18,6 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CompletionException;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 //@Component

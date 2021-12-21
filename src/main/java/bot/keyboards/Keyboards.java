@@ -1,6 +1,6 @@
-package bot;
+package bot.keyboards;
 
-import bot.handlers.TextMessage;
+import bot.TextMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
@@ -165,7 +165,7 @@ public class Keyboards {
         KeyboardRow keyboardFirstRow = new KeyboardRow();
         // Добавляем кнопки в первую строчку клавиатуры
         keyboardFirstRow.add(new KeyboardButton(TextMessage.myTags));
-        keyboardFirstRow.add(new KeyboardButton(TextMessage.createTag));
+        //keyboardFirstRow.add(new KeyboardButton(TextMessage.createTag));
         keyboardFirstRow.add(new KeyboardButton(TextMessage.deleteTag));
         keyboardFirstRow.add(new KeyboardButton(TextMessage.back));
 

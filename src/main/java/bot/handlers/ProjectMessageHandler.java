@@ -1,19 +1,10 @@
 package bot.handlers;
 
-import bot.Keyboards;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import bot.keyboards.Keyboards;
+import bot.TextMessage;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.Map;
 
 //@Component
 @Order(value = 1)

@@ -1,8 +1,8 @@
 package bot.handlers;
 
-import bot.Keyboards;
+import bot.keyboards.Keyboards;
+import bot.TextMessage;
 import bot.state.StateManager;
-import bot.state.UserState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class TagsMessageHandler implements MessageHandler {
 
     @Override
     public SendMessage getMessage(Update update) {
-        stateManager.setState(UserState.CREATING_TAG, update.getMessage().getFrom().getId());
+        //stateManager.setState(UserState.CREATING_TAG, update.getMessage().getFrom().getId());
         SendMessage message;
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));

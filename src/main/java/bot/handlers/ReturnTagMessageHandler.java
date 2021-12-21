@@ -1,8 +1,8 @@
 package bot.handlers;
 
-import bot.Keyboards;
-import bot.domen.Tag;
-import bot.domen.Task;
+import bot.keyboards.Keyboards;
+import bot.TextMessage;
+import bot.entities.Tag;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;

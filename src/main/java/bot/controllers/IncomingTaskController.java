@@ -1,6 +1,7 @@
-package bot;
+package bot.controllers;
 
-import bot.domen.Task;
+import bot.Bot;
+import bot.entities.Task;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
