@@ -3,6 +3,7 @@ package bot.handlers;
 import bot.connectors.BackendConnector;
 import bot.TextMessage;
 import bot.entities.TagRequest;
+import bot.exceptions.BackendConnectorException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class ScheduleListHandler implements MessageHandler {
         try {
             message.setText(TextMessage.shedList);
             setInlineTaskKeyboard(message, getSchedules(userId));
-        } catch (Exception e) {
+        } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
@@ -75,7 +76,7 @@ public class ScheduleListHandler implements MessageHandler {
         message.setReplyMarkup(keyboardMarkup);
     }
 
-    private List<TagRequest> getSchedules(String tagId) throws Exception {
+    private List<TagRequest> getSchedules(String tagId) throws BackendConnectorException {
         return backendConnector.getSchedules(tagId);
     }
 

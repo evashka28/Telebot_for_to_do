@@ -1,6 +1,7 @@
 package bot.handlers;
 
 import bot.connectors.BackendConnector;
+import bot.exceptions.BackendConnectorException;
 import bot.keyboards.InlineKeyboards;
 import bot.TextMessage;
 import bot.entities.Tag;
@@ -15,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -67,7 +69,7 @@ public class LinkMessageHandler implements MessageHandler {
                 long taskId = Long.parseLong(result.get("id").toString());
                 InlineKeyboards.setInlineTagKeyboard(message, getTags(userId), taskId);
             }
-        } catch (Exception e) {
+        } catch (BackendConnectorException | URISyntaxException | IOException | InterruptedException e) {
             message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
@@ -108,7 +110,7 @@ public class LinkMessageHandler implements MessageHandler {
 
     }
 
-    private List<Tag> getTags(String userId) throws Exception {
+    private List<Tag> getTags(String userId) throws BackendConnectorException {
         return backendConnector.getTags(userId);
     }
 }

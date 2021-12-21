@@ -2,6 +2,7 @@ package bot.handlers;
 
 import bot.connectors.BackendConnector;
 import bot.TextMessage;
+import bot.exceptions.BackendConnectorException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class CompleteTaskMessageHandler implements MessageHandler {
         message.setText(TextMessage.completeTask);
         try {
             log.info("complete " + backendConnector.completeTask(userId, Long.parseLong(query)));
-        } catch (Exception e) {
+        } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }

@@ -1,6 +1,7 @@
 package bot.handlers;
 
 import bot.connectors.BackendConnector;
+import bot.exceptions.BackendConnectorException;
 import bot.keyboards.InlineKeyboards;
 import bot.TextMessage;
 import bot.entities.Tag;
@@ -40,7 +41,7 @@ public class TagSelectionHandler implements MessageHandler {
         try {
             message.setText(TextMessage.chooseTaskTag);
             InlineKeyboards.setInlineTagKeyboard(message, getTags(userId), taskId);
-        } catch (Exception e) {
+        } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
@@ -56,7 +57,7 @@ public class TagSelectionHandler implements MessageHandler {
         return false;
     }
 
-    private List<Tag> getTags(String userId) throws Exception {
+    private List<Tag> getTags(String userId) throws BackendConnectorException {
         return backendConnector.getTags(userId);
     }
 

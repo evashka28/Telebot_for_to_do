@@ -3,6 +3,7 @@ package bot.handlers;
 import bot.connectors.BackendConnector;
 import bot.TextMessage;
 import bot.TimeZoneMapBean;
+import bot.exceptions.BackendConnectorException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
@@ -38,7 +39,7 @@ public class TimeZoneHandler implements MessageHandler {
         String timezone = timeZoneMapBean.getTimeZone(location.getLatitude(), location.getLongitude());
         try {
             backendConnector.setTimezone(userId, timezone);
-        } catch (Exception e) {
+        } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
             e.printStackTrace();
         }

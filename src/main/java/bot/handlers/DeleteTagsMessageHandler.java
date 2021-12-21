@@ -3,6 +3,7 @@ package bot.handlers;
 import bot.connectors.BackendConnector;
 import bot.TextMessage;
 import bot.entities.Tag;
+import bot.exceptions.BackendConnectorException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class DeleteTagsMessageHandler implements MessageHandler {
             try {
                 message.setText(TextMessage.deletedTagAsk);
                 setInlineTagKeyboard(message, userId, getTag(userId));
-            } catch (Exception e) {
+            } catch (BackendConnectorException e) {
                 message.setText(TextMessage.error);
                 log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             }
@@ -52,7 +53,7 @@ public class DeleteTagsMessageHandler implements MessageHandler {
             try {
                 log.info("delete " + backendConnector.deleteTag(userId, Long.parseLong(query)));
                 message.setText(TextMessage.deletedTag);
-            } catch (Exception e) {
+            } catch (BackendConnectorException e) {
                 message.setText(TextMessage.error);
                 log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             }
@@ -89,7 +90,7 @@ public class DeleteTagsMessageHandler implements MessageHandler {
         return false;
     }
 
-    private List<Tag> getTag(String userId) throws Exception {
+    private List<Tag> getTag(String userId) throws BackendConnectorException {
         return backendConnector.getTags(userId);
     }
 }

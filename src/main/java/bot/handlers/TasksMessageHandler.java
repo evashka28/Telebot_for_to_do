@@ -3,6 +3,7 @@ package bot.handlers;
 import bot.connectors.BackendConnector;
 import bot.TextMessage;
 import bot.entities.Task;
+import bot.exceptions.BackendConnectorException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class TasksMessageHandler implements MessageHandler {
             String userId = update.getMessage().getFrom().getId() + "";
             try {
                 setInlineTaskKeyboard(message, userId, getTasks(userId));
-            } catch (Exception e) {
+            } catch (BackendConnectorException e) {
                 message.setText(TextMessage.error);
                 log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             }
@@ -50,7 +51,7 @@ public class TasksMessageHandler implements MessageHandler {
             String userId = update.getCallbackQuery().getFrom().getId() + "";
             try {
                 setInlineTaskKeyboard(message, userId, getTasks(userId, tagId));
-            } catch (Exception e) {
+            } catch (BackendConnectorException e) {
                 message.setText(TextMessage.error);
                 log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             }
@@ -87,11 +88,11 @@ public class TasksMessageHandler implements MessageHandler {
         message.setReplyMarkup(keyboardMarkup);
     }
 
-    private List<Task> getTasks(String userId) throws Exception {
+    private List<Task> getTasks(String userId) throws BackendConnectorException {
         return backendConnector.getTasks(userId);
     }
 
-    private List<Task> getTasks(String userId, long tagId) throws Exception {
+    private List<Task> getTasks(String userId, long tagId) throws BackendConnectorException {
         return backendConnector.getTasksByTag(userId, tagId);
     }
 }

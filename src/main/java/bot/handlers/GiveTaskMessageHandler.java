@@ -1,6 +1,7 @@
 package bot.handlers;
 
 import bot.connectors.BackendConnector;
+import bot.exceptions.BackendConnectorException;
 import bot.keyboards.InlineKeyboards;
 import bot.TextMessage;
 import bot.entities.Task;
@@ -33,7 +34,7 @@ public class GiveTaskMessageHandler implements MessageHandler {
             String taskContent = task.getContent() + "";
             message.setText(TextMessage.goodTime + taskContent);
             InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
-        } catch (Exception e) {
+        } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
@@ -51,7 +52,7 @@ public class GiveTaskMessageHandler implements MessageHandler {
         return false;
     }
 
-    private Task getTask(String userId) throws Exception {
+    private Task getTask(String userId) throws BackendConnectorException {
         return backendConnector.getOneTask(userId);
     }
 

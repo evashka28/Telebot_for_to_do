@@ -4,6 +4,7 @@ package bot.handlers;
 import bot.connectors.BackendConnector;
 import bot.TextMessage;
 import bot.entities.Tag;
+import bot.exceptions.BackendConnectorException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class TasksByTagHandler implements MessageHandler {
         try {
             message.setText(TextMessage.chooseTaskTag);
             setInlineTagKeyboard(message, userId);
-        } catch (Exception e) {
+        } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
@@ -56,7 +57,7 @@ public class TasksByTagHandler implements MessageHandler {
         return false;
     }
 
-    public void setInlineTagKeyboard(SendMessage message, String userId) throws Exception {
+    public void setInlineTagKeyboard(SendMessage message, String userId) throws BackendConnectorException {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
         List<Tag> tags = backendConnector.getTags(userId);

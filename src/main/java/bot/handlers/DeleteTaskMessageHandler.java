@@ -2,6 +2,7 @@ package bot.handlers;
 
 import bot.connectors.BackendConnector;
 import bot.TextMessage;
+import bot.exceptions.BackendConnectorException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class DeleteTaskMessageHandler implements MessageHandler {
         try {
             log.info("delete " + backendConnector.deleteTask(userId, Long.parseLong(query)));
             message.setText(TextMessage.deletedTask);
-        } catch (Exception e) {
+        } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
