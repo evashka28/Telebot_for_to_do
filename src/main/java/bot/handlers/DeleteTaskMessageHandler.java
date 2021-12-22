@@ -25,7 +25,6 @@ public class DeleteTaskMessageHandler implements MessageHandler {
         this.backendConnector = backendConnector;
     }
 
-
     @Override
     public SendMessage getMessage(Update update) throws URISyntaxException, IOException, InterruptedException {
         SendMessage message = new SendMessage();
