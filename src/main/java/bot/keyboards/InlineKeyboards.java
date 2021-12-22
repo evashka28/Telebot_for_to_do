@@ -99,15 +99,23 @@ public class InlineKeyboards {
     public static void setInlineDeleteTagKeyboard(SendMessage message, String userId, List<Tag> tags) {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
 
+        List<InlineKeyboardButton> keyboardRow = new ArrayList<>();
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+
+        int counter = 0;
 
         for (Tag tag : tags) {
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(tag.getName());
             button.setCallbackData(String.format("/deleteTag%d", tag.getId()));
-            List<InlineKeyboardButton> row = new ArrayList<>();
-            row.add(button);
-            keyboard.add(row);
+
+            keyboardRow.add(button);
+            counter++;
+            if (counter == 3) {
+                keyboard.add(keyboardRow);
+                keyboardRow = new ArrayList<>();
+                counter = 0;
+            }
         }
         keyboardMarkup.setKeyboard(keyboard);
 
@@ -117,15 +125,22 @@ public class InlineKeyboards {
     public static void setInlineGetOneTaskTagKeyboard(SendMessage message, String userId, List<Tag> tags) throws BackendConnectorException {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> keyboardRow = new ArrayList<>();
+        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+
+        int counter = 0;
 
         for (Tag tag : tags) {
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(tag.getName());
             button.setCallbackData(String.format("/getOneTaskByTag%d", tag.getId()));
             keyboardRow.add(button);
+            counter++;
+            if (counter == 3) {
+                keyboard.add(keyboardRow);
+                keyboardRow = new ArrayList<>();
+                counter = 0;
+            }
         }
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        keyboard.add(keyboardRow);
 
         keyboardMarkup.setKeyboard(keyboard);
 
@@ -153,15 +168,22 @@ public class InlineKeyboards {
     public static void setInlineGetTaskByTagKeyboard(SendMessage message, String userId, List<Tag> tags) throws BackendConnectorException {
         InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
         List<InlineKeyboardButton> keyboardRow = new ArrayList<>();
+        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
+
+        int counter = 0;
 
         for (Tag tag : tags) {
             InlineKeyboardButton button = new InlineKeyboardButton();
             button.setText(tag.getName());
             button.setCallbackData(String.format("/getTaskByTag%d", tag.getId()));
             keyboardRow.add(button);
+            counter++;
+            if (counter == 3) {
+                keyboard.add(keyboardRow);
+                keyboardRow = new ArrayList<>();
+                counter = 0;
+            }
         }
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        keyboard.add(keyboardRow);
 
         keyboardMarkup.setKeyboard(keyboard);
 
