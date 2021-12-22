@@ -39,23 +39,23 @@ public class ReturnTagMessageHandler implements MessageHandler {
     public SendMessage getMessage(Update update) {
         String userId = update.getMessage().getFrom().getId() + "";
         SendMessage message;
-
+        message = new SendMessage();
+        message.setChatId(String.valueOf(update.getMessage().getChatId()));
 
         List<Tag> resultTags = null;
         try {
             resultTags = backendConnector.getTags(userId);
             log.info("resultgetTask = " + resultTags);
+            String returnTags = resultTags.stream()
+                    .map(Tag::getName)
+                    .collect(Collectors.joining(", "));
+            message.setText(TextMessage.tagsList + returnTags);
+            Keyboards.setButtonsTag(message);
         } catch (BackendConnectorException e) {
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            message.setText(TextMessage.error);
         }
-        String returnTags = resultTags.stream()
-                .map(Tag::getName)
-                .collect(Collectors.joining(", "));
 
-        message = new SendMessage();
-        message.setChatId(String.valueOf(update.getMessage().getChatId()));
-        message.setText(TextMessage.tagsList + returnTags);
-        Keyboards.setButtonsTag(message);
 
         return message;
     }

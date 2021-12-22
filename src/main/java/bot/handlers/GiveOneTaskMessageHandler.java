@@ -37,7 +37,7 @@ public class GiveOneTaskMessageHandler implements MessageHandler {
             InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
         } catch (BackendConnectorException e) {
             message.setText(TextMessage.havenotTask);
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         return message;
     }

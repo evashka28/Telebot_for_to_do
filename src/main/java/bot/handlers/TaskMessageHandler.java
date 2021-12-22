@@ -40,7 +40,7 @@ public class TaskMessageHandler implements MessageHandler {
             InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
         } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         return message;

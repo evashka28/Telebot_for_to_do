@@ -52,7 +52,7 @@ public class CreateTagsMessageHandler implements MessageHandler {
             result = backendConnector.createTag(userId, content, this);
             log.info("resultTag = " + result);
         } catch (IOException | InterruptedException | URISyntaxException e) {
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             message.setText(TextMessage.error);
         }
         return message;

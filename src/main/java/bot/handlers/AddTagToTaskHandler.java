@@ -37,7 +37,7 @@ public class AddTagToTaskHandler implements MessageHandler {
             message.setText(TextMessage.addTag);
         } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         return message;

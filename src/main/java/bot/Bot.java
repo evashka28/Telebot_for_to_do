@@ -54,7 +54,7 @@ public class Bot extends TelegramLongPollingBot {
         try {
             return handler.getMessage(update);
         } catch (URISyntaxException | IOException | InterruptedException e) {
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         return null;
     }
@@ -65,7 +65,7 @@ public class Bot extends TelegramLongPollingBot {
                 execute(msg);
             }
         } catch (TelegramApiException e) {
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
     }
 

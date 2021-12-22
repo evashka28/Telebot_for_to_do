@@ -38,8 +38,8 @@ public class AdjustModeMessageHandler implements MessageHandler {
             List<Tag> tags = backendConnector.getTags(userId);
             InlineKeyboards.setInlineAddTagToTaskKeyboard(message, userId, tags);
         } catch (BackendConnectorException e) {
-            message.setText(TextMessage.error + e.getMessage());
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            message.setText(TextMessage.error);
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         return message;
     }

@@ -35,7 +35,7 @@
 //            resultProjects = getProjects(userId);
 //            log.info("result = " + resultProjects);
 //        } catch (IOException | InterruptedException | URISyntaxException e) {
-//            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+//            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
 //        }
 //        String returnProjectsName = resultProjects.stream()
 //                .map(Project::getName)

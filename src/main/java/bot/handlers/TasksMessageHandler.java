@@ -39,7 +39,7 @@ public class TasksMessageHandler implements MessageHandler {
                 InlineKeyboards.setInlineTaskKeyboard(message, userId, getTasks(userId));
             } catch (BackendConnectorException e) {
                 message.setText(TextMessage.error);
-                log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+                log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             }
         }
         if (update.hasCallbackQuery()) {
@@ -51,7 +51,7 @@ public class TasksMessageHandler implements MessageHandler {
                 InlineKeyboards.setInlineTaskKeyboard(message, userId, getTasks(userId, tagId));
             } catch (BackendConnectorException e) {
                 message.setText(TextMessage.error);
-                log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+                log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             }
         }
         return message;

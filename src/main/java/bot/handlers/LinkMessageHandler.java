@@ -67,7 +67,7 @@ public class LinkMessageHandler implements MessageHandler {
             }
         } catch (BackendConnectorException | URISyntaxException | IOException | InterruptedException e) {
             message.setText(TextMessage.error);
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         return message;

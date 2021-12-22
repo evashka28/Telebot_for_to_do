@@ -70,7 +70,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
                     log.info(String.valueOf(tagBody));
                     log.info("resultTask = " + result);
                 } catch (IOException | InterruptedException | URISyntaxException e) {
-                    log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+                    log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
                 }
             }
         }

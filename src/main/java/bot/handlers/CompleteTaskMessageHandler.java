@@ -38,7 +38,7 @@ public class CompleteTaskMessageHandler implements MessageHandler {
             log.info("complete " + backendConnector.completeTask(userId, Long.parseLong(query)));
         } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         return message;

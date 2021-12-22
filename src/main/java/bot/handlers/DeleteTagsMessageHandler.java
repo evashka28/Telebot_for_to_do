@@ -40,7 +40,7 @@ public class DeleteTagsMessageHandler implements MessageHandler {
                 InlineKeyboards.setInlineDeleteTagKeyboard(message, userId, getTag(userId));
             } catch (BackendConnectorException e) {
                 message.setText(TextMessage.error);
-                log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+                log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             }
         }
         if (update.hasCallbackQuery()) {
@@ -53,7 +53,7 @@ public class DeleteTagsMessageHandler implements MessageHandler {
                 message.setText(TextMessage.deletedTag);
             } catch (BackendConnectorException e) {
                 message.setText(TextMessage.error);
-                log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+                log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
             }
 
         }

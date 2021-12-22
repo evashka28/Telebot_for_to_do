@@ -50,7 +50,7 @@ public class TokenMessageHandler implements MessageHandler {
             result = backendConnector.createUser(userId, userName, synkToken, token, zone, this);
             log.info("result = " + result);
         } catch (IOException | InterruptedException | URISyntaxException e) {
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         // get user projects
@@ -60,7 +60,7 @@ public class TokenMessageHandler implements MessageHandler {
             resultProjects = backendConnector.getProjects(userId);
             log.info("result = " + resultProjects);
         } catch (IOException | InterruptedException | URISyntaxException e) {
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         // create new project ToDoBot
@@ -70,7 +70,7 @@ public class TokenMessageHandler implements MessageHandler {
             Map<String, String> resultProject = backendConnector.createProject(userId, this);
             log.info("resultproject = " + resultProject);
         } catch (IOException | InterruptedException | URISyntaxException e) {
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
         // if tasks are not empty -> show OK message

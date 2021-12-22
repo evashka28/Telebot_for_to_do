@@ -31,12 +31,15 @@ public class GiveTaskMessageHandler implements MessageHandler {
         Task task = null;
         try {
             task = getTask(userId);
+            if (task == null) {
+                throw new BackendConnectorException();
+            }
             String taskContent = task.getContent() + "";
             message.setText(TextMessage.goodTime + taskContent);
             InlineKeyboards.setInlineTaskKeyboard(message, userId, task.getId());
         } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
 
 

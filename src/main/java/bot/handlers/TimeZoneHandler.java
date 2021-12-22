@@ -5,6 +5,7 @@ import bot.TextMessage;
 import bot.TimeZoneMapBean;
 import bot.exceptions.BackendConnectorException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -39,11 +40,12 @@ public class TimeZoneHandler implements MessageHandler {
         String timezone = timeZoneMapBean.getTimeZone(location.getLatitude(), location.getLongitude());
         try {
             backendConnector.setTimezone(userId, timezone);
+            message.setText(TextMessage.timeZone+ timezone);
         } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
-            e.printStackTrace();
+            log.info(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
-        message.setText(TextMessage.timeZone+ timezone);
+
         return message;
     }
 
