@@ -5,7 +5,6 @@ import bot.exceptions.BackendConnectorException;
 import bot.keyboards.InlineKeyboards;
 import bot.TextMessage;
 import bot.entities.Tag;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
@@ -62,12 +58,12 @@ public class LinkMessageHandler implements MessageHandler {
                     "content", content
             );
 
-            result = postNewTask(new URI("http://localhost:8081/task"), taskBody, userId);
+            result = backendConnector.postNewTask(new URI("http://localhost:8081/task"), taskBody, userId);
             log.info("resultTask = " + result);
 
             if (result != null) {
                 long taskId = Long.parseLong(result.get("id").toString());
-                InlineKeyboards.setInlineTagKeyboard(message, getTags(userId), taskId);
+                InlineKeyboards.setInlineAddTagToTaskKeyboard(message, getTags(userId), taskId);
             }
         } catch (BackendConnectorException | URISyntaxException | IOException | InterruptedException e) {
             message.setText(TextMessage.error);
@@ -75,26 +71,6 @@ public class LinkMessageHandler implements MessageHandler {
         }
 
         return message;
-    }
-
-    public Map<String, Object> postNewTask(URI uri, Map<String, Object> map, String userId)
-            throws IOException, InterruptedException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody = objectMapper
-                .writerWithDefaultPrettyPrinter()
-                .writeValueAsString(map);
-
-        HttpRequest request = HttpRequest.newBuilder(uri)
-                .header("Content-Type", "application/json")
-                .header("userId", userId)
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
-
-        String resultBody = HttpClient.newHttpClient()
-                .send(request, HttpResponse.BodyHandlers.ofString())
-                .body();
-
-        return (Map<String, Object>) objectMapper.readValue(resultBody, Map.class);
     }
 
     @Override

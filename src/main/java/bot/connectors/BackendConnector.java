@@ -1,9 +1,12 @@
 package bot.connectors;
 
+import bot.entities.Project;
 import bot.entities.Tag;
 import bot.entities.TagRequest;
 import bot.entities.Task;
 import bot.exceptions.BackendConnectorException;
+import bot.handlers.CreateTagsMessageHandler;
+import bot.handlers.TokenMessageHandler;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +21,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -493,5 +497,144 @@ public class BackendConnector {
         } else {
             return response.toString();
         }
+    }
+
+    public Map<String, Object> createTag(String userId, String content, CreateTagsMessageHandler createTagsMessageHandler) throws IOException, InterruptedException, URISyntaxException {
+        Map<String, Object> result;
+        String id = 0 + "";
+        Map<String, Object> tagBody = Map.of(
+                "id", id,
+                "name", content
+        );
+
+        result = createTagsMessageHandler.postNewTag(new URI("http://localhost:8081/tag"), tagBody, userId);
+        return result;
+    }
+
+    public Map<String, Object> postNewTask(URI uri, Map<String, Object> map, String userId)
+            throws IOException, InterruptedException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper
+                .writerWithDefaultPrettyPrinter()
+                .writeValueAsString(map);
+
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .header("Content-Type", "application/json")
+                .header("userId", userId)
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        String resultBody = HttpClient.newHttpClient()
+                .send(request, HttpResponse.BodyHandlers.ofString())
+                .body();
+
+        return (Map<String, Object>) objectMapper.readValue(resultBody, Map.class);
+    }
+
+    public Map<String, Object> postNewSchedule(URI uri, Map<String, Object> map, String tagId, String userId)
+            throws IOException, InterruptedException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper
+                .writerWithDefaultPrettyPrinter()
+                .writeValueAsString(map);
+
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .header("Content-Type", "application/json")
+                .header("tagId", tagId)
+                .header("userId", userId)
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        String resultBody = HttpClient.newHttpClient()
+                .send(request, HttpResponse.BodyHandlers.ofString())
+                .body();
+
+        return (Map<String, Object>) objectMapper.readValue(resultBody, Map.class);
+    }
+
+    public Map<String, String> createProject(String userId, TokenMessageHandler tokenMessageHandler) throws IOException, InterruptedException, URISyntaxException {
+        String favorite = "false";
+        String name = "fromToDoBot";
+        String todoId = 0 + "";
+        Map<String, String> projectBody = Map.of(
+                "favorite", favorite,
+                "id", userId,
+                "name", name,
+                "todoistId", todoId
+        );
+
+        Map<String, String> resultProject = tokenMessageHandler.backendConnector.postNewProject(new URI("http://localhost:8081/project"), projectBody, userId);
+        return resultProject;
+    }
+
+    public Map<String, String> createUser(String userId, String userName, String synkToken, String token, String zone, TokenMessageHandler tokenMessageHandler) throws IOException, InterruptedException, URISyntaxException {
+        Map<String, String> body = Map.of(
+                "id", userId,
+                "name", userName,
+                "token", token,
+                "sync_token", synkToken,
+                "zone", zone
+        );
+        Map<String, String> result = tokenMessageHandler.backendConnector.postJSON(new URI("http://localhost:8081/user"), body);
+        return result;
+    }
+
+    public List<Project> getProjects(String userId) throws IOException, InterruptedException, URISyntaxException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        URI uri = new URI("http://localhost:8081/projects");
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .header("userId", userId)
+                .build();
+
+        HttpResponse<String> response = HttpClient.newHttpClient()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 410) {
+            return null;
+        } else {
+            String body = response.body();
+            return objectMapper.readValue(body, new TypeReference<>() {
+            });
+        }
+
+    }
+
+    public Map<String, String> postNewProject(URI uri, Map<String, String> map, String userId)
+            throws IOException, InterruptedException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper
+                .writerWithDefaultPrettyPrinter()
+                .writeValueAsString(map);
+
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .header("Content-Type", "application/json")
+                .header("userId", userId)
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        String resultBody = HttpClient.newHttpClient()
+                .send(request, HttpResponse.BodyHandlers.ofString())
+                .body();
+
+        return (Map<String, String>) objectMapper.readValue(resultBody, Map.class);
+    }
+
+    public Map<String, String> postJSON(URI uri, Map<String, String> map)
+            throws IOException, InterruptedException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper
+                .writerWithDefaultPrettyPrinter()
+                .writeValueAsString(map);
+
+        HttpRequest request = HttpRequest.newBuilder(uri)
+                .header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        String resultBody = HttpClient.newHttpClient()
+                .send(request, HttpResponse.BodyHandlers.ofString())
+                .body();
+
+        return (Map<String, String>) objectMapper.readValue(resultBody, Map.class);
     }
 }

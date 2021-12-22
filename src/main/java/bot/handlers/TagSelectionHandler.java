@@ -40,7 +40,7 @@ public class TagSelectionHandler implements MessageHandler {
         long taskId = Long.parseLong(query);
         try {
             message.setText(TextMessage.chooseTaskTag);
-            InlineKeyboards.setInlineTagKeyboard(message, getTags(userId), taskId);
+            InlineKeyboards.setInlineAddTagToTaskKeyboard(message, getTags(userId), taskId);
         } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));

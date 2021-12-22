@@ -4,6 +4,7 @@ import bot.connectors.BackendConnector;
 import bot.TextMessage;
 import bot.entities.Tag;
 import bot.exceptions.BackendConnectorException;
+import bot.keyboards.InlineKeyboards;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -37,7 +35,8 @@ public class AdjustModeMessageHandler implements MessageHandler {
 
         try {
             message.setText(TextMessage.chooseTag);
-            setInlineTagKeyboard(message, userId);
+            List<Tag> tags = backendConnector.getTags(userId);
+            InlineKeyboards.setInlineAddTagToTaskKeyboard(message, userId, tags);
         } catch (BackendConnectorException e) {
             message.setText(TextMessage.error + e.getMessage());
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
@@ -53,31 +52,4 @@ public class AdjustModeMessageHandler implements MessageHandler {
         return false;
     }
 
-    public void setInlineTagKeyboard(SendMessage message, String userId) throws BackendConnectorException {
-        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
-
-        List<Tag> tags = backendConnector.getTags(userId);
-
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-
-
-        for (Tag tag : tags) {
-            InlineKeyboardButton button = new InlineKeyboardButton();
-            button.setText(tag.getName());
-            button.setCallbackData(String.format("/tagget%d", tag.getId()));
-            List<InlineKeyboardButton> row = new ArrayList<>();
-            row.add(button);
-            keyboard.add(row);
-        }
-//        InlineKeyboardButton button = new InlineKeyboardButton();
-//        List<InlineKeyboardButton> row = new ArrayList<>();
-//        button.setText("Без тега");
-//        button.setCallbackData(String.format("/tagget%d", -1));
-//        row.add(button);
-//        keyboard.add(row);
-        keyboardMarkup.setKeyboard(keyboard);
-
-
-        message.setReplyMarkup(keyboardMarkup);
-    }
 }

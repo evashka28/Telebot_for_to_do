@@ -4,18 +4,16 @@ import bot.connectors.BackendConnector;
 import bot.TextMessage;
 import bot.entities.Tag;
 import bot.exceptions.BackendConnectorException;
+import bot.keyboards.InlineKeyboards;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -35,7 +33,8 @@ public class GiveTaskWithTagMessageHandler implements MessageHandler {
         message = new SendMessage();
         message.setChatId(String.valueOf(update.getMessage().getChatId()));
         try {
-            setInlineTagKeyboard(message, userId);
+            List<Tag> tags = backendConnector.getTags(userId);
+            InlineKeyboards.setInlineGetOneTaskTagKeyboard(message, userId, tags);
             message.setText(TextMessage.chooseTaskTag);
         } catch (BackendConnectorException e) {
             message.setText(TextMessage.error);
@@ -52,29 +51,4 @@ public class GiveTaskWithTagMessageHandler implements MessageHandler {
         return false;
     }
 
-    public void setInlineTagKeyboard(SendMessage message, String userId) throws BackendConnectorException {
-        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
-
-        List<Tag> tags = null;
-        try {
-            tags = backendConnector.getTags(userId);
-        } catch (BackendConnectorException e) {
-            log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
-            throw new BackendConnectorException();
-        }
-        List<InlineKeyboardButton> keyboardRow = new ArrayList<>();
-
-        for (Tag tag : tags) {
-            InlineKeyboardButton button = new InlineKeyboardButton();
-            button.setText(tag.getName());
-            button.setCallbackData(String.format("/getOneTaskByTag%d", tag.getId()));
-            keyboardRow.add(button);
-        }
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-        keyboard.add(keyboardRow);
-
-        keyboardMarkup.setKeyboard(keyboard);
-
-        message.setReplyMarkup(keyboardMarkup);
-    }
 }

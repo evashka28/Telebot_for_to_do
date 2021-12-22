@@ -1,5 +1,7 @@
 package bot.handlers;
 
+import bot.connectors.BackendConnector;
+import bot.exceptions.BackendConnectorException;
 import bot.keyboards.Keyboards;
 import bot.TextMessage;
 import bot.entities.Tag;
@@ -7,6 +9,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -25,6 +28,13 @@ import java.util.stream.Collectors;
 @Order(value = 1)
 @Slf4j
 public class ReturnTagMessageHandler implements MessageHandler {
+    private final BackendConnector backendConnector;
+
+    @Autowired
+    public ReturnTagMessageHandler(BackendConnector backendConnector) {
+        this.backendConnector = backendConnector;
+    }
+
     @Override
     public SendMessage getMessage(Update update) {
         String userId = update.getMessage().getFrom().getId() + "";
@@ -33,9 +43,9 @@ public class ReturnTagMessageHandler implements MessageHandler {
 
         List<Tag> resultTags = null;
         try {
-            resultTags = getTags(userId);
+            resultTags = backendConnector.getTags(userId);
             log.info("resultgetTask = " + resultTags);
-        } catch (IOException | InterruptedException | URISyntaxException e) {
+        } catch (BackendConnectorException e) {
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
         String returnTags = resultTags.stream()
@@ -51,25 +61,25 @@ public class ReturnTagMessageHandler implements MessageHandler {
     }
 
 
-    public List<Tag> getTags(String userId) throws IOException, InterruptedException, URISyntaxException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        URI uri = new URI("http://localhost:8081/tags");
-        HttpRequest request = HttpRequest.newBuilder(uri)
-                .header("userId", userId)
-                .build();
-
-        HttpResponse<String> response = HttpClient.newHttpClient()
-                .send(request, HttpResponse.BodyHandlers.ofString());
-
-        if (response.statusCode() == 410) {
-            return null;
-        } else {
-            String body = response.body();
-            return objectMapper.readValue(body, new TypeReference<>() {
-            });
-        }
-
-    }
+//    public List<Tag> getTags(String userId) throws IOException, InterruptedException, URISyntaxException {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        URI uri = new URI("http://localhost:8081/tags");
+//        HttpRequest request = HttpRequest.newBuilder(uri)
+//                .header("userId", userId)
+//                .build();
+//
+//        HttpResponse<String> response = HttpClient.newHttpClient()
+//                .send(request, HttpResponse.BodyHandlers.ofString());
+//
+//        if (response.statusCode() == 410) {
+//            return null;
+//        } else {
+//            String body = response.body();
+//            return objectMapper.readValue(body, new TypeReference<>() {
+//            });
+//        }
+//
+//    }
 
     @Override
     public boolean canHandle(Update update) {

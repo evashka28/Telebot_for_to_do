@@ -1,6 +1,7 @@
 package bot.handlers;
 
 import bot.TextMessage;
+import bot.connectors.BackendConnector;
 import bot.state.StateManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +26,12 @@ import java.util.Map;
 public class CreateTagsMessageHandler implements MessageHandler {
     private final StateManager stateManager;
 
+    private final BackendConnector backendConnector;
+
     @Autowired
-    public CreateTagsMessageHandler(StateManager stateManager) {
+    public CreateTagsMessageHandler(StateManager stateManager, BackendConnector backendConnector) {
         this.stateManager = stateManager;
+        this.backendConnector = backendConnector;
     }
 
     @Override
@@ -45,13 +49,7 @@ public class CreateTagsMessageHandler implements MessageHandler {
         // create new tag in ToDoist
         Map<String, Object> result;
         try {
-            String id = 0 + "";
-            Map<String, Object> tagBody = Map.of(
-                    "id", id,
-                    "name", content
-            );
-
-            result = postNewTag(new URI("http://localhost:8081/tag"), tagBody, userId);
+            result = backendConnector.createTag(userId, content, this);
             log.info("resultTag = " + result);
         } catch (IOException | InterruptedException | URISyntaxException e) {
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));

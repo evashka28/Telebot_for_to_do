@@ -4,6 +4,7 @@ import bot.connectors.BackendConnector;
 import bot.TextMessage;
 import bot.entities.Task;
 import bot.exceptions.BackendConnectorException;
+import bot.keyboards.InlineKeyboards;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -38,7 +36,7 @@ public class TasksMessageHandler implements MessageHandler {
             message.setChatId(String.valueOf(update.getMessage().getChatId()));
             String userId = update.getMessage().getFrom().getId() + "";
             try {
-                setInlineTaskKeyboard(message, userId, getTasks(userId));
+                InlineKeyboards.setInlineTaskKeyboard(message, userId, getTasks(userId));
             } catch (BackendConnectorException e) {
                 message.setText(TextMessage.error);
                 log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
@@ -50,7 +48,7 @@ public class TasksMessageHandler implements MessageHandler {
             long tagId = Long.parseLong(query);
             String userId = update.getCallbackQuery().getFrom().getId() + "";
             try {
-                setInlineTaskKeyboard(message, userId, getTasks(userId, tagId));
+                InlineKeyboards.setInlineTaskKeyboard(message, userId, getTasks(userId, tagId));
             } catch (BackendConnectorException e) {
                 message.setText(TextMessage.error);
                 log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
@@ -68,24 +66,6 @@ public class TasksMessageHandler implements MessageHandler {
             return update.getCallbackQuery().getData().contains("/getTaskByTag");
         }
         return false;
-    }
-
-    public void setInlineTaskKeyboard(SendMessage message, String userId, List<Task> tasks) {
-        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
-
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-
-        for (Task task : tasks) {
-            InlineKeyboardButton button = new InlineKeyboardButton();
-            button.setText(task.getContent());
-            button.setCallbackData(String.format("/taskget%d", task.getId()));
-            List<InlineKeyboardButton> row = new ArrayList<>();
-            row.add(button);
-            keyboard.add(row);
-        }
-
-        keyboardMarkup.setKeyboard(keyboard);
-        message.setReplyMarkup(keyboardMarkup);
     }
 
     private List<Task> getTasks(String userId) throws BackendConnectorException {

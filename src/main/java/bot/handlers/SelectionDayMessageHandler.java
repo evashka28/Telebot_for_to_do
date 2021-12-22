@@ -1,10 +1,11 @@
 package bot.handlers;
 
+import bot.connectors.BackendConnector;
 import bot.keyboards.Keyboards;
 import bot.TextMessage;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -13,9 +14,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,10 +23,15 @@ import java.util.Map;
 @Slf4j
 public class SelectionDayMessageHandler implements MessageHandler {
     enum Week {Воскресенье, Понедельник, Вторник, Среда, Четверг, Пятница, Суббота}
-
+    private final BackendConnector backendConnector;
     String rightSchedule = "sh " + "\\d{2}" + ":" + "\\d{2}" + " ([1-7]{1})" + "(,[1-7]){0,6}";
     List<Integer> daysOfWeek = new ArrayList();
     String tagId = "";
+
+    @Autowired
+    public SelectionDayMessageHandler(BackendConnector backendConnector) {
+        this.backendConnector = backendConnector;
+    }
 
     @Override
     public SendMessage getMessage(Update update) {
@@ -63,7 +66,7 @@ public class SelectionDayMessageHandler implements MessageHandler {
                             "id", "hi"
                     );
 
-                    result = postNewSchedule(new URI("http://localhost:8081/schedule/tag"), tagBody, tagId, userId);
+                    result = backendConnector.postNewSchedule(new URI("http://localhost:8081/schedule/tag"), tagBody, tagId, userId);
                     log.info(String.valueOf(tagBody));
                     log.info("resultTask = " + result);
                 } catch (IOException | InterruptedException | URISyntaxException e) {
@@ -92,27 +95,6 @@ public class SelectionDayMessageHandler implements MessageHandler {
 
     }
 
-
-    public Map<String, Object> postNewSchedule(URI uri, Map<String, Object> map, String tagId, String userId)
-            throws IOException, InterruptedException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody = objectMapper
-                .writerWithDefaultPrettyPrinter()
-                .writeValueAsString(map);
-
-        HttpRequest request = HttpRequest.newBuilder(uri)
-                .header("Content-Type", "application/json")
-                .header("tagId", tagId)
-                .header("userId", userId)
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
-
-        String resultBody = HttpClient.newHttpClient()
-                .send(request, HttpResponse.BodyHandlers.ofString())
-                .body();
-
-        return (Map<String, Object>) objectMapper.readValue(resultBody, Map.class);
-    }
 
     @Override
     public boolean canHandle(Update update) {

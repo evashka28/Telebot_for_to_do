@@ -4,6 +4,7 @@ import bot.connectors.BackendConnector;
 import bot.TextMessage;
 import bot.entities.Tag;
 import bot.exceptions.BackendConnectorException;
+import bot.keyboards.InlineKeyboards;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -39,7 +37,7 @@ public class DeleteTagsMessageHandler implements MessageHandler {
             String userId = update.getMessage().getFrom().getId() + "";
             try {
                 message.setText(TextMessage.deletedTagAsk);
-                setInlineTagKeyboard(message, userId, getTag(userId));
+                InlineKeyboards.setInlineDeleteTagKeyboard(message, userId, getTag(userId));
             } catch (BackendConnectorException e) {
                 message.setText(TextMessage.error);
                 log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
@@ -60,24 +58,6 @@ public class DeleteTagsMessageHandler implements MessageHandler {
 
         }
         return message;
-    }
-
-    public void setInlineTagKeyboard(SendMessage message, String userId, List<Tag> tags) {
-        InlineKeyboardMarkup keyboardMarkup = new InlineKeyboardMarkup();
-
-        List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
-
-        for (Tag tag : tags) {
-            InlineKeyboardButton button = new InlineKeyboardButton();
-            button.setText(tag.getName());
-            button.setCallbackData(String.format("/deleteTag%d", tag.getId()));
-            List<InlineKeyboardButton> row = new ArrayList<>();
-            row.add(button);
-            keyboard.add(row);
-        }
-        keyboardMarkup.setKeyboard(keyboard);
-
-        message.setReplyMarkup(keyboardMarkup);
     }
 
     @Override

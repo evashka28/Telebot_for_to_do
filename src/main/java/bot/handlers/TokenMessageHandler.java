@@ -1,5 +1,6 @@
 package bot.handlers;
 
+import bot.connectors.BackendConnector;
 import bot.keyboards.Keyboards;
 import bot.TextMessage;
 import bot.entities.Project;
@@ -7,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -26,6 +28,12 @@ import java.util.concurrent.CompletionException;
 @Order(value = 2)
 @Slf4j
 public class TokenMessageHandler implements MessageHandler {
+    public final BackendConnector backendConnector;
+
+    @Autowired
+    public TokenMessageHandler(BackendConnector backendConnector) {
+        this.backendConnector = backendConnector;
+    }
 
     @Override
     public SendMessage getMessage(Update update) {
@@ -36,19 +44,10 @@ public class TokenMessageHandler implements MessageHandler {
         String token = update.getMessage().getText() + "";
         String zone = "Europe/Moscow";
 
-
-        Map<String, String> body = Map.of(
-                "id", userId,
-                "name", userName,
-                "token", token,
-                "sync_token", synkToken,
-                "zone", zone
-        );
-
-
         log.info("create user");
+        Map<String, String> result;
         try {
-            Map<String, String> result = postJSON(new URI("http://localhost:8081/user"), body);
+            result = backendConnector.createUser(userId, userName, synkToken, token, zone, this);
             log.info("result = " + result);
         } catch (IOException | InterruptedException | URISyntaxException e) {
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
@@ -58,7 +57,7 @@ public class TokenMessageHandler implements MessageHandler {
         log.info("get user's projects");
         List<Project> resultProjects = null;
         try {
-            resultProjects = getProjects(userId);
+            resultProjects = backendConnector.getProjects(userId);
             log.info("result = " + resultProjects);
         } catch (IOException | InterruptedException | URISyntaxException e) {
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
@@ -68,18 +67,8 @@ public class TokenMessageHandler implements MessageHandler {
         // надо проверить есть ли проект fromToDoBot
         // если нет, то создать, а если есть, то складывать туда
         try {
-            String favorite = "false";
-            String name = "fromToDoBot";
-            String todoId = 0 + "";
-            Map<String, String> projectBody = Map.of(
-                    "favorite", favorite,
-                    "id", userId,
-                    "name", name,
-                    "todoistId", todoId
-            );
-
-            Map<String, String> result = postNewProject(new URI("http://localhost:8081/project"), projectBody, userId);
-            log.info("resultproject = " + result);
+            Map<String, String> resultProject = backendConnector.createProject(userId, this);
+            log.info("resultproject = " + resultProject);
         } catch (IOException | InterruptedException | URISyntaxException e) {
             log.error(e.getMessage() + " " + ExceptionUtils.getStackTrace(e));
         }
@@ -110,46 +99,7 @@ public class TokenMessageHandler implements MessageHandler {
         return false;
     }
 
-    public List<Project> getProjects(String userId) throws IOException, InterruptedException, URISyntaxException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        URI uri = new URI("http://localhost:8081/projects");
-        HttpRequest request = HttpRequest.newBuilder(uri)
-                .header("userId", userId)
-                .build();
-
-        HttpResponse<String> response = HttpClient.newHttpClient()
-                .send(request, HttpResponse.BodyHandlers.ofString());
-
-        if (response.statusCode() == 410) {
-            return null;
-        } else {
-            String body = response.body();
-            return objectMapper.readValue(body, new TypeReference<>() {
-            });
-        }
-
-    }
-
-    public Map<String, String> postJSON(URI uri, Map<String, String> map)
-            throws IOException, InterruptedException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody = objectMapper
-                .writerWithDefaultPrettyPrinter()
-                .writeValueAsString(map);
-
-        HttpRequest request = HttpRequest.newBuilder(uri)
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
-
-        String resultBody = HttpClient.newHttpClient()
-                .send(request, HttpResponse.BodyHandlers.ofString())
-                .body();
-
-        return (Map<String, String>) objectMapper.readValue(resultBody, Map.class);
-    }
-
-//    public void deleteUser(String userId) throws IOException, InterruptedException, URISyntaxException {
+    //    public void deleteUser(String userId) throws IOException, InterruptedException, URISyntaxException {
 //        URI uri = new URI("http://localhost:8081/user/" + userId);
 //        HttpRequest request = HttpRequest.newBuilder(uri)
 //                .DELETE()
@@ -158,26 +108,6 @@ public class TokenMessageHandler implements MessageHandler {
 //        HttpClient.newHttpClient()
 //                .send(request, HttpResponse.BodyHandlers.ofString());
 //    }
-
-    public Map<String, String> postNewProject(URI uri, Map<String, String> map, String userId)
-            throws IOException, InterruptedException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String requestBody = objectMapper
-                .writerWithDefaultPrettyPrinter()
-                .writeValueAsString(map);
-
-        HttpRequest request = HttpRequest.newBuilder(uri)
-                .header("Content-Type", "application/json")
-                .header("userId", userId)
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
-
-        String resultBody = HttpClient.newHttpClient()
-                .send(request, HttpResponse.BodyHandlers.ofString())
-                .body();
-
-        return (Map<String, String>) objectMapper.readValue(resultBody, Map.class);
-    }
 
     class UncheckedObjectMapper extends com.fasterxml.jackson.databind.ObjectMapper {
         /**
