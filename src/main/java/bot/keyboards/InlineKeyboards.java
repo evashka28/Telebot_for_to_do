@@ -117,6 +117,7 @@ public class InlineKeyboards {
                 counter = 0;
             }
         }
+        keyboard.add(keyboardRow);
         keyboardMarkup.setKeyboard(keyboard);
 
         message.setReplyMarkup(keyboardMarkup);
@@ -141,7 +142,7 @@ public class InlineKeyboards {
                 counter = 0;
             }
         }
-
+        keyboard.add(keyboardRow);
         keyboardMarkup.setKeyboard(keyboard);
 
         message.setReplyMarkup(keyboardMarkup);
@@ -184,7 +185,7 @@ public class InlineKeyboards {
                 counter = 0;
             }
         }
-
+        keyboard.add(keyboardRow);
         keyboardMarkup.setKeyboard(keyboard);
 
         message.setReplyMarkup(keyboardMarkup);
