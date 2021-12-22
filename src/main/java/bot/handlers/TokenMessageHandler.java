@@ -64,8 +64,6 @@ public class TokenMessageHandler implements MessageHandler {
         }
 
         // create new project ToDoBot
-        // надо проверить есть ли проект fromToDoBot
-        // если нет, то создать, а если есть, то складывать туда
         try {
             Map<String, String> resultProject = backendConnector.createProject(userId, this);
             log.info("resultproject = " + resultProject);
